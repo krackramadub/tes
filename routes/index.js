@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 //      console.log("DB error.")
 //    };
     
-  })
+ // })
 //  con.query('SELECT * from user LIMIT 2',
 //      function(err, rows, fields) {
  //       con.end();
