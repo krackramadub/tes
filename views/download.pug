@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  body
+      form(method="POST" action="/insert")
+        div(class="container post-create-form")
+          input(class="title-post form-control" name="postTitle")
+          textarea(name="postText" class="form-control post-text" maxlength="1000") 
+          button(type="submit" class="btn btn-default add-comment pull-right")
+            span(class="glyphicon glyphicon-plus-sign ") 
+              p(style="display:inline;padding-left:10px;") Add post

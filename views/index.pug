@@ -1,0 +1,78 @@
+extends layout
+
+block content 
+  div(class="container bs-doc")
+    div(class="row" style="text-align:center")
+      h2(class="bs-doc-title") Designed for everyone, everywhere
+      p Bootstrap makes front-end web development faster and easier. It's made for folks of all skill levels, devices of all shapes, and projects of all sizes.
+      div(class="progress" data-toggle="tooltip" data-placement="bottom" title="Загруженность сервера")
+        div(class="progress-bar" role="progressbar" style="width:75%" )
+        script.
+          $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+          })
+        //- div(class="progress-bar progress-bar-warning" style="width: 25%") 25%
+      hr(class="half-rule")
+    div(class="row")
+      div(class="page-header")
+        h1 Example page header 
+          small #{someonetext}
+        p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed, perspiciatis odit. Nam vero, doloremque laboriosam quis dolore provident, nostrum molestias minima repellendus porro laborum fuga fugiat eum tempora corrupti earum!
+        div(class="collapse" id="collapseExample")
+          div(class="")
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt tenetur reiciendis asperiores vero minus laboriosam. Odit tempore soluta dolorem saepe iure illum nisi voluptate ex cum, ipsum deserunt mollitia quia?
+        button(class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample") Read more
+      div(class="col-sm-4" style="text-align:center;")
+        img(src="images/240x200.png" alt="Telegram" class="img-responsive")
+        h3(class="bs-doc-title") Telegram
+        p Кроссплатформенный мессенджер, позволяющий обмениваться сообщениями и медиафайлами многих форматов.
+
+      div(class="col-sm-4" style="text-align:center;")
+        img(src="images/sass-less.png" alt="Saas" class="img-responsive")
+        h3(class="bs-doc-title") Processor
+        p Bootstrap ships with vanilla CSS, but its source code utilizes the two most popular CSS preprocessors, Less and Sass. Quickly get started with precompiled CSS or build on the source.
+
+      div(class="col-sm-4" style="text-align:center;")
+        img(src="images/devices.png" alt="Telegram" class="img-responsive")
+        h3(class="bs-doc-title") One framework, every device
+        p Bootstrap easily and efficiently scales your websites and applications with a single code base, from phones to tablets to desktops with CSS media queries.
+      
+    
+    hr(class="half-rule")     
+    div(class="row" style="text-align:center")
+      h2(class="bs-doc-title") Designed for everyone, everywhere
+      p Bootstrap makes front-end web development faster and easier. It's made for folks of all skill levels, devices of all shapes, and projects of all sizes.
+    div(class="panel panel-default")
+      table(class="table")
+        thead
+          tr
+            th #
+            th Name
+            th Status
+            th Passwd
+            th Email
+        tbody(class="top-person")
+        script.
+          var result = !{top};
+          for(var i =0;i < result.length;i++){
+            $(".top-person").append('<tr><td>'+result[i].id+'</td><td>'+result[i].username+'</td><td>'+result[i].status+'</td><td>'+result[i].password+'</td><td>'+result[i].email+'</td></tr>')
+          }
+          
+          //- tr
+          //-   td 1
+          //-   td Nick
+          //-   td Alliance
+          //-   td 150
+          //-   td 330kk
+          //- tr
+          //-   td 1
+          //-   td Nick
+          //-   td Alliance
+          //-   td 150
+          //-   td 330kk
+          //- tr
+          //-   td 1
+          //-   td Nick
+          //-   td Alliance
+          //-   td 150
+          //-   td 330kk

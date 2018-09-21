@@ -1,0 +1,66 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  
+}
+.bs-doc {
+  line-height: 1.5;
+  color: #555;
+}
+.bs-doc-title{
+  color:#000;
+}
+a {
+  color: #00B7FF;
+}
+.navbar{
+  margin-bottom: 0px;
+}
+.navbar-brand{
+  color: #4ECDC4;
+}
+.navbar-form .form-control{
+  width: 450px;
+}
+.jumbotron {
+  /* background-image: url('../images/jumbotron-bg.jpg') */
+  background: #4ECDC4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #556270, #4ECDC4);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #556270, #4ECDC4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.jumbotron_content{
+  margin: 0 auto;
+  width: 1170px;
+}
+.title-post {
+  margin-bottom: 20px;
+  width: 43em;
+}
+.post-text {
+  resize:vertical;
+  display:block;
+  width: 43em;
+  height:20em !important;
+  margin-bottom: 10px;
+}
+.post-block{
+  border-radius: 4px;
+  border: 1px solid #c5c5c5;
+  margin: 2px;
+  width: 99%;
+  display: block;
+  padding: 10px;
+  margin-bottom:10px;
+}
+.post-create-form{
+  width: 40em;
+}
+.footer {
+  background: #333;
+  margin-top:50px;
+  color: #fff;
+}
+.footer-content{
+  margin-top:50px;
+}

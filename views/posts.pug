@@ -1,0 +1,19 @@
+extends layout
+block content
+    div(class="container" style="width:970px;")
+        h1(style="text-align:center") Posts
+        p(style="color:#757575;text-align:center") Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione ab in nostrum rem, necessitatibus non recusandae, sapiente cum unde facilis fugit dignissimos animi, earum adipisci dolores delectus dolore tempore.
+        <hr class="half-rule">
+        div(class="media posts")              
+            script(type='text/javascript'). 
+                //{JSON.stringify(item)};
+                var result = !{item}
+                for(var i = 0;i < result.length;i++){
+                   $(".posts").append('<div class="media-body post-block"><h3 class="media-heading">'+result[i].post_title+'</h3><hr class="half-rule"><p>'+result[i].post_text+'</p><hr class="half-rule"><small>Дата: '+result[i].date_create.split("T").join(" ").split(".000Z").join("")+'</small></div>')
+                }
+                    
+                    
+                 
+            
+
+            

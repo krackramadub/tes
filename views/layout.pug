@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/jquery-3.3.1.min.js')
+    script(src='/javascripts/bootstrap.min.js')
+  body
+block nav
+  div(class="bs-example bs-navbar-top-example")
+    nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
+      div(class="container")
+        div(class="navbar-header")
+          a(href="/" class="navbar-brand") #{title}
+        div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-6")
+          ul(class="nav navbar-nav")
+            li(class="")
+              a(href="/") Home
+            li(class="")
+              a(href="/download") Download
+            li(class="")
+              a(href="/posts") Posts
+            li(class="")
+              a(href="/registration") Registration
+          form(class="navbar-form navbar-left")
+          ul(class="nav navbar-nav pull-right")
+            li(class="")
+              a(href="/error") Error
+
+    div(class="jumbotron")
+      div(class="jumbotron_content container")
+        h1 Hello world
+        p Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident adipisci laudantium temporibus repellat quis. Quae neque quisquam 
+           
+    block content
+block footer
+  div(class="footer navbar-static-bottom")
+    div(class="container footer-content")
+      h2 Heel   
