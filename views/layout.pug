@@ -16,25 +16,25 @@ block nav
         div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-6")
           ul(class="nav navbar-nav")
             li(class="")
-              a(href="/") Home
-            li(class="")
-              a(href="/download") Download
-            li(class="")
-              a(href="/posts") Posts
-            li(class="")
-              a(href="/registration") Registration
+              a(href="/") Главная
           form(class="navbar-form navbar-left")
           ul(class="nav navbar-nav pull-right")
-            li(class="")
-              a(href="/error") Error
-
-    div(class="jumbotron")
-      div(class="jumbotron_content container")
-        h1 Hello world
-        p Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident adipisci laudantium temporibus repellat quis. Quae neque quisquam 
-           
-    block content
+            if user
+              li(class="")
+                a(href="/users/user_info") #{user.username}
+              li
+                form(action="/logout")
+                  a(href="/logout") Выход
+            else
+              li(class="")
+                a(href="/registration") Регистрация
+              li(class="")
+                  a(href="/users/login") Вход
+                
+              
+            
+            
+            
+  block content
 block footer
-  div(class="footer navbar-static-bottom")
-    div(class="container footer-content")
-      h2 Heel   
+

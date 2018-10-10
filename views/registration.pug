@@ -1,7 +1,21 @@
 extends layout
 
 block content
-
-
-  h1= 'Hello'
-  p Welcome to #{title}
+  div(class="container")
+    h1 Что такое Lorem Ipsum?
+    p Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов.
+    div(class="container" style="width:34em; margin-top:100px;")
+      div(class="col-sm-4 col-md-12")
+        div(class="thumbnail")
+          div(class="container" style="width:24em;text-align:center;margin-bottom:30px;")
+            h2 Вход
+            small(style="color:#777") или же можете
+              a(href="#") зарегестритоваться
+            hr(class="half-rule")
+            form(method="POST" action="/register")
+              input(type="email" name="email" class="form-control" placeholder="Email")
+              input(type="password" name="pwd" class="form-control" placeholder="Введите пароль")
+              br
+              button(class="btn btn-lg btn-primary btn-block" type="submit") Войти
+            br
+            span (C) 2018-2019

@@ -7,11 +7,15 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var app = express();
-
+var user_data = require('./routes/user_data')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+//jwt secret
+app.set('secret',"qweasdetwfhsdfhasdbqweuabsd");
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', user_data.router)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

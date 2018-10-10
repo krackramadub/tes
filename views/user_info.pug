@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    div(class="container" style="margin-top:100px;")
+        if user
+            //- Если вошел в аккаунт то выводить вот это
+            p Hello
+        else
+            //- Если человек не вошел в аккаунт то ему выводить это
+            p Пожалуйста войдите в аккаунт
+            a(href="/users/login") Вход
+            
