@@ -1,6 +1,7 @@
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 16px;
+  margin-top:100px;
   
 }
 .bs-doc {
@@ -63,4 +64,19 @@ a {
 }
 .footer-content{
   margin-top:50px;
+}
+.bs-callout-danger {
+  border-left-color: #ce4844 !important;
+}
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-color: rgb(238, 238, 238);
+  border-left-width: 1px;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.bs-callout-success {
+  border-left-color: #59ce44 !important;
 }

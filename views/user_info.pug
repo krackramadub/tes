@@ -4,9 +4,44 @@ block content
     div(class="container" style="margin-top:100px;")
         if user
             //- Если вошел в аккаунт то выводить вот это
-            p Hello
+            div(class="container")
+                div(class="col-xs-6 col-md-3")
+                    div(class="list-group")
+                        div(class="bloc-header" style="text-align:center;border-top: 1px solid #ddd;border-left: 1px solid #ddd;border-right: 1px solid #ddd; height:100%;padding:15px;border-radius:4px 4px 0px 0px;")
+                            div(style="width:150px;heigth:150px;margin: 0 auto;")
+                                img(class="avatar" width="150px;")
+                            h4 Hello, #{user.username} (#{user.roles})
+                        a(class="list-group-item" href="#l" aria-controls="l" role="tab" data-toggle="tab")
+                            h4(class="list-group-item-heading") Моя страница
+                        a(class="list-group-item" href="#tas" aria-controls="tas" role="tab" data-toggle="tab")
+                            h4(class="list-group-item-heading" ) Выполненые задачи
+                        a(class="list-group-item" href="#gettas" aria-controls="gettas" role="tab" data-toggle="tab")
+                            h4(class="list-group-item-heading") Найти заказ
+                        a(href="#" class="list-group-item")
+                            h4(class="list-group-item-heading") Чат
+                        a(href="#" class="list-group-item")
+                            h4(class="list-group-item-heading") Новости
+                        a(href="#" class="list-group-item")
+                            h4(class="list-group-item-heading") Настройки
+                        a(href="#" class="list-group-item")
+                            h4(class="list-group-item-heading") Сообщение об ошибке
+            div(class="col-xs-6 col-md-5")
+                <div class="tab-content">
+                    div(role="tabpanel" class="tab-pane active" id="l") My accont
+                    div(role="tabpanel" class="tab-pane" id="tas") Tas
+                    div(role="tabpanel" class="tab-pane" id="gettas") Get tas
+                    div(role="tabpanel" class="tab-pane" id="settings") ...
+
+                script.
+                    $('#myTabs a').click(function (e) {
+                        e.preventDefault()
+                        $(this).tab('show')
+                    })
+                    var avatar = "#{user.avatar}";
+                    $(".avatar").attr("src","/avatar/"+avatar)
         else
             //- Если человек не вошел в аккаунт то ему выводить это
             p Пожалуйста войдите в аккаунт
             a(href="/users/login") Вход
+
             

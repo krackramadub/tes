@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
 var mysql = require('mysql');
 /* GET home page. */
@@ -48,97 +49,116 @@ router.get('/logout', function(req,res){
 
 })
 router.get('/messages',function (req,res) {
-    var data = req.data;
-    res.render('message_test', data);
+    //var data = req.data;
+    res.render('message_test',{title:"TExt"});
         //{user:{username:"Users", role:["1","2"]}})
+})
+router.get('/message_test',function (req,res, next) {
+  res.render('message_test',{ title: 'tSolving' });
 })
 router.get('/registration', function(req, res, next) {
     res.render('registration', { title: 'tSolving' ,bread: "idol", extend: 'layout_for_reg'});
     
 });
-router.get('/download', function(req, res, next) {
-  res.render('download', { title: 'tSolving' });
+router.get('/bugreport', function(req, res, next) {
+  var data = req.data
+  data.title = "tSolving"
+  res.render('bugreport', data);
 });
-router.get('/posts', function(req, res, next) {
-  var resultArray = [];
+router.get('/bugs', function(req, res, next) {
+  var data = req.data;
+  data.title = "tSolving"
+  data.bugs = [];
+  data.solved = [];
+  //data.resultArray = [];
 
- // var mySqlConfig = {
- //   host: 'localhost',
- //   user: 'root',
- //   password: '12345',
- //   database: 'webwork',
-//  };
-//  var con = mysql.createConnection(mySqlConfig);
-//  con.connect(function(err){
-//    if(!err){
-//      console.log("DB Connected.")
-//    }else{
- //     console.log("DB error.")
-//    };
-//    
-//  })
-//  con.query('SELECT * from webwork.posts',
-//      function(err, rows, fields) {
- //       if (!err)
-//          console.log('The solution is: ' + rows.length);
-//        else
-//          console.log('Error while performing Query.');
-          
-          //for(var i =0; i < rows.length;i++){
-//        for(var i in rows){
-//          resultArray.push(rows[i]);
-          
-//        }
-        
- //       render()
-//        con.end();
-//      });
- //     function render(){
-
-        res.render('posts', { item: JSON.stringify(resultArray), title: 'tSolving' });
-        //console.log("Value: " + JSON.stringify(resultArray));
-//      }
+   var mySqlConfig = {
+   host: 'localhost',
+   user: 'root',
+   password: '',
+   database: 'diplom',
+ };
+ var con = mysql.createConnection(mySqlConfig)
+ con.connect(function(err){
+   if(!err){
+     console.log("DB Connected.")
+   }else{
+     console.log("DB error.")
+   };
+    
+ })
+ con.query('SELECT * from diplom.bugreport WHERE status=0',function(err, rows, fields) {
+       if (!err)
+         console.log('The solution is: ' + rows.length);
+       else
+         console.log('Error while performing Query.');
+         if(rows){
+          for(var i =0; i < rows.length;i++){
+             for(var i in rows){
+              data.bugs.push(JSON.stringify(rows[i]))
+            }   
+          }
+        }
+        else{
+          console.log("Bugreports with STATUS = 0 not found!");
+        }
+    });
+    con.query('SELECT * from diplom.bugreport WHERE status=1',function(err, rows, fields) {
+      if (!err)
+        console.log('The solution is: ' + rows.length);
+      else
+        console.log('Error while performing Query.');
+        if(rows){
+          for(var i =0; i < rows.length;i++){
+              for(var i in rows){
+              data.solved.push(JSON.stringify(rows[i]))
+            }   
+          }
+          renderPost();
+        }
+        else{
+          console.log("Bugreports with STATUS = 1 not found!");
+          renderPost();
+        }
+   });
+    function renderPost(){
+      if(data.user.roles == "admin"){
+        res.render('bugs',data);
+      }else{
+        var info= "Извините, у вас нет доступа к этому разделу."
+        var user = data.user
+        res.render('bugs',{data: user, info} )
+      }
+     //console.log("Value: " + JSON.stringify(resultArray));
+    }
   
-});
-router.post('/insert',function(req,res,next){
+})
+// router.get('/support',function(req,res,next){
+//   var data = req.data;
+//   data.title = "tSolving";
+//   // if(data.user == undefined){
+//   //   data.user = "guest"
+//   // }
+//   res.render('support',data)
+// })
+router.post('/insertbugs',function(req,res,next){
+  var data = req.data;
   var title = req.body.postTitle;
   var content = req.body.postText;
-  console.log(title + " " + content);
-
-//  var mySqlConfig = {
-//    host: 'localhost',
-//    user: 'root',
- //   password: '12345',
-//    database: 'webwork',
-//  };
-//  var con = mysql.createConnection(mySqlConfig)
-//  con.connect(function(err) {
- //   if (err) throw err;
-//    console.log("Connected!");
-//    var sql = "INSERT INTO posts (post_title, post_text) VALUES ('"+ title +"', '"+ content +"')";
- //   con.query(sql, function (err, result) {
-//      if (err) throw err;
-//      console.log("1 record inserted");
-//    });
-//  });
-  res.redirect('/posts');
-})
-router.post('/register',function(req,res,next){
-  var login = req.body.email;
-  var passwd = req.body.pwd;
-  console.log(login + " | " + passwd);
+  var username = req.body.username_h; //получаем имя пользователя (работает!)
+  console.log(title + " " + username + " " + content);
 
  var mySqlConfig = {
    host: 'localhost',
    user: 'root',
-   password: '12345',
+   password: '',
    database: 'diplom',
  };
  var con = mysql.createConnection(mySqlConfig)
  con.connect(function(err) {
    if (err) throw err;
    console.log("Connected!");
-   var sql = "INSERT INTO testUsers (login, passwd) VALUES ('"+ login +"', '"+ passwd +"')";
+   var sql = "INSERT INTO bugreport (username, title, text) VALUES ('"+ username +"', '"+ title +"', '"+ content +"')";
    con.query(sql, function (err, result) {
      if (err) throw err;
      console.log("1 record inserted");
@@ -146,4 +166,71 @@ router.post('/register',function(req,res,next){
  });
   res.redirect('/');
 })
+
+router.post('/changebug',function(req,res,next){
+
+ var mySqlConfig = {
+   host: 'localhost',
+   user: 'root',
+   password: '',
+   database: 'diplom',
+ };
+ var con = mysql.createConnection(mySqlConfig)
+ con.connect(function(err) {
+   if (err) throw err;
+   console.log("Connected!");
+   var sql = "UPDATE bugreport SET status=1 WHERE status=0";
+   con.query(sql, function (err, result) {
+     if (err) throw err;
+     console.log("Bug status changed!");
+   });
+ });
+  res.redirect('/bugs');
+})
+
+router.post('/register',function(req,res,next){
+  var login = req.body.login;
+  var passwd = req.body.passwd;
+  var phone = req.body.phone;
+  var email = req.body.email;
+  var nickname = req.body.nickname;
+
+  console.log(login + " | " + passwd + "|" + phone + "|" + email + "|" + nickname);
+
+ var mySqlConfig = {
+   host: 'localhost',
+   user: 'root',
+   password: '',
+   database: 'diplom',
+ };
+ var con = mysql.createConnection(mySqlConfig)
+ con.connect(function(err) {
+   if (err) throw err;
+   console.log("Connected!");
+   var sql = "INSERT INTO users (login, password,phone,email,nickname) VALUES ('"+ login +"', '"+ passwd +"','"+ phone +"','"+ email +"','"+ nickname +"')";
+   con.query(sql, function (err, result) {
+     if (err) throw err;
+     console.log("1 record inserted");
+   });
+ });
+  res.redirect('/');
+})
+router.get('/uploadfile', function(req,res,next){
+  var data = req.data;
+  data.title = "tSolving";
+  res.render('uploadfile', data);
+})
+router.post('/uploadf', function(req,res){
+  console.log("upload")
+ var file = req.files.sampleFile;
+  var filename = file.name;
+  var updir = path.resolve(__dirname,'..') + "/uploadfiles/" + filename;
+  file.mv(updir, function(err){
+    if(err){
+      console.log("error upload");
+    } else{
+      console.log("done!")
+    }
+  })
+});
 module.exports = router;

@@ -90,3 +90,17 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+var io = require('socket.io').listen(server);
+
+// io.set('authorization',function(handshake,callback){
+
+// })
+
+io.sockets.on('connection',function(socket){
+  console.log(socket.handshake)
+  socket.on('message',function(text,cb){
+    socket.broadcast.emit('message',text);
+    cb()
+  })
+})
