@@ -1,25 +1,24 @@
 extends layout
 
 block content 
-  div(class="row gradient" style="width:101% !important;")
-    div(class="container flex-items-center" style="margin-top:100px;" )
-      div(class="pull-left col-md-6 mg-top-10 txt-align-left" style="color:#fff;")
-        h1(class="txt-md-size") Что мы делаем?
-        p(class="p-md-size") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
-      div(class="pull-right col-md-6 mg-top-10")
-        div(class="col-md-10")
-          div(class="thumbnail" style="text-align:center;")
-            h2 Заказать работу
-            small(class="dis-color") или же можете
-              a(href="/registration") зарегестритоваться
-            hr(class="half-rule")
-            div(class="input-group-lg txt-align-left col-md-12")
-              span(class="dis-color") Выберите тему
-              input(class="form-control")
-              span(class="dis-color") Тип работы
-              input(class="form-control")
-              span(class="dis-color") Email
-              input(type="email" class="form-control")
-              br
-              button(class="btn btn-lg btn-primary btn-block" type="submit") Войти
+  div(class="col-lg-4 col-md-6 mb-4 container" style="margin-top:100px;")
+    div(class="card card-cascade")
+        div(class="view view-cascade gradient-card-header blue-gradient" style="color:#fff;")
+          h1(class="card-header-title mb-3") Что мы делаем?
+          p(class="card-header-subtitle mb-0") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
+        div(class="card-body card-body-cascade text-center")
+              h2 Заказать работу
+              p(class="card-text") или же можете
+                a(href="/registration") зарегестритоваться
+              hr(class="half-rule")
+              div(class="input-group-lg txt-align-left col-md-12")
+                span(class="dis-color") Выберите тему
+                input(class="form-control")
+                span(class="dis-color") Тип работы
+                input(class="form-control")
+                span(class="dis-color") Email
+                input(type="email" class="form-control")
+                br
+                button(class="btn blue-gradient btn-rounded waves-effect waves-light" ) Войти 
+                //- button(class="btn btn-lg btn-primary btn-block" type="submit") Войти
               

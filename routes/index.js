@@ -4,6 +4,60 @@ var path = require('path');
 
 var mysql = require('mysql');
 /* GET home page. */
+
+function connect(data,tableName, variable){
+
+  var mySqlConfig = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'diplom',
+  };
+  var con = mysql.createConnection(mySqlConfig)
+con.connect(function(err){
+  if(!err)
+    console.log("DB Connected.")
+  else
+    console.log("DB error.")
+})
+
+  con.query('SELECT * from diplom.'+ tableName + ' ' + variable,(err, rows)=>{   
+    if (!err)
+          console.log('The solution is: ' + rows.length);
+        else
+          console.log('Error while performing Query.');
+          if(rows){
+           for(var i =0; i < rows.length;i++){
+              for(var i in rows){
+                data.bugs.push(JSON.stringify(rows[i]))
+             }
+             var callback = true
+             return callback 
+           }
+         }
+         else{
+           console.log("Bugreports with STATUS = 0 not found!");
+         }
+     });
+    //  con.query('SELECT * from diplom.bugreport WHERE status=1',function(err, rows, fields) {
+    //    if (!err)
+    //      console.log('The solution is: ' + rows.length);
+    //    else
+    //      console.log('Error while performing Query.');
+    //      if(rows){
+    //        for(var i =0; i < rows.length;i++){
+    //            for(var i in rows){
+    //            data.solved.push(JSON.stringify(rows[i]))
+    //          }   
+    //        }
+    //        renderPost();
+    //      }
+    //      else{
+    //        console.log("Bugreports with STATUS = 1 not found!");
+    //        renderPost();
+    //      }
+   // });
+}
 router.get('/', function(req, res, next) {
     
     var users = [];
@@ -43,6 +97,7 @@ router.get('/', function(req, res, next) {
            res.render('index', data);
  //     }
 });
+
 router.get('/logout', function(req,res){
     res.clearCookie("auth_token");
     res.redirect('/');
@@ -70,69 +125,77 @@ router.get('/bugs', function(req, res, next) {
   data.title = "tSolving"
   data.bugs = [];
   data.solved = [];
+  data.user;
   //data.resultArray = [];
 
-   var mySqlConfig = {
-   host: 'localhost',
-   user: 'root',
-   password: '',
-   database: 'diplom',
- };
- var con = mysql.createConnection(mySqlConfig)
- con.connect(function(err){
-   if(!err){
-     console.log("DB Connected.")
-   }else{
-     console.log("DB error.")
-   };
+//    var mySqlConfig = {
+//    host: 'localhost',
+//    user: 'root',
+//    password: '',
+//    database: 'diplom',
+//  };
+//  var con = mysql.createConnection(mySqlConfig)
+//  con.connect(function(err){
+//    if(!err){
+//      console.log("DB Connected.")
+//    }else{
+//      console.log("DB error.")
+//    };
     
- })
- con.query('SELECT * from diplom.bugreport WHERE status=0',function(err, rows, fields) {
-       if (!err)
-         console.log('The solution is: ' + rows.length);
-       else
-         console.log('Error while performing Query.');
-         if(rows){
-          for(var i =0; i < rows.length;i++){
-             for(var i in rows){
-              data.bugs.push(JSON.stringify(rows[i]))
-            }   
-          }
-        }
-        else{
-          console.log("Bugreports with STATUS = 0 not found!");
-        }
-    });
-    con.query('SELECT * from diplom.bugreport WHERE status=1',function(err, rows, fields) {
-      if (!err)
-        console.log('The solution is: ' + rows.length);
-      else
-        console.log('Error while performing Query.');
-        if(rows){
-          for(var i =0; i < rows.length;i++){
-              for(var i in rows){
-              data.solved.push(JSON.stringify(rows[i]))
-            }   
-          }
-          renderPost();
-        }
-        else{
-          console.log("Bugreports with STATUS = 1 not found!");
-          renderPost();
-        }
-   });
-    function renderPost(){
-      if(data.user.roles == "admin"){
-        res.render('bugs',data);
-      }else{
-        var info= "Извините, у вас нет доступа к этому разделу."
-        var user = data.user
-        res.render('bugs',{data: user, info} )
-      }
+//  })
+//  con.query('SELECT * from diplom.bugreport WHERE status=0',function(err, rows, fields) {
+//        if (!err)
+//          console.log('The solution is: ' + rows.length);
+//        else
+//          console.log('Error while performing Query.');
+//          if(rows){
+//           for(var i =0; i < rows.length;i++){
+//              for(var i in rows){
+//               data.bugs.push(JSON.stringify(rows[i]))
+//             }   
+//           }
+//         }
+//         else{
+//           console.log("Bugreports with STATUS = 0 not found!");
+//         }
+//     });
+//     con.query('SELECT * from diplom.bugreport WHERE status=1',function(err, rows, fields) {
+//       if (!err)
+//         console.log('The solution is: ' + rows.length);
+//       else
+//         console.log('Error while performing Query.');
+//         if(rows){
+//           for(var i =0; i < rows.length;i++){
+//               for(var i in rows){
+//               data.solved.push(JSON.stringify(rows[i]))
+//             }   
+//           }
+//           renderPost();
+//         }
+//         else{
+//           console.log("Bugreports with STATUS = 1 not found!");
+//           renderPost();
+//         }
+//    })
+      res.render('bugs',data.user )
+      getBugsFromDb(data)
+
      //console.log("Value: " + JSON.stringify(resultArray));
-    }
   
 })
+function getBugsFromDb(data){
+  var dbRes = connect(data,"bugreport", "WHERE status=0")
+  if(dbRes)
+    if(dbRes.user.roles == "admin"){
+      res.render('bugs',data);
+    }else{
+      var info= "Извините, у вас нет доступа к этому разделу."
+      var user = data.user
+      res.render('bugs',{data: user, info} )
+    }
+  else
+    var info= "Извините, у вас нет доступа к этому разделу."
+}
 // router.get('/support',function(req,res,next){
 //   var data = req.data;
 //   data.title = "tSolving";

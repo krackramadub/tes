@@ -3,37 +3,40 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/mdb.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/javascripts/jquery-3.3.1.min.js')
     script(src='/javascripts/bootstrap.min.js')
   body
 block nav
-  div(class="bs-example bs-navbar-top-example")
-    nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
+  //- div(class="bs-example bs-navbar-top-example")
+    //- nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;") 
+  -//
+    nav(class="navbar navbar-expand-lg navbar-dark primary-color")
       div(class="container")
         div(class="navbar-header")
           a(href="/" class="navbar-brand") #{title}
         div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-6")
-          ul(class="nav navbar-nav")
+          ul(class="navbar-nav mr-auto")
             li(class="")
-              a(href="/") Главная
+              a(href="/" class="nav-link") Главная
             li 
-              a(href="/bugs") Посты
+              a(href="/bugs" class="nav-link") Посты
             li
-              a(href="/bugreport") Bugreport
+              a(href="/bugreport" class="nav-link") Bugreport
           form(class="navbar-form navbar-left")
           ul(class="nav navbar-nav pull-right")
             if user
               li(class="")
-                a(href="/users/user_info") #{user.username}
+                a(href="/users/user_info" class="nav-link") #{user.username}
               li
                 form(action="/logout")
-                  a(href="/logout" class="btn" style="margin-top:10%;") Выход
+                  a(href="/logout" class="btn nav-link" style="margin-top:10%;") Выход
             else
               li(class="")
-                a(href="/registration") Регистрация
+                a(href="/registration" class="nav-link") Регистрация
               li(class="")
-                  a(href="/users/login") Вход
+                  a(href="/users/login" class="nav-link") Вход
                 
               
             
