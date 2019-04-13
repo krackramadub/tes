@@ -12,7 +12,7 @@ block nav
   //- div(class="bs-example bs-navbar-top-example")
     //- nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;") 
   -//
-    nav(class="navbar navbar-expand-lg navbar-dark primary-color")
+    nav(class="navbar navbar-expand-lg navbar-dark primary-color fixed-top")
       div(class="container")
         div(class="navbar-header")
           a(href="/" class="navbar-brand") #{title}
@@ -31,7 +31,7 @@ block nav
                 a(href="/users/user_info" class="nav-link") #{user.username}
               li
                 form(action="/logout")
-                  a(href="/logout" class="btn nav-link" style="margin-top:10%;") Выход
+                  a(href="/logout" class="nav-link") Выход
             else
               li(class="")
                 a(href="/registration" class="nav-link") Регистрация
