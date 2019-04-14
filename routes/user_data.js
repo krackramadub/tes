@@ -47,7 +47,7 @@ var user_db = [];
                             for (var i = 0; i < rows.length; i++) {
                                 for (var i in rows) {
                                     user_db.push(rows[i])
-                
+                                    console.log(user_db)
                                 }
                             }
                         }
@@ -70,13 +70,20 @@ function check_login(login, passwd) {
             user: {
                 username: found_user.login,
                 roles: found_user.roles,
-                avatar: found_user.avatar
+                avatar: found_user.avatar,
+                nickname: found_user.nickname,
+                phone: found_user.phone,
+                datareg: found_user.data_reg,
+                rep: found_user.rep,
+                email: found_user.email
+
             }
         }
     } else {
         return {
             is_authenticate: false,
-            user: null
+            user: null,
+            info: "Введен неправильный логин или пароль"
         }
     }
 }

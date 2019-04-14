@@ -11,9 +11,9 @@ block content
                         -//
                             div(class="card-up card-up aqua-gradient" style="height:120px")
                             div(class="avatar mx-auto white")
-                                img(src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle" alt="woman avatar")
+                                img(class="avatarPushed rounded-circle" alt="avatar")
                             div(class="card-body")
-                                h4(class="card-title") Hello, #{user.username} (#{user.roles})
+                                h4(class="card-title") #{user.nickname}
                         div(class="list-group")
                             a(class="list-group-item list-group-item-action" href="#l" aria-controls="l" role="tab" data-toggle="tab") Моя страница
                             a(class="list-group-item list-group-item-action" href="#tas" aria-controls="tas" role="tab" data-toggle="tab") Выполненые задачи
@@ -22,20 +22,101 @@ block content
                             a(href="#" class="list-group-item list-group-item-action") Новости
                             a(href="#" class="list-group-item list-group-item-action") Настройки
                             a(href="#" class="list-group-item list-group-item-action") Сообщение об ошибке
-                div(class="col-xs-6 col-md-5")
-                    <div class="tab-content">
-                        div(role="tabpanel" class="tab-pane active" id="l") My accont
-                        div(role="tabpanel" class="tab-pane" id="tas") Tas
-                        div(role="tabpanel" class="tab-pane" id="gettas") Get tas
-                        div(role="tabpanel" class="tab-pane" id="settings") ...
+                div(class="col-md-9 card" style="padding:15px;")
+                            div(class="tab-content verticale")
+                                div(role="tabpanel" class="tab-pane active" id="l")
+                                    <!-- Card -->
+                                    div(class="card chart-card col-md-5" style="display:inline-flex;")
+                                        <!-- Card content -->
+                                        div(class="card-body pb-0")
+                                            <!-- Title -->
+                                            h4(class="card-title font-weight-bold") #{user.nickname}
+                                            <!-- Text -->
+                                            p(class="card-text mb-4") Репутация
+                                            div(class="d-flex justify-content-between")
+                                                p(class="display-4 align-self-end") #{user.rep}
+                                            canvas(id="lineChart" height="250px")
+                                    <!-- Card -->
+                                    div(class="card chart-card col-md-5" style="display:inline-flex;")
+                                        <!-- Card content -->
+                                        div(class="card-body pb-0")
+                                            <!-- Title -->
+                                            h4(class="card-title font-weight-bold") Данные аккаунта
+                                            <!-- Text -->
+                                            p(class="card-text mb-4") Дата регистрации #{user.datareg}
+                                            p(class="card-text" style="margin-bottom:0px;") Логин:
+                                            div(class="md-form" style="margin-top:0px;")
+                                                input(type="text" id="disableLogin" class="form-control" disabled)
+                                                label(for="disableLogin" class="disabled") #{user.username}
+                                            p(class="card-text" style="margin-bottom:0px;") Email:
+                                            div(class="md-form" style="margin-top:0px;")
+                                                input(type="text" id="disableLogin" class="form-control" disabled)
+                                                label(for="disableLogin" class="disabled") #{user.email}
+                                            p(class="card-text" style="margin-bottom:0px;") Телефон:
+                                            div(class="md-form" style="margin-top:0px;")
+                                                input(type="text" id="disableLogin" class="form-control" disabled)
+                                                label(for="disableLogin" class="disabled") #{user.phone}
+                                div(role="tabpanel" class="tab-pane" id="tas") Tas
+                                div(role="tabpanel" class="tab-pane" id="gettas") Get tas
+                                div(role="tabpanel" class="tab-pane" id="settings") ...
 
-                    script.
-                        $('#myTabs a').click(function (e) {
-                            e.preventDefault()
-                            $(this).tab('show')
-                        })
-                        var avatar = "#{user.avatar}";
-                        $(".avatar").attr("src","/avatar/"+avatar)
+                script.
+                        //- $('#myTabs a').click(function (e) {
+                        //-     e.preventDefault()
+                        //-     $(this).tab('show')
+                        //- })
+                    var avatar = "#{user.avatar}";
+                    $(".avatarPushed").attr("src","/avatar/"+avatar)
+
+                    var ctxL = document.getElementById("lineChart").getContext('2d');
+                    console.log(#{user.rep})
+                    var myLineChart = new Chart(ctxL, {
+                    type: 'line',
+                    data: {
+                        labels: ["1","5","10","15","20","25","30"],//["8 AM", "10 AM", "12 PM", "2 PM", "4 PM", "6 PM", "8 PM"],
+                        datasets: [
+                        {
+                            fill: false,
+                            borderColor: "#673ab7",
+                            pointBackgroundColor: "#673ab7",
+                            data: ["0","#{user.rep}","2.1"]
+                        }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        legend: {
+                        display: false
+                        },
+                        elements: {
+                        line: {
+                            tension: 0.0
+                        }
+                        },
+                        scales: {
+                        xAxes: [{
+                            gridLines: {
+                            display: false,
+                            },
+                            ticks: {
+                            padding: 15,
+                            height: 30
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                            drawBorder: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 5,
+                                padding: 15,
+                                min: 0,
+                                max: 5
+                            }
+                        }]
+                        }
+                    }
+                    });
         else
             //- Если человек не вошел в аккаунт то ему выводить это
             p Пожалуйста войдите в аккаунт

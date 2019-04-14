@@ -5,8 +5,11 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/mdb.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='/javascripts/jquery-3.3.1.min.js')
-    script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascript/jquery-3.3.1.min.js')
+    script(src='/javascript/bootstrap.min.js')
+    script(src='/javascript/modules/chart.js')
+    script(src='/javascript/mdb.min.js')
+    script(src='/javascript/popper.min.js')
   body
 block nav
   //- div(class="bs-example bs-navbar-top-example")
@@ -28,10 +31,14 @@ block nav
           ul(class="nav navbar-nav pull-right")
             if user
               li(class="")
-                a(href="/users/user_info" class="nav-link") #{user.username}
+                a(href="/users/user_info" class="nav-link")
+                  img(class="avatarPushed rounded-circle" alt="avatar" style="height:25px;")
               li
                 form(action="/logout")
                   a(href="/logout" class="nav-link") Выход
+              script.
+                var avatar = "#{user.avatar}";
+                $(".avatarPushed").attr("src","/avatar/"+avatar)
             else
               li(class="")
                 a(href="/registration" class="nav-link") Регистрация

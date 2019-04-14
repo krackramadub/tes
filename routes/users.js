@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 router.get('/login', function(req,res){
-  res.render('login', {title:"Login page"})
+  res.render('login',{title:'tSolving'})
 })
 var user_db = [];
 router.post('/login',function(req,res){
@@ -44,6 +44,11 @@ router.post('/login',function(req,res){
           else{
             res.render("login", {info:"error. try again"})
           }
+        }else{
+          var data = []
+          data.title = "tSolving"
+          data.info = "Введен неправильный логин или пароль"
+          res.render("login",data)
         }
       }
     }

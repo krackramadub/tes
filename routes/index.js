@@ -177,24 +177,31 @@ router.get('/bugs', function(req, res, next) {
 //           renderPost();
 //         }
 //    })
-      res.render('bugs',data.user )
-      getBugsFromDb(data)
+      getBugsFromDb(data,res)
+      //res.render('bugs',data )
+      
+      
 
      //console.log("Value: " + JSON.stringify(resultArray));
   
 })
-function getBugsFromDb(data){
-  var dbRes = connect(data,"bugreport", "WHERE status=0")
-  if(dbRes)
-    if(dbRes.user.roles == "admin"){
-      res.render('bugs',data);
-    }else{
-      var info= "Извините, у вас нет доступа к этому разделу."
-      var user = data.user
-      res.render('bugs',{data: user, info} )
-    }
-  else
-    var info= "Извините, у вас нет доступа к этому разделу."
+function getBugsFromDb(data,res){
+  
+  var dbRes
+  //for(var i=0; i < 1; i++)
+    dbRes = connect(data,"bugreport", "WHERE status=0")
+    if(dbRes)
+      if(dbRes.user.roles == "admin"){
+        res.render('bugs',data);
+      }else{
+        data.info= "Извините, у вас нет доступа к этому разделу."
+        data.user = data.user
+        res.render('bugs',data )
+      }
+     //break;
+    else
+      data.info= "Извините, у вас нет доступа к этому разделу."
+      res.render('bugs',data )
 }
 // router.get('/support',function(req,res,next){
 //   var data = req.data;
