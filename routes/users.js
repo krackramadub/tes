@@ -20,7 +20,7 @@ router.post('/login',function(req,res){
     if(fields){
       var login = fields.login[0];
       var password = fields.password[0];
-      if(login && password){
+      if(login && password && login != ""){
         var user_result = user_data.check_login(login,password);
         if(user_result.is_authenticate == true){
           var secret = req.app.get('secret');
@@ -47,9 +47,14 @@ router.post('/login',function(req,res){
         }else{
           var data = []
           data.title = "tSolving"
-          data.info = "Введен неправильный логин или пароль"
+          data.info = "Неверный логин или пароль"
           res.render("login",data)
         }
+      }else{
+        var data = []
+        data.title = "tSolving"
+        data.info = "Неверный логин или пароль"
+        res.render("login",data)
       }
     }
   })
