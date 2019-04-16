@@ -60,6 +60,41 @@ router.post('/login',function(req,res){
   })
 })
 
+router.post('/getTasks',function(req,res){
+  var data = req.data
+  data.tasks = []
+  var mySqlConfig = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'diplom',
+};
+var con = mysql.createConnection(mySqlConfig);
+con.connect(function (err) {
+    if (!err) {
+        console.log("DB Connected.")
+    } else {
+        console.log("DB error.")
+    }
+
+});
+con.query('SELECT * from pageorders',
+    function (err, rows, fields) {
+        con.end();
+        if (!err)
+            console.log('The solution is: ' + rows.length);
+        else
+            console.log('Error while performing Query.');
+        if(rows){
+            for (var i = 0; i < rows.length; i++) {
+                for (var i in rows) {
+                    data.tasks.push(rows[i])
+                }
+            }
+        }
+        res.send(data)
+    });
+})
 //Для пользователя
 router.get('/user_info', function(req,res){
   var data = req.data;

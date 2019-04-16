@@ -47,7 +47,6 @@ var user_db = [];
                             for (var i = 0; i < rows.length; i++) {
                                 for (var i in rows) {
                                     user_db.push(rows[i])
-                                    console.log(user_db)
                                 }
                             }
                         }
