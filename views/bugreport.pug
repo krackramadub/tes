@@ -2,19 +2,22 @@ extends layout
 
 block content
   body
-    div(class="container" style="margin-top:100px;")
-      form(method="POST" action="/insertbugs") 
-        h1(style="text-align:center") Отправка отчета о багах
-        p(style="color:#757575;text-align:center") Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione ab in nostrum rem, necessitatibus non recusandae, sapiente cum unde facilis fugit dignissimos animi, earum adipisci dolores delectus dolore tempore.
-        hr(class="half-rule")
-        div(class="container post-create-form")
-          input(class="title-post form-control" name="postTitle" placeholder="Тема") 
-          textarea(name="postText" class="form-control post-text" maxlength="1000" placeholder="Пожалуйста опишите найденную ошибку...")
-          input(class="username_h form-control" name="username_h" value="")
-          button(type="submit" class="btn btn-default add-comment pull-right")
-            span(class="glyphicon glyphicon-plus-sign ") 
-              p(style="display:inline;padding-left:10px;") Отправить
-          script.
-            var user1 = "!{user.username}";
-            console.log(user1)
-            $(".username_h").attr("value",user1)
+    div(class="col-lg-6 container" style="margin-top:100px;")
+      div(class="form-group shadow-textarea")
+        form(method="POST" action="/insertbugs") 
+          h1(style="text-align:center") Отправка отчета о багах
+          p(style="color:#757575;text-align:center") Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione ab in nostrum rem, necessitatibus non recusandae, sapiente cum unde facilis fugit dignissimos animi, earum adipisci dolores delectus dolore tempore.
+          hr(class="half-rule")
+          div(class="card post-create-form md-form" style="padding:15px;")
+            input(value="" type="text" name="postTitle" id="inputPrefilledEx" class="form-control" placeholder="Тема")
+            input(class="title-post form-control" name="postTitle" placeholder="Тема") 
+            textarea(style="padding:5px;" class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Пожалуйста опишите найденную ошибку...")
+            input(class="username_h form-control" name="username_h" value="")
+            button(type="submit" class="btn btn-default add-comment pull-right")
+              span(class="glyphicon glyphicon-plus-sign ") 
+                p(style="display:inline;padding-left:10px;") Отправить
+            if user
+              script.
+                var user1 = "!{user.username}";
+                console.log(user1)
+                $(".username_h").attr("value",user1)
