@@ -12,7 +12,7 @@ function normalizeObj(obj) {
 app.use(bodyParser.json());
 
 var query = require('../db');
-var methods = require('../socket/methods');
+var methods = require('../socket/methods.js');
 var getUser = methods.getUser;
 var getAllDialogs = methods.getAllDialogs;
 /* GET home page. */
@@ -68,10 +68,14 @@ router.get('/messages', function (req, res) {
 });
 router.get('/message_test', function (req, res, next) {
     var data = req.data;
+    var xs = "test1"
+    var text = "text %1"
+    //(text,[xs])
+    console.log((text,[xs]))
     data.title = "tSolving";
     data.users = [];
     // console.log(data.user.login);
-    getAllDialogs(data.user.username,req.query.user).then((dialogs) => {
+    getAllDialogs(data.user.username).then((dialogs) => {
         data.dialogs = dialogs;
         res.render('message_test', data);
     });
@@ -152,8 +156,8 @@ router.post('/getMyAccount', function (req, res) {
     data.userInfo = [];
     var mySqlConfig = {
         host: 'localhost',
-        user: 'mysql',
-        password: 'mysql',
+        user: 'root',
+        // password: 'mysql',
         database: 'diplom',
     };
     var sql = "SELECT * from diplom.users WHERE login='" + login + "'";
@@ -198,7 +202,7 @@ router.post('/insertbugs', function (req, res, next) {
     var data = req.data;
     var title = req.body.postTitle;
     var content = req.body.postText;
-    var username = req.body.user; //получаем имя пользователя (работает!)
+    var username = req.body.username_h; //получаем имя пользователя (работает!)
     console.log(title + " " + username + " " + content);
     var sql = "INSERT INTO bugreport (username, title, text) VALUES (?, ?, ?)";
     query(sql, [username, title, content], function (err, result) {
@@ -218,8 +222,6 @@ router.post('/changebug', function (req, res, next) {
 });
 
 router.post('/register', function (req, res, next) {
-    var data = req.data
-    data.thx
     var login = req.body.login;
     var passwd = req.body.passwd;
     var phone = req.body.phone;
@@ -232,7 +234,7 @@ router.post('/register', function (req, res, next) {
         if (err) throw err;
         console.log("1 record inserted");
     });
-    res.redirect('/users/login');
+    res.redirect('/');
 });
 router.get('/uploadfile', function (req, res, next) {
     var data = req.data;

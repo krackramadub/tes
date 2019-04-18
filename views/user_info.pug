@@ -62,7 +62,7 @@ block content
                                         button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
                                     div(class="" style="margin-top:10px;" )
                                         div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
-                                        table(id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%")
+                                        table(id="dt-material-checkbox" class="table table-striped table-bordered" cellspacing="0" width="100%")
                                             thead
                                                 tr
                                                     th(class="th-sm") ID
@@ -74,20 +74,30 @@ block content
                                                     th(class="th-sm") Цена
                                             tbody(v-for="(value,key) in tasks[0]")
                                                 tr
-                                                    td {{value.id}}
-                                                    td {{value.autor_order}}
-                                                    td {{value.date}}
-                                                    td {{value.subject}}
-                                                    td {{value.text_order}}
-                                                    td 
-                                                        a(href="/uploadfile/value.file" target="_blank") {{value.file}}
-                                                    td {{value.price}}
+                                                    a
+                                                        td {{value.id}}
+                                                        td {{value.autor_order}}
+                                                        td {{value.date}}
+                                                        td {{value.subject}}
+                                                        td {{value.text_order}}
+                                                        td 
+                                                            <a :href="/uploadfiles/+ value.file" style="color:blue;" target="_blank"> {{value.file}} </a>
+                                                        td {{value.price}} руб.
                                         //-li {{value}}
                                 div(role="tabpanel" class="tab-pane" id="settings") ...
 
                 script.
                     var avatar = "#{user.avatar}";
                     $(".avatarPushed").attr("src","/avatar/"+avatar)
+                    // TABLE
+                    $('#dt-material-checkbox').dataTable({
+                        "searching": false,
+                        "ordering": true,
+                        "scrollY": "100vh",
+                        "scrollCollapse": true,
+                        "pagingType": "first_last_numbers"
+                    });
+                    // END TABLE
                     function getTasks(){
                         app.tasks = []
                         $(".loader").css('display','block')
@@ -98,8 +108,7 @@ block content
                                 $(".loader").css('display','none')
                                 app.tasks.push(data.tasks)
                                 //$('#gettas').append("<a>text</a>")
-                        }).delay( 800 )
-                        
+                        })            
                     };
                                         // VUE.JS
 

@@ -8,8 +8,10 @@ function normalizeObj (obj) {
 function getUser(user, callback) {
     var sql;
     if (typeof user === 'string') {
-        sql = 'SELECT * FROM users WHERE login = ?';
-        query(sql, [user], function (err, user) {
+        sql = "SELECT * FROM users WHERE login = '"+ user + "'";
+        var asdb = query(sql)
+        console.log(asdb)
+        query(sql,function (err, user) {
             if (err) callback(err);
             //var user = normalizeObj(rows[0]);
             if (user) callback(false, user)
@@ -42,11 +44,11 @@ async function queryAsync (sql, values) {
     })
 }
 
-async function getAllDialogs (username) {
+async function getAllDialogs (username,reqQuery) {
     const data = [];
 
     const user = await getUserAsync(username);
-    const chat_room = await queryAsync('SELECT * FROM chat_rooms WHERE user2 = ? OR user1 = ?', [user.id, user.id]);
+    const chat_room = await queryAsync('SELECT * FROM chat_rooms WHERE user2 = ? OR user1 = ?', [user.id, reqQuery]);
     for (var i = 0; i < chat_room.length; i++) {
         var dialog = normalizeObj(chat_room[i]);
         if (dialog.user1 === user.id) {

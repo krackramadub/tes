@@ -218,3 +218,9 @@
    .dropup .dropdown-menu {
     padding:.5rem
    }
+
+   body {
+       background-image: url('/images/jumbotron-bg.jpg');
+       background-repeat: no-repeat;
+
+   }
