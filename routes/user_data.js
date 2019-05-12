@@ -5,11 +5,11 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var mysql = require('mysql');
 var users = require('./users');
-//var user_db = [];
+var user_db = [];
 
 //function getUsers(){
             // USER DATABASE
-            var user_db = [
+            var user_db1 = [
 				{
 					login:"Jane",
 					password:"123456",
@@ -22,7 +22,7 @@ var users = require('./users');
 					email:"jane@mailer.com"
 				}
               ];
-              console.log(user_db)
+              //console.log(user_db)
                 var mySqlConfig = {
                     host: 'localhost',
                     user: 'root',
