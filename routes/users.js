@@ -27,19 +27,23 @@ router.post('/login',function(req,res){
           var token = user_data.get_token(user_result.user,secret);
           res.cookie("auth_token", token);
           //Перенаправления на страницы в зависимости от роли пользователя, указанной в БД:
-          if(user_result.user.roles == "user"){
+          if(user_result.user.roles == "user" && user_result.user.banned == 0){
             res.redirect("/users/user_info");
             console.log("User login!")
+          }
+          //Обработка блокировки пользователя
+          if(user_result.user.roles == "user" && user_result.user.banned == 1){
+            res.redirect("/banned");
           }
           //Для админа:
           if(user_result.user.roles == "admin"){
             res.redirect("/users/user_info");
             console.log("Admin login!"); //отладка
           }
-          //Для технической поддержки:
-          if(user_result.user.roles == "support"){
-            res.redirect("/support");
-            console.log("Support login!");
+          //Для модератора
+          if(user_result.user.roles == "moder"){
+            res.redirect("/moderation");
+            console.log("Moderator login!");
           }
           else{
             res.render("login", {info:"error. try again"})

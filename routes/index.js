@@ -208,6 +208,20 @@ router.post('/insertbugs', function (req, res, next) {
     res.redirect('/');
 });
 
+router.post('/minsertbugs', function (req, res, next) {
+    var data = req.data;
+    var title = req.body.postTitle;
+    var content = req.body.postText;
+    var username = req.body.user; //получаем имя пользователя (работает!)
+    console.log(title + " " + username + " " + content);
+    var sql = "INSERT INTO bugreport (username, title, text) VALUES (?, ?, ?)";
+    query(sql, [username, title, content], function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+    });
+    res.redirect('/moderation');
+});
+
 router.post('/changebug', function (req, res, next) {
     var sql = "UPDATE bugreport SET status=1 WHERE status=0";
     query(sql, false, function (err, result) {

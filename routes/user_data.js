@@ -76,8 +76,9 @@ function check_login(login, passwd) {
                 phone: found_user.phone,
                 datareg: found_user.data_reg,
                 rep: found_user.rep,
-                email: found_user.email
-
+                email: found_user.email,
+                banned: found_user.banned,
+                moder_text: found_user.moder_text
             }
         }
     } else {

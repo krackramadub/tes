@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var app = express();
 var user_data = require('./routes/user_data');
-var supportRouter = require('./routes/support'); //подключение модуля поддержки
+var moderationRouter = require('./routes/moderation'); //подключение модуля поддержки
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', user_data.router);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', supportRouter);
+app.use('/', moderationRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
