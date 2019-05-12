@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        div(class="row")
+            div(class="col-md-12 card")
+                h3(style="text-align: center;") #{user.username} (#{user.nickname}), Ваша учетная запись заблокирована!
+                br
+                p Причина блокировки: #{user.moder_text}
+                p По вопросам, связанным с блокировкой учетной записи, обращайтесь к администрации сайта.
