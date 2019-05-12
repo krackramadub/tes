@@ -62,7 +62,7 @@ block content
                                         button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
                                     div(class="" style="margin-top:10px;" )
                                         div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
-                                        table(id="dt-material-checkbox" class="table table-striped table-bordered" cellspacing="0" width="100%")
+                                        table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
                                             thead
                                                 tr
                                                     th(class="th-sm") ID
@@ -99,7 +99,7 @@ block content
                     });
                     // END TABLE
                     function getTasks(){
-                        app.tasks = []
+                        //app.tasks = []
                         $(".loader").css('display','block')
                         //setTimeOut(10)
                         $.post( "/users/getTasks", function( data ) {
@@ -115,7 +115,7 @@ block content
                     var app =  new Vue({
                     el: '.forVue',
                     data : {
-                        tasks: [],
+                        tasks: [{id:"1",autor_order:"Jane",date:"21.03.2021",subject:"Тест по математике",text_order:"Решение тестов по математике",file:"INFO.txt",price:"350"}],
                     },
                     })
 
@@ -131,8 +131,8 @@ block content
                             fill: false,
                             borderColor: "#673ab7",
                             pointBackgroundColor: "#673ab7",
-                            //data: ["0","#{user.rep}","2.1"]
-                            data: [0,1,1.1,2.1,4,5.0]
+                            data: ["0","#{user.rep}"]
+                            //data: [0,1,1.1,2.1,4,5.0]
                         }
                         ]
                     },

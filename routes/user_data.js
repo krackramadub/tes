@@ -5,22 +5,24 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var mysql = require('mysql');
 var users = require('./users');
-var user_db = [];
+//var user_db = [];
 
 //function getUsers(){
             // USER DATABASE
-            var user_db1 = [
-                // {
-                //     uname: "Jane", 
-                //     password: "305",
-                //     roles: "admin",
-              // },
-                // {
-                //     uname: "support",
-                //     password: ""
-                // }
-              
+            var user_db = [
+				{
+					login:"Jane",
+					password:"123456",
+					roles:"user",
+					avatar:"d_avatar.jpg",
+					nickname:"Джейн Петрович",
+					phone:"8911-333-11-11",
+					data_reg:"28.02.2021",
+					rep:"2.44",
+					email:"jane@mailer.com"
+				}
               ];
+              console.log(user_db)
                 var mySqlConfig = {
                     host: 'localhost',
                     user: 'root',
