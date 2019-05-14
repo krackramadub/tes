@@ -39,11 +39,41 @@ block content
                                         div(style="display: flex; justify-content: center;")
                                             button(type="submit" class="btn btn-default add-comment pull-right")
                                                  p(style="display: inline;") Отправить
+                        div(role="tabpanel" class="tab-pane" id="moderation")
+                                h3(style="text-align:center") Модерация отзывов
+                                hr(class="half-rule")
+                                div(class="select-buttons")
+                                    ul(class="nav nav-tabs" role="tablist")
+                                        li(role="presentation" class="active")
+                                             a(href="#pending" aria-controls="pending" role="tab" data-toggle="tab") Ожидают модерации
+                                        li(role="presentation")
+                                            a(href="#denied" aria-controls="denied" role="tab" data-toggle="tab") Отклонены
+                                div(class="tab-content")
+                                    div(role="tabpanel" class="tab-pane active pending" id="pending")
+                                    div(role="tabpanel" class="tab-pane denied" id="denied")
+                                div(class="media posts")               
+                                    script(type='text/javascript'). 
+                                        //{JSON.stringify(item)};
+                                        $('#myTabs a').click(function (e) {
+                                            e.preventDefault()
+                                            $(this).tab('show')
+                                        })
+                                        var pending = [!{reviews}];
+                                        var denied = [!{rdenied}];
+                                        //console.log(result)
+                                        for(var i=0;i<pending.length;i++){
+                                            $(".pending").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h4>Отзыв ID '+pending[i].id+' к заказу ID '+pending[i].order_id+'</h3><p>'+pending[i].text+'</p><small>Отправитель: '+pending[i].sender+', ID: '+pending[i].sender_id+'</small><br><form method="POST" action="/revmod"><button type="st_fixed" class="btn btn-success">Опубликовать</button></form><hr class="half-rule"></div>')
+                                        }
+                                        for(var a=0;a<denied.length;a++){
+                                            $(".denied").append('<div class="bs-callout bs-callout-success" id="callout-progress-animation-css3"><h4>Отзыв ID '+denied[a].id+' к заказу ID '+denied[a].order_id+'</h3><p>'+denied[a].text+'</p><small>Отправитель '+denied[a].sender+', ID: '+denied[a].sender_id+'</small><hr class="half-rule"></div>')
+                                        }
+                                
                     script.
                         $('#myTabs a').click(function (e) {
                             e.preventDefault()
                             $(this).tab('show')
                         })
+
         else
             //- Если человек не вошел в аккаунт то ему выводить это
             p Пожалуйста войдите в аккаунт
