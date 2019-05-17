@@ -4,19 +4,13 @@ var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
 
-function normalizeObj(obj) {
-    var newObj = {};
-    return Object.assign(newObj, obj);
-}
-
 app.use(bodyParser.json());
 
 var query = require('../db');
 var methods = require('../socket/methods');
-var getUser = methods.getUser;
 var getAllDialogs = methods.getAllDialogs;
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
 
     var users = [];
     //  var mySqlConfig = {
@@ -66,7 +60,7 @@ router.get('/messages', function (req, res) {
     res.render('message_test', data);
     //{user:{username:"Users", role:["1","2"]}})
 });
-router.get('/message_test', function (req, res, next) {
+router.get('/message_test', function (req, res) {
     var data = req.data;
     data.title = 'tSolving';
     data.users = [];
@@ -77,22 +71,22 @@ router.get('/message_test', function (req, res, next) {
     });
 });
 
-router.get('/registration', function (req, res, next) {
+router.get('/registration', function (req, res) {
     res.render('registration', { title: 'tSolving', bread: 'idol', extend: 'layout_for_reg' });
 
 });
-router.get('/bugreport', function (req, res, next) {
+router.get('/bugreport', function (req, res) {
     var data = req.data;
     data.title = 'tSolving';
     res.render('bugreport', data);
 });
-router.get('/bugs', function (req, res, next) {
+router.get('/bugs', function (req, res) {
     var data = req.data;
     data.title = 'tSolving';
     data.bugs = [];
     data.solved = [];
     //data.resultArray = [];
-    query('SELECT * from diplom.bugreport WHERE status=0', false, function (err, rows, fields) {
+    query('SELECT * from diplom.bugreport WHERE status=0', false, function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
         if (rows) {
@@ -104,7 +98,7 @@ router.get('/bugs', function (req, res, next) {
         } else {
             console.log('Bugreports with STATUS = 0 not found!');
         }
-        query('SELECT * from diplom.bugreport WHERE status=1', false, function (err, rows, fields) {
+        query('SELECT * from diplom.bugreport WHERE status=1', false, function (err, rows) {
             if (!err)
                 console.log('The solution is: ' + rows.length);
             if (rows) {
@@ -152,9 +146,8 @@ router.post('/getMyAccount', function (req, res) {
     var data = req.data;
     var login = req.body.login;
     data.userInfo = [];
-    var mySqlConfig = require('../config');
-    var sql = 'SELECT * from diplom.users WHERE login=\'' + login + '\'';
-    query(sql, false, function (err, rows, fields) {
+    var sql = 'SELECT * from diplom.users WHERE login = ?';
+    query(sql, [login], function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
         if (rows) {
@@ -174,8 +167,8 @@ router.post('/getFinishedWorks', function (req, res) {
     var data = req.data;
     var id = req.body.id;
     data.fWorks = [];
-    var sql = 'SELECT * from diplom.finishedwork WHERE auth_id=\'' + id + '\'';
-    query(sql, false, function (err, rows, fields) {
+    var sql = 'SELECT * from diplom.finishedwork WHERE id = ?';
+    query(sql, [id], function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
         if (rows) {
@@ -191,32 +184,29 @@ router.post('/getFinishedWorks', function (req, res) {
     });
 
 });
-router.post('/insertbugs', function (req, res, next) {
-    var data = req.data;
+router.post('/insertbugs', function (req, res) {
     var title = req.body.postTitle;
     var content = req.body.postText;
     var username = req.body.user; //получаем имя пользователя (работает!)
     console.log(title + ' ' + username + ' ' + content);
     var sql = 'INSERT INTO bugreport (username, title, text) VALUES (?, ?, ?)';
-    query(sql, [username, title, content], function (err, result) {
+    query(sql, [username, title, content], function (err) {
         if (err) throw err;
         console.log('1 record inserted');
     });
     res.redirect('/');
 });
 
-router.post('/changebug', function (req, res, next) {
+router.post('/changebug', function (req, res) {
     var sql = 'UPDATE bugreport SET status=1 WHERE status=0';
-    query(sql, false, function (err, result) {
+    query(sql, false, function (err) {
         if (err) throw err;
         console.log('Bug status changed!');
     });
     res.redirect('/bugs');
 });
 
-router.post('/register', function (req, res, next) {
-    var data = req.data;
-    data.thx;
+router.post('/register', function (req, res) {
     var login = req.body.login;
     var passwd = req.body.passwd;
     var phone = req.body.phone;
@@ -225,18 +215,18 @@ router.post('/register', function (req, res, next) {
 
     console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
     var sql = 'INSERT INTO users (login, password,phone,email,nickname) VALUES (?, ?, ?, ?, ?)';
-    query(sql, [login, passwd, phone, email, nickname], function (err, result) {
+    query(sql, [login, passwd, phone, email, nickname], function (err) {
         if (err) throw err;
         console.log('1 record inserted');
     });
     res.redirect('/users/login');
 });
-router.get('/uploadfile', function (req, res, next) {
+router.get('/uploadfile', function (req, res) {
     var data = req.data;
     data.title = 'tSolving';
     res.render('uploadfile', data);
 });
-router.post('/uploadf', function (req, res) {
+router.post('/uploadf', function (req) {
     console.log('upload');
     var file = req.files.sampleFile;
     var filename = file.name;

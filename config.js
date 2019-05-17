@@ -1,7 +1,7 @@
 var mySqlConfig = {
     host: 'localhost',
-    user: 'root',
-    //password: 'mysql',
+    user: 'mysql',
+    password: 'mysql',
     database: 'diplom',
     connectionLimit: 10,
 };
