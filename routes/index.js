@@ -121,8 +121,10 @@ router.get('/bugs', function (req, res, next) {
         });
 
         function renderPost() {
-            if (data.user.roles === 'admin') {
-                res.render('bugs', data);
+            if (data.user) {
+                if (data.user.roles === 'admin') {
+                    res.render('bugs', data);
+                }
             } else {
                 var info = 'Извините, у вас нет доступа к этому разделу.';
                 var user = data.user;
