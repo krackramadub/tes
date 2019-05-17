@@ -5,12 +5,12 @@ var mySqlConfig = {
     user: 'root',
     // password: 'mysql',
     database: 'diplom',
-    connectionLimit: 10
+    connectionLimit: 10,
 };
 // var con = mysql.createConnection(mySqlConfig);
-var pool  = mysql.createPool(mySqlConfig);
+var pool = mysql.createPool(mySqlConfig);
 
-function normalizeObj (obj) {
+function normalizeObj(obj) {
     var newObj = {};
     return Object.assign(newObj, obj);
 }
@@ -23,14 +23,14 @@ module.exports = function (query, values, callback) {
         callback.rows = [];
         callback.rows_src = [];
         var rows = normalizeObj(rows_src[0]);
-        if (!err){
+        if (!err) {
             callback.rows.push(rows);
             callback.rows_src.push(rows_src);
-            return callback
-        }else {
+            return callback;
+        } else {
             console.log('Error while performing Query.');
             console.error(err);
-            callback(err)
+            callback(err);
         }
     });
 };

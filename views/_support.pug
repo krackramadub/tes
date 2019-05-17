@@ -9,14 +9,13 @@ block content
           textarea(name="postText" class="form-control post-text" maxlength="1000" required placeholder="Введите текст заявки")
           input(type="hidden" class="hiden_user form-control" name="username_h")
           button(type="submit" class="btn btn-default add-comment pull-right")
-            span(class="glyphicon glyphicon-plus-sign ") 
+            span(class="glyphicon glyphicon-plus-sign ")
               p(style="display:inline;padding-left:10px;") Add post
           script.
-            var user = '#{user.username}';
-            console.log(user);
-            $(".hiden_user").attr("value",user);
-            
-    else 
+              var user = '#{user.username}';
+              console.log(user);
+              $(".hiden_user").attr("value", user);
+
+    else
       p Вам нужно войти
       a(href="/users/login") Вход
-            

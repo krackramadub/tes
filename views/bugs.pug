@@ -1,41 +1,44 @@
 extends layout
 block content
-    if user
-        div(class="container" style="width:970px; margin-top:100px;")
-            h1(style="text-align:center") Запросы о найденных ошибках
-            p(style="color:#757575;text-align:center") Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione ab in nostrum rem, necessitatibus non recusandae, sapiente cum unde facilis fugit dignissimos animi, earum adipisci dolores delectus dolore tempore.
-            <hr class="half-rule">
-            div(class="select-buttons")
-                ul(class="nav nav-tabs" role="tablist")
-                    li(role="presentation" class="active")
-                        a(href="#main" aria-controls="main" role="tab" data-toggle="tab") Найденные
-                    li(role="presentation")
-                        a(href="#solved" aria-controls="solved" role="tab" data-toggle="tab") Исправленные
-            div(class="tab-content")
-                div(role="tabpanel" class="tab-pane active errors" id="main")
-                div(role="tabpanel" class="tab-pane solvederr" id="solved")
-            div(class="media posts")               
-                script(type='text/javascript'). 
-                    //{JSON.stringify(item)};
-                    $('#myTabs a').click(function (e) {
-                        e.preventDefault()
-                        $(this).tab('show')
-                    })
-                    var result = [!{bugs}];
-                    var solved = [!{solved}]
-                    console.log(result)
-                    for(var i=0;i<result.length;i++){
-                        $(".errors").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h2>'+result[i].title+'</h2><p>'+result[i].text+'</p><small>'+result[i].username+'</small><br><form method="POST" action="/changebug"><button type="st_fixed" class="btn btn-default">Ошибка исправлена</button></form></div>')
-                    }
-                    for(var a=0;a<solved.length;a++){
-                       $(".solvederr").append('<div class="bs-callout bs-callout-success" id="callout-progress-animation-css3"><h2>'+solved[a].title+'</h2><p>'+solved[a].text+'</p><small>'+solved[a].username+'</small></div>')
-                    }
-                    //- console.log(a)
-                    //- var posts = #{resultArray}
-                    //- for(var i=0;i<posts.length;i++){
-                    //-     console.log(posts[i].title)
-    else
-        div(class="container" style="margin-top:100px;text-align:center;")
-            div(class="spinner-border text-primary" role="status")
-                span(class="sr-only")
-            h2(style="text-align:center;") #{info}
+  if user
+    div(class="container" style="width:970px; margin-top:100px;")
+      h1(style="text-align:center") Запросы о найденных ошибках
+      p(style="color:#757575;text-align:center") Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ratione ab in nostrum rem, necessitatibus non recusandae, sapiente cum unde facilis fugit dignissimos animi, earum adipisci dolores delectus dolore tempore.
+      <hr class="half-rule">
+      div(class="select-buttons")
+        ul(class="nav nav-tabs" role="tablist")
+          li(role="presentation" class="active")
+            a(href="#main" aria-controls="main" role="tab" data-toggle="tab") Найденные
+          li(role="presentation")
+            a(href="#solved" aria-controls="solved" role="tab" data-toggle="tab") Исправленные
+      div(class="tab-content")
+        div(role="tabpanel" class="tab-pane active errors" id="main")
+        div(role="tabpanel" class="tab-pane solvederr" id="solved")
+      div(class="media posts")
+        script(type='text/javascript').
+            //{JSON.stringify(item)};
+            $('#myTabs a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+            var result = [!{bugs}];
+            var solved = [!{solved}]
+            console.log(result)
+            for (var i = 0; i < result.length; i++) {
+                $(".errors").append(
+                  '<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h2>' + result[i].title + '</h2><p>' + result[i].text + '</p><small>' + result[i].username + '</small><br><form method="POST" action="/changebug"><button type="st_fixed" class="btn btn-default">Ошибка исправлена</button></form></div>')
+            }
+            for (var a = 0; a < solved.length; a++) {
+                $(".solvederr").append(
+                  '<div class="bs-callout bs-callout-success" id="callout-progress-animation-css3"><h2>' + solved[a].title + '</h2><p>' + solved[a].text + '</p><small>' + solved[a].username + '</small></div>')
+            }
+            //- console.log(a)
+            //- var posts =
+            #{resultArray}
+            //- for(var i=0;i<posts.length;i++){
+            //-     console.log(posts[i].title)
+  else
+    div(class="container" style="margin-top:100px;text-align:center;")
+      div(class="spinner-border text-primary" role="status")
+        span(class="sr-only")
+      h2(style="text-align:center;") #{info}
