@@ -62,12 +62,7 @@ router.post('/login', function (req, res) {
 router.post('/getTasks', function (req, res) {
     var data = req.data;
     data.tasks = [];
-    var mySqlConfig = {
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'diplom',
-    };
+    var mySqlConfig = require('../config');
     var con = mysql.createConnection(mySqlConfig);
     con.connect(function (err) {
         if (!err) {

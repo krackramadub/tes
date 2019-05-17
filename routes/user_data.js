@@ -23,12 +23,7 @@ var user_db1 = [
     },
 ];
 //console.log(user_db)
-var mySqlConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'diplom',
-};
+var mySqlConfig = require('../config');
 var con = mysql.createConnection(mySqlConfig);
 con.connect(function (err) {
     if (!err) {

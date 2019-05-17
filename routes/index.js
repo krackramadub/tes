@@ -150,12 +150,7 @@ router.post('/getMyAccount', function (req, res) {
     var data = req.data;
     var login = req.body.login;
     data.userInfo = [];
-    var mySqlConfig = {
-        host: 'localhost',
-        user: 'mysql',
-        password: 'mysql',
-        database: 'diplom',
-    };
+    var mySqlConfig = require('../config');
     var sql = 'SELECT * from diplom.users WHERE login=\'' + login + '\'';
     query(sql, false, function (err, rows, fields) {
         if (!err)

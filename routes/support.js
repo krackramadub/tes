@@ -40,13 +40,7 @@ router.get('/support/work', function (req, res, next) {
     data.support_inwork = [];
 
     //Подключение к базе данных
-    var mySqlConfig = {
-        host: 'localhost', //расположение БД
-        user: 'root', //имя пользователя
-        password: '', //пароль
-        database: 'diplom', //название БД
-    };
-
+    var mySqlConfig = require('../config');
     //Обращение к базе данных для получения заявок
     var con = mysql.createConnection(mySqlConfig);
     con.connect(function (err) {
