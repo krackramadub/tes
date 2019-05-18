@@ -1,42 +1,42 @@
 extends support_layout
 
 block content
-  div(class="container")
-    if user
-      div(class="col-xs-6 col-md-3" style="margin-top: 70px;")
-        div(class="list-group")
-          a(class="list-group-item" href="#index" aria-controls="index" role="tab" data-toggle="tab")
-            h4(class="list-group-item-heading") Главная
-          a(class="list-group-item" href="#work" aria-controls="work" role="tab" data-toggle="tab")
-            h4(class="list-group-item-heading") Обработка заявок
-          a(class="list-group-item" href="#bugreport" aria-controls="bugreport" role="tab" data-toggle="tab")
-            h4(class="list-group-item-heading") Сообщить об ошибке
-          a(class="list-group-item" href="/" aria-controls="/")
-            h4(class="list-group-item-heading") Главная страница сайта
-      div(class="col-xs-6 col-md-5")
-        div(class="tab-content" style="margin-top: 70px;")
-          div(role="tabpanel" class="tab-pane active" id="index")
-            p Добро пожаловать в кабинет технической поддержки "проекта 431ПО!, #{user.username}!
-          div(role="tabpanel" class="tab-pane" id="work") Обработка заявок
-          div(role="tabpanel" class="tab-pane" id="bugreport")
-            form(method="POST" action="/insertbugs")
-              h1(style="text-align:center") Отправка отчета о багах
-              hr(class="half-rule")
-              div(class="container post-create-form")
-                input(class="title-post form-control" name="postTitle" placeholder="Тема")
-                textarea(name="postText" class="form-control post-text" maxlength="1000" placeholder="Пожалуйста опишите найденную ошибку...")
-                input(class="username_h form-control" name="username_h" value="" type="hidden")
-                button(type="submit" class="btn btn-default add-comment")
-                  span(class="glyphicon glyphicon-plus-sign ")
-                  p(style="display:inline;padding-left:10px;") Отправить
-              script.
-                  var user1 = "!{user.username}";
-                  console.log(user1)
-                  $(".username_h").attr("value", user1)
-        script.
-            $('#myTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })
-    else
-      p У вас нет прав для доступа в данный раздел или вы не произвели вход!
+    div(class="container")
+        if user
+            div(class="col-xs-6 col-md-3" style="margin-top: 70px;")
+                div(class="list-group")
+                    a(class="list-group-item" href="#index" aria-controls="index" role="tab" data-toggle="tab")
+                        h4(class="list-group-item-heading") Главная
+                    a(class="list-group-item" href="#work" aria-controls="work" role="tab" data-toggle="tab")
+                        h4(class="list-group-item-heading") Обработка заявок
+                    a(class="list-group-item" href="#bugreport" aria-controls="bugreport" role="tab" data-toggle="tab")
+                        h4(class="list-group-item-heading") Сообщить об ошибке
+                    a(class="list-group-item" href="/" aria-controls="/")
+                        h4(class="list-group-item-heading") Главная страница сайта
+            div(class="col-xs-6 col-md-5")
+                div(class="tab-content" style="margin-top: 70px;")
+                    div(role="tabpanel" class="tab-pane active" id="index")
+                        p Добро пожаловать в кабинет технической поддержки "проекта 431ПО!, #{user.username}!
+                    div(role="tabpanel" class="tab-pane" id="work") Обработка заявок
+                    div(role="tabpanel" class="tab-pane" id="bugreport")
+                        form(method="POST" action="/insertbugs")
+                            h1(style="text-align:center") Отправка отчета о багах
+                            hr(class="half-rule")
+                            div(class="container post-create-form")
+                                input(class="title-post form-control" name="postTitle" placeholder="Тема")
+                                textarea(name="postText" class="form-control post-text" maxlength="1000" placeholder="Пожалуйста опишите найденную ошибку...")
+                                input(class="username_h form-control" name="username_h" value="" type="hidden")
+                                button(type="submit" class="btn btn-default add-comment")
+                                    span(class="glyphicon glyphicon-plus-sign ")
+                                    p(style="display:inline;padding-left:10px;") Отправить
+                            script.
+                                var user1 = "!{user.username}";
+                                console.log(user1)
+                                $(".username_h").attr("value", user1)
+                script.
+                    $('#myTabs a').click(function (e) {
+                        e.preventDefault()
+                        $(this).tab('show')
+                    })
+        else
+            p У вас нет прав для доступа в данный раздел или вы не произвели вход!

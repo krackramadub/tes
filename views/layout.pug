@@ -1,63 +1,63 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/mdb.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/scss/mdb.scss')
-    script(src="/javascript/vue.js")
-    script(src='/javascript/jquery-3.3.1.min.js')
-    script(src='/javascript/bootstrap.min.js')
-    script(src='/javascript/modules/chart.js')
-    script(src='/javascript/modules/waves.js')
-    script(src='/javascript/modules/wow.js')
-    script(src='/javascript/modules/forms-free.js')
-    script(src='/javascript/mdb.js')
-    script(src='/javascript/popper.min.js')
-    script(src='/javascript/addons/datatables.js')
-    script(src='/javascript/addons/datatables-select.js')
-    script(src='/javascript/addons/rating.js')
-  body
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/mdb.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/scss/mdb.scss')
+        script(src="/javascript/vue.js")
+        script(src='/javascript/jquery-3.3.1.min.js')
+        script(src='/javascript/bootstrap.min.js')
+        script(src='/javascript/modules/chart.js')
+        script(src='/javascript/modules/waves.js')
+        script(src='/javascript/modules/wow.js')
+        script(src='/javascript/modules/forms-free.js')
+        script(src='/javascript/mdb.js')
+        script(src='/javascript/popper.min.js')
+        script(src='/javascript/addons/datatables.js')
+        script(src='/javascript/addons/datatables-select.js')
+        script(src='/javascript/addons/rating.js')
+    body
 block nav
-  //- div(class="bs-example bs-navbar-top-example")
-    //- nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
-  nav(class="navbar navbar-expand-lg navbar-dark primary-color fixed-top")
-    div(class="container")
-      div(class="navbar-header")
-        img(src="/images/logo.jpg" width="140px;")
-      button(class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation")
-        span(class="navbar-toggler-icon")
-      div(class="collapse navbar-collapse" id="navbarSupportedContent1")
-        ul(class="navbar-nav mr-auto")
-          li(class="")
-            a(href="/" class="nav-link") Главная
-          li
-            a(href="/bugs" class="nav-link") Посты
-          li
-            a(href="/bugreport" class="nav-link") Bugreport
-        form(class="navbar-form navbar-left")
-        ul(class="nav navbar-nav pull-right")
-          if user
-            li(class="")
-              a(href="/users/user_info" class="nav-link")
-                img(class="avatarPushed rounded-circle" alt="avatar" style="height:25px;")
-            li
-              form(action="/logout")
-                a(href="/logout" class="nav-link") Выход
-            script.
-                var avatar = "#{user.avatar}";
-                $(".avatarPushed").attr("src", "/avatar/" + avatar);
-          else
-            li(class="")
-              a(href="/registration" class="nav-link") Регистрация
-            li(class="")
-              a(href="/users/login" class="nav-link") Вход
+    //- div(class="bs-example bs-navbar-top-example")
+      //- nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
+    nav(class="navbar navbar-expand-lg navbar-dark primary-color fixed-top")
+        div(class="container")
+            div(class="navbar-header")
+                img(src="/images/logo.jpg" width="140px;")
+            button(class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation")
+                span(class="navbar-toggler-icon")
+            div(class="collapse navbar-collapse" id="navbarSupportedContent1")
+                ul(class="navbar-nav mr-auto")
+                    li(class="")
+                        a(href="/" class="nav-link") Главная
+                    li
+                        a(href="/bugs" class="nav-link") Посты
+                    li
+                        a(href="/bugreport" class="nav-link") Bugreport
+                form(class="navbar-form navbar-left")
+                ul(class="nav navbar-nav pull-right")
+                    if user
+                        li(class="")
+                            a(href="/users/user_info" class="nav-link")
+                                img(class="avatarPushed rounded-circle" alt="avatar" style="height:25px;")
+                        li
+                            form(action="/logout")
+                                a(href="/logout" class="nav-link") Выход
+                        script.
+                            var avatar = "#{user.avatar}";
+                            $(".avatarPushed").attr("src", "/avatar/" + avatar);
+                    else
+                        li(class="")
+                            a(href="/registration" class="nav-link") Регистрация
+                        li(class="")
+                            a(href="/users/login" class="nav-link") Вход
 
 
 
 
 
-  block content
+    block content
 block footer
 

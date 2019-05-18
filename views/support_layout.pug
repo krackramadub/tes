@@ -1,34 +1,34 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='/javascripts/jquery-3.3.1.min.js')
-    script(src='/javascripts/bootstrap.min.js')
-  body
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='/javascripts/jquery-3.3.1.min.js')
+        script(src='/javascripts/bootstrap.min.js')
+    body
 block nav
-  div(class="bs-example bs-navbar-top-example")
-    nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
-      div(class="container")
-        div(class="navbar-header")
-          a(href="/support" class="navbar-brand") #{title}
-        div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-6")
-          ul(class="nav navbar-nav")
-          form(class="navbar-form navbar-left")
-          ul(class="nav navbar-nav pull-right")
-            if user
-              li(class="")
-                a(href="/support") #{user.username}
-              li
-                form(action="/logout")
-                  a(href="/logout" class="btn" style="margin-top:10%;") Выход
-            else
-              li(class="")
-                a(href="/registration") Регистрация
-              li(class="")
-                a(href="/users/login") Вход
+    div(class="bs-example bs-navbar-top-example")
+        nav(class="navbar navbar-default navbar-fixed-top" style="border-radius:0px;")
+            div(class="container")
+                div(class="navbar-header")
+                    a(href="/support" class="navbar-brand") #{title}
+                div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-6")
+                    ul(class="nav navbar-nav")
+                    form(class="navbar-form navbar-left")
+                    ul(class="nav navbar-nav pull-right")
+                        if user
+                            li(class="")
+                                a(href="/support") #{user.username}
+                            li
+                                form(action="/logout")
+                                    a(href="/logout" class="btn" style="margin-top:10%;") Выход
+                        else
+                            li(class="")
+                                a(href="/registration") Регистрация
+                            li(class="")
+                                a(href="/users/login") Вход
 
-  block content
+    block content
 block footer
 

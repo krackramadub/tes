@@ -1,47 +1,47 @@
 extends layout
 
 block content
-  if user
-    div(class="col-lg-6 container" style="margin-top:100px;")
-      p Здесь будут новости
-  else
-    div(class="col-lg-6 container" style="margin-top:100px;")
-      p #{thx}
-      div(class="card card-cascade wider reverse")
-        div(class="view view-cascade overlay")
-          img(class="card-img-top" src="/images/back.jpg" alt="Card image cap")
-        div(class="card-body card-body-cascade text-center")
-          h4(class="card-title") Что мы делаем?
-          p(class="card-text") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
-          hr
-          h2 Заказать работу
-          p(class="card-text") Для того чтобы заказать работу - нужно войти, или же можете
-            a(href="/registration" style="text-decoration:underline;") зарегестритоваться
-          div(class="input-group-lg txt-align-left col-md-12")
-          form(method="POST", action="/users/login",enctype="multipart/form-data")
-            div(class="md-form mt-0")
-              input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
-            div(class="md-form mt-0")
-              input(name="password" id="input-char-counter" type="password" class="form-control" placeholder="Пароль")
-            p #{info}
-            input(type="submit", class="btn btn-primary" value="Войти")
+    if user
+        div(class="col-lg-6 container" style="margin-top:100px;")
+            p Здесь будут новости
+    else
+        div(class="col-lg-6 container" style="margin-top:100px;")
+            p #{thx}
+            div(class="card card-cascade wider reverse")
+                div(class="view view-cascade overlay")
+                    img(class="card-img-top" src="/images/back.jpg" alt="Card image cap")
+                div(class="card-body card-body-cascade text-center")
+                    h4(class="card-title") Что мы делаем?
+                    p(class="card-text") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
+                    hr
+                    h2 Заказать работу
+                    p(class="card-text") Для того чтобы заказать работу - нужно войти, или же можете
+                        a(href="/registration" style="text-decoration:underline;") зарегестритоваться
+                    div(class="input-group-lg txt-align-left col-md-12")
+                    form(method="POST", action="/users/login",enctype="multipart/form-data")
+                        div(class="md-form mt-0")
+                            input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
+                        div(class="md-form mt-0")
+                            input(name="password" id="input-char-counter" type="password" class="form-control" placeholder="Пароль")
+                        p #{info}
+                        input(type="submit", class="btn btn-primary" value="Войти")
 
-    //- div(class="card card-cascade")
-    //-     div(class="view view-cascade gradient-card-header blue-gradient" style="color:#fff;")
-    //-       h1(class="card-header-title mb-3") Что мы делаем?
-    //-       p(class="card-header-subtitle mb-0") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
-    //-     div(class="card-body card-body-cascade text-center")
-    //-           h2 Заказать работу
-    //-           p(class="card-text") или же можете
-    //-             a(href="/registration") зарегестритоваться
-    //-           hr(class="half-rule")
-    //-           div(class="input-group-lg txt-align-left col-md-12")
-    //-             span(class="dis-color") Выберите тему
-    //-             input(class="form-control")
-    //-             span(class="dis-color") Тип работы
-    //-             input(class="form-control")
-    //-             span(class="dis-color") Email
-    //-             input(type="email" class="form-control")
-    //-             br
-    //-             button(class="btn blue-gradient btn-rounded waves-effect waves-light" ) Войти
-                //- button(class="btn btn-lg btn-primary btn-block" type="submit") Войти
+        //- div(class="card card-cascade")
+        //-     div(class="view view-cascade gradient-card-header blue-gradient" style="color:#fff;")
+        //-       h1(class="card-header-title mb-3") Что мы делаем?
+        //-       p(class="card-header-subtitle mb-0") Наша миссия - предоставить вам самого качественного  исполнителя, который быстро и высококачественно выполнит вашу задачу, а исполнителю добротный, быстрый и лёгкий в усвоении сайт.
+        //-     div(class="card-body card-body-cascade text-center")
+        //-           h2 Заказать работу
+        //-           p(class="card-text") или же можете
+        //-             a(href="/registration") зарегестритоваться
+        //-           hr(class="half-rule")
+        //-           div(class="input-group-lg txt-align-left col-md-12")
+        //-             span(class="dis-color") Выберите тему
+        //-             input(class="form-control")
+        //-             span(class="dis-color") Тип работы
+        //-             input(class="form-control")
+        //-             span(class="dis-color") Email
+        //-             input(type="email" class="form-control")
+        //-             br
+        //-             button(class="btn blue-gradient btn-rounded waves-effect waves-light" ) Войти
+                    //- button(class="btn btn-lg btn-primary btn-block" type="submit") Войти

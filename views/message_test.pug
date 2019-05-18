@@ -1,84 +1,85 @@
 extend layout
 
 block content
-  div(class="container" id="room")
-    ul(style="margin-bottom:10px;list-style-type:none;")
-      form
-        h2 Dialog
-        select.form-control#Dialog
-          option(value="") None
-          for dialog in dialogs
-            option(value=dialog.id)=dialog.name
-        br
-        input(class="form-control" autocomplete="off" autofocus placeholder="Message...")
-  script(src="/socket.io/socket.io.js")
-  script.
+    div(class="container" id="room")
+        ul(style="margin-bottom:10px;list-style-type:none;")
+            form
+                h2 Dialog
+                select.form-control#Dialog
+                    option(value="") None
+                    for dialog in dialogs
+                        option(value=dialog.id)=dialog.name
+                br
+                input(class="form-control" autocomplete="off" autofocus placeholder="Message...")
+    script(src="/socket.io/socket.io.js")
+    script.
 
-      var socket = io.connect('', {
-          reconect: false
-      });
+        var socket = io.connect('', {
+            reconect: false
+        });
 
-      var form = $('#room form');
-      var ul = $('#room ul')[0];
+        var form = $('#room form');
+        var ul = $('#room ul')[0];
 
-      function addMessage(obj) {
-          var dop = obj.isYour ? '>>>' : ''
-          var time = obj.TIMESTAMP
-          var text = dop + obj.message + ' [' + time + ']'
-          $('<li>', { text: text }).appendTo(ul);
-      }
+        function addMessage(obj) {
+            var dop = obj.isYour ? '>>>' : ''
+            var time = obj.TIMESTAMP
+            var text = dop + obj.message + ' [' + time + ']'
+            $('<li>', { text: text }).appendTo(ul);
+        }
 
-      form.submit(function () {
-          var input = $(this).find('input');
-          var text = input.val();
+        form.submit(function () {
+            var input = $(this).find('input');
+            var text = input.val();
 
-          console.log($('#Dialog').children("option:selected").val())
+            console.log($('#Dialog').children("option:selected").val())
 
-          socket.emit('private_message', {
-              to: $('#Dialog').children("option:selected").val(),
-              text: text
-          }, function (data) {
-              console.log(data);
-              input.val('');
-              $('<li>', { text: '>>>' + text + ' [' + (new Date()).toISOString() + ']' }).appendTo(
-                ul);
-          });
-          return false;
-      })
+            socket.emit('private_message', {
+                to: $('#Dialog').children("option:selected").val(),
+                text: text
+            }, function (data) {
+                console.log(data);
+                input.val('');
+                $('<li>', { text: '>>>' + text + ' [' + (new Date()).toISOString() + ']' })
+                  .appendTo(
+                    ul);
+            });
+            return false;
+        })
 
-      $("#Dialog").on("change", function () {
-          $('ul > li').remove()
-          if (this.value) {
-              socket.emit('change_dialog', {
-                  dialog: this.value
-              })
-          }
-      });
+        $("#Dialog").on("change", function () {
+            $('ul > li').remove()
+            if (this.value) {
+                socket.emit('change_dialog', {
+                    dialog: this.value
+                })
+            }
+        });
 
-      function printStatus(status, color) {
-          $('<li>').append($('<i>').text(status).css('color', color)).appendTo(ul);
-      }
-      socket.on('message', function (text) {
-          $('<li>', { text: text }).appendTo(ul);
-      });
-      socket.on('private_message', function (text) {
-          console.log(text)
-          addMessage(text)
-      });
+        function printStatus(status, color) {
+            $('<li>').append($('<i>').text(status).css('color', color)).appendTo(ul);
+        }
+        socket.on('message', function (text) {
+            $('<li>', { text: text }).appendTo(ul);
+        });
+        socket.on('private_message', function (text) {
+            console.log(text)
+            addMessage(text)
+        });
 
-      socket.on('all_messages', function (text) {
-          console.log(text)
-          text.messages.forEach(addMessage)
-      })
-      socket.on('connect', function () {
-          printStatus('*** [OK] Соединение установлено ***', 'green');
-      })
-      socket.on('disconnect', function () {
-          printStatus('*** [ERR] Соединеник потеряно ***', 'red')
-      })
-      socket.on('reconnect_failed', function () {
-          alert("Соединение не удалось восстановить. Пожалуйста, обновите страницу.")
-      })
-      socket.on('dialog_created', function (data) {
-          console.log(data)
-      })
+        socket.on('all_messages', function (text) {
+            console.log(text)
+            text.messages.forEach(addMessage)
+        })
+        socket.on('connect', function () {
+            printStatus('*** [OK] Соединение установлено ***', 'green');
+        })
+        socket.on('disconnect', function () {
+            printStatus('*** [ERR] Соединеник потеряно ***', 'red')
+        })
+        socket.on('reconnect_failed', function () {
+            alert("Соединение не удалось восстановить. Пожалуйста, обновите страницу.")
+        })
+        socket.on('dialog_created', function (data) {
+            console.log(data)
+        })
