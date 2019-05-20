@@ -1,0 +1,42 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        script(type="text/javascript").
+        var ordinfo = [!{ordinfo}];
+        if(ordinfo.id != "")
+            h4 Информация о заказе ID #{id}
+            table(class="table")
+                thead
+                    tr
+                        th(scope="col") Свойство
+                        th(scope="col") Значение
+                    tbody
+                        tr
+                            td(scope="row") ID
+                            td 1
+                        tr
+                            td(scope="row") Предмет
+                            td Математика
+                        tr
+                            td(scope="row") Тип
+                            td Нужна помощь
+                        tr
+                            td(scope="row") Описание
+                            td Решить несколько задач. Необходимые задачи и условия выделены на прикрепленном фото
+                        tr
+                            td(scope="row") Дата создания
+                            td 2019-04-22 09:04:31
+                        tr
+                            td(scope="row") Заказчик
+                            td Jane
+                        tr
+                            td(scope="row") Прикрепленный файл
+                            td d_file.jpg   
+                        tr
+                            td(scope="row") Цена
+                            td 200 руб.                              
+            button(class="btn btn-default btn-sm" onclick="history.back();") Назад к системе модерации
+        else 
+            h4 Заказа с указанным номером не существует!
+            button(class="btn btn-default btn-sm" onclick="history.back();") Назад к системе модерации
