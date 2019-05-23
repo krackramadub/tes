@@ -3,6 +3,7 @@ var router = express.Router();
 var multiparty = require('multiparty');
 var user_data = require('./user_data');
 var mysql = require('mysql');
+var query = require('../db');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -11,7 +12,7 @@ router.get('/', function (req, res, next) {
 router.get('/login', function (req, res) {
     res.render('login', { title: 'tSolving' });
 });
-var user_db = [];
+
 router.post('/login', function (req, res) {
 
 
@@ -26,11 +27,6 @@ router.post('/login', function (req, res) {
                     var secret = req.app.get('secret');
                     var token = user_data.get_token(user_result.user, secret);
                     res.cookie('auth_token', token);
-                    //Перенаправления на страницы в зависимости от роли пользователя, указанной в БД:
-                    if (user_result.user.roles == 'user') {
-                        res.redirect('/users/user_info');
-                        console.log('User login!');
-                    }
                     //Для админа:
                     if (user_result.user.roles == 'admin') {
                         res.redirect('/users/user_info');
@@ -41,7 +37,8 @@ router.post('/login', function (req, res) {
                         res.redirect('/support');
                         console.log('Support login!');
                     } else {
-                        res.render('login', { info: 'error. try again' });
+                        res.redirect('/users/user_info');
+                        console.log('User login!');
                     }
                 } else {
                     var data = [];
@@ -72,7 +69,7 @@ router.post('/getTasks', function (req, res) {
         }
 
     });
-    con.query('SELECT * from pageorders',
+    con.query('SELECT * from diplom_new.works WHERE status = 1',
       function (err, rows, fields) {
           con.end();
           if (!err)
@@ -91,9 +88,36 @@ router.post('/getTasks', function (req, res) {
 });
 //Для пользователя
 router.get('/user_info', function (req, res) {
+    function normalizeObj(obj) {
+        return Object.assign({}, obj);
+    }
+
     var data = req.data;
     data.title = 'tSolving';
-    res.render('user_info', data);
+
+    if (data.user) {
+        try {
+            var sql = 'SELECT id FROM users WHERE login = ?';
+            query(sql, [data.user.username], (row) => {
+                var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, w.file, w.price FROM diplom_new.works w JOIN diplom_new.users u on w.executor = u.id WHERE w.executor = ? OR w.user = ?';
+                query(sql, [row.id, row.id], (_, row_src) => {
+                    var rows = [];
+                    for (var v in row_src) {
+                        console.log(row_src[v]);
+                        rows.push(normalizeObj(row_src[v]));
+                    }
+                    data = Object.assign(data, { my_tasks: rows });
+                    console.log(data);
+                    res.render('user_info', data);
+                });
+            });
+        }
+        catch (e) {
+            console.error(e);
+        }
+    } else {
+        res.render('user_info', data);
+    }
 });
 
 module.exports = router;

@@ -15,7 +15,7 @@ block content
                             h4(class="card-title") #{user.nickname}
                         div(class="list-group")
                             a(class="list-group-item list-group-item-action active" href="#l" aria-controls="l" role="tab" data-toggle="tab") Моя страница
-                            a(class="list-group-item list-group-item-action" href="#tas" aria-controls="tas" role="tab" data-toggle="tab") Выполненые задачи
+                            a(class="list-group-item list-group-item-action" href="#tas" aria-controls="tas" role="tab" data-toggle="tab") Мои заказы
                             a(class="list-group-item list-group-item-action gettas" href="#gettas" aria-controls="gettas" role="tab" onclick="getTasks()" data-toggle="tab") Найти заказ
                             a(href="#" class="list-group-item list-group-item-action") Чат
                             a(href="#" class="list-group-item list-group-item-action") Новости
@@ -55,7 +55,36 @@ block content
                                     div(class="md-form" style="margin-top:0px;")
                                         input(type="text" id="disableLogin" class="form-control" disabled)
                                         label(for="disableLogin" class="disabled") #{user.phone}
-                        div(role="tabpanel" class="tab-pane" id="tas") {{tasks}}
+                        div(role="tabpanel" class="tab-pane" id="tas")
+                            div(class="nav")
+                                button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
+                            div(class="" style="margin-top:10px;" )
+                                div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
+                                table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
+                                    thead
+                                        tr
+                                            th(class="th-sm") ID
+                                            th(class="th-sm") Автор
+                                            th(class="th-sm") Дата
+                                            th(class="th-sm") Тема
+                                            th(class="th-sm") Описание
+                                            th(class="th-sm") Файл
+                                            th(class="th-sm") Цена
+                                    if my_tasks
+
+                                        tbody
+                                            for task in my_tasks
+                                                tr
+                                                    a
+                                                        td #{task.id}
+                                                        td #{task.user}
+                                                        td #{task.date}
+                                                        td #{task.topic}
+                                                        td #{task.text.substr(0, 100) + '...'}
+                                                        td
+                                                            a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{task.file}
+                                                        td #{task.price}руб.
+                                //-li {{value}}
                         div(role="tabpanel" class="tab-pane" id="gettas")
                             div(class="nav")
                                 button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
@@ -71,17 +100,18 @@ block content
                                             th(class="th-sm") Описание
                                             th(class="th-sm") Файл
                                             th(class="th-sm") Цена
-                                    tbody(v-for="(value,key) in tasks[0]")
-                                        tr
-                                            a
-                                                td {{value.id}}
-                                                td {{value.autor_order}}
-                                                td {{value.date}}
-                                                td {{value.subject}}
-                                                td {{value.text_order}}
-                                                td
-                                                    <a :href="/uploadfiles/+ value.file" style="color:blue;" target="_blank"> {{value.file}} </a>
-                                                td {{value.price}} руб.
+                                    if tasks
+                                        tbody(v-for="(value,key) in tasks")
+                                            tr
+                                                a
+                                                    td {{value.id}}
+                                                    td #{value.autor_order}
+                                                    td #{value.date}
+                                                    td #{value.subject}
+                                                    td #{value.text_order}
+                                                    td
+                                                        a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{value.file}
+                                                    td #{value.price}руб.
                                 //-li {{value}}
                         div(role="tabpanel" class="tab-pane" id="settings") ...
 

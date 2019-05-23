@@ -62,16 +62,16 @@ function check_login(login, passwd) {
     });
 
     if (found_user) {
+        console.log(found_user);
         return {
             is_authenticate: true,
             user: {
                 username: found_user.login,
-                roles: found_user.roles,
+                roles: found_user.role,
                 avatar: found_user.avatar,
-                nickname: found_user.nickname,
                 phone: found_user.phone,
-                datareg: found_user.data_reg,
-                rep: found_user.rep,
+                datareg: found_user.registration_date,
+                rep: found_user.reputation,
                 email: found_user.email,
 
             },

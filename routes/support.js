@@ -53,7 +53,7 @@ router.get('/support/work', function (req, res, next) {
 
     //Выполнение запросов к БД для получения хранящихся в ней заявок
     //Сначала выполняем запрос необработанных заявок (status = 0)
-    con.query('SELECT * from diplom.support WHERE status=0', function (err, rows, fields) {
+    con.query('SELECT * from support WHERE status=0', function (err, rows, fields) {
         if (!err)
         //Проверяем выполнение запроса. Если он выполнен успешно, выводим сообщение с количеством записей
             console.log('The solution is: ' + rows.length);
@@ -75,7 +75,7 @@ router.get('/support/work', function (req, res, next) {
     });
     //То же самое, что и в 1 случае, только для обработанных заявок (в случае, если был дан ответ)
     //Данный код дублирует предыдущий лишь с той разницей, что выбираются заявки с значением status = 1
-    con.query('SELECT * from diplom.support WHERE status=1', function (err, rows, fields) {
+    con.query('SELECT * from support WHERE status=1', function (err, rows, fields) {
         if (!err)
             console.log('The solution is: ' + rows.length);
         else

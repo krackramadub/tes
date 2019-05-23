@@ -5,8 +5,7 @@ var mySqlConfig = require('./config');
 var pool = mysql.createPool(mySqlConfig);
 
 function normalizeObj(obj) {
-    var newObj = {};
-    return Object.assign(newObj, obj);
+    return Object.assign({}, obj);
 }
 
 module.exports = function (query, values, callback) {
