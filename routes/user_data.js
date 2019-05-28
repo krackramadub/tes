@@ -86,7 +86,7 @@ function check_login(login, passwd) {
 }
 
 function get_token(user, secret) {
-    var token = jwt.sign(user, secret, { expiresIn: 2000 });
+    var token = jwt.sign(user, secret, { expiresIn: 432000 });
     return token;
 }
 
