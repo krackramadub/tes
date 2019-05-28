@@ -66,6 +66,7 @@ function check_login(login, passwd) {
         return {
             is_authenticate: true,
             user: {
+                id: found_user.id,
                 username: found_user.login,
                 roles: found_user.role,
                 avatar: found_user.avatar,

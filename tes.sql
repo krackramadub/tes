@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Май 27 2019 г., 19:33
+-- Время создания: Май 28 2019 г., 21:43
 -- Версия сервера: 10.1.38-MariaDB-0ubuntu0.18.04.2
 -- Версия PHP: 7.2.17-0ubuntu0.18.04.1
 
@@ -81,13 +81,14 @@ CREATE TABLE `bugreport`
 --
 -- Структура таблицы `files`
 --
--- Создание: Май 18 2019 г., 19:36
+-- Создание: Май 28 2019 г., 18:16
 --
 
 CREATE TABLE `files`
 (
-    `id`  int(11)      NOT NULL,
-    `uri` varchar(255) NOT NULL
+    `id`       int(11)      NOT NULL,
+    `uri`      varchar(255) NOT NULL,
+    `filename` varchar(255) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
@@ -119,7 +120,9 @@ CREATE TABLE `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`)
-VALUES (1, 'support');
+VALUES (1, 'admin'),
+       (2, 'support'),
+       (3, 'user');
 
 -- --------------------------------------------------------
 
@@ -181,6 +184,48 @@ CREATE TABLE `support`
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `types`
+--
+-- Создание: Май 28 2019 г., 16:12
+--
+
+CREATE TABLE `types`
+(
+    `id`   int(11)     NOT NULL,
+    `name` varchar(50) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+--
+-- СВЯЗИ ТАБЛИЦЫ `types`:
+--
+
+--
+-- Дамп данных таблицы `types`
+--
+
+INSERT INTO `types` (`id`, `name`)
+VALUES (13, 'Доклад'),
+       (17, 'Другое'),
+       (3, 'Контрольная работа'),
+       (1, 'Курсовая работа'),
+       (12, 'Лабораторная работа'),
+       (16, 'Набор текста'),
+       (11, 'Ответы на вопросы'),
+       (5, 'Отчет по практике'),
+       (10, 'Перевод'),
+       (6, 'Презентация'),
+       (4, 'Реферат'),
+       (2, 'Решение задач'),
+       (9, 'Сочинение'),
+       (14, 'Статья'),
+       (15, 'Творческая работа'),
+       (8, 'Чертеж'),
+       (7, 'Эссе');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 -- Создание: Май 27 2019 г., 16:27
@@ -216,7 +261,7 @@ CREATE TABLE `users`
 
 INSERT INTO `users` (`id`, `login`, `password`, `role`, `phone`, `email`, `avatar`,
                      `registration_date`, `reputation`, `education`, `balance`)
-VALUES (1, 'support', '123456', 1, '+79999999999', 'email@ma.il', 1, '2019-05-18 22:34:55', 0, NULL,
+VALUES (1, 'support', '123456', 2, '+79999999999', 'email@ma.il', 1, '2019-05-18 22:34:55', 0, NULL,
         0);
 
 -- --------------------------------------------------------
@@ -224,7 +269,7 @@ VALUES (1, 'support', '123456', 1, '+79999999999', 'email@ma.il', 1, '2019-05-18
 --
 -- Структура таблицы `works`
 --
--- Создание: Май 18 2019 г., 19:59
+-- Создание: Май 28 2019 г., 16:14
 --
 
 CREATE TABLE `works`
@@ -248,6 +293,8 @@ CREATE TABLE `works`
 --       `files` -> `id`
 --   `status`
 --       `status` -> `id`
+--   `type`
+--       `types` -> `id`
 --   `user`
 --       `users` -> `id`
 --   `executor`
@@ -260,7 +307,7 @@ CREATE TABLE `works`
 
 INSERT INTO `works` (`id`, `type`, `user`, `date`, `topic`, `text`, `file`, `price`, `executor`,
                      `status`)
-VALUES (2, NULL, 1, '2019-05-21 21:10:11', 'Task',
+VALUES (2, 1, 1, '2019-05-21 21:10:11', 'Task',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat felis a risus ullamcorper hendrerit. Praesent vel turpis vitae metus consequat posuere. Ut congue condimentum diam, vel tempus dolor ornare vel. Nunc in gravida nunc. Nunc ullamcorper ultricies pharetra. Donec at sodales lacus. Fusce lorem ante, cursus ullamcorper gravida eu, fringilla id orci. Pellentesque tincidunt auctor lacus facilisis ullamcorper. Cras ullamcorper in purus et consequat. Proin mauris quam, convallis vitae nunc ac, molestie consequat lectus. Etiam et efficitur odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae vestibulum odio, et consequat nulla. Mauris et sapien eu velit facilisis tincidunt eget a eros. Nunc lacinia rutrum sapien eu mollis.\nSuspendisse egestas ultricies dolor eu rhoncus. Duis imperdiet magna sit amet orci tincidunt pulvinar. Ut ipsum elit, mattis id semper efficitur, ultricies a tortor. Aenean semper nulla velit, non sollicitudin sem feugiat sit amet. Donec mattis pellentesque commodo. Phasellus varius nisl sit amet libero tincidunt auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida arcu neque, et vestibulum turpis aliquet vitae. Vivamus imperdiet aliquet consectetur.\nVivamus id bibendum ligula. In erat ipsum, consequat id magna sit amet, accumsan placerat tellus. Duis porta, ipsum vitae egestas egestas, lorem turpis placerat leo, ac porttitor ex orci sed velit. Donec ut tellus id magna molestie pretium. Mauris tincidunt euismod sem id tristique. Aenean tristique nisl id volutpat dapibus. In ullamcorper, urna vitae gravida sollicitudin, mauris lorem finibus nunc, lobortis viverra nisi massa in magna. In ac pellentesque odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis nunc massa. Nunc quis finibus nisi.\nDuis ac imperdiet mauris. Maecenas est mauris, varius vestibulum massa et, pellentesque pharetra odio. Nullam egestas ultrices dolor vitae laoreet. Maecenas venenatis maximus vestibulum. Mauris tempus lorem a ipsum consectetur rutrum. Vestibulum mollis sollicitudin lectus, sit amet fermentum ipsum accumsan vitae. Sed lobortis erat vitae malesuada vestibulum. Pellentesque at volutpat elit. Integer facilisis quis ante at lobortis. Nam id enim in justo blandit aliquet et vitae ex. Donec pharetra porta enim, sollicitudin lacinia ex. Quisque eget mi scelerisque, suscipit sem vulputate, semper urna. Fusce sit amet arcu nisl.\nSuspendisse non enim nec sapien dapibus placerat. Quisque eu varius magna. Suspendisse lacinia, libero ut sodales posuere, urna velit fringilla leo, id efficitur erat metus ut magna. Nunc feugiat diam et nunc finibus, quis porttitor lectus tristique. Aenean feugiat laoreet nibh, in eleifend diam accumsan at. Etiam et neque vel nulla molestie iaculis. Vivamus ut enim in massa eleifend fringilla a quis nunc. Sed ac maximus felis, condimentum accumsan purus. Fusce nec convallis augue, a efficitur orci. Praesent feugiat nulla vitae bibendum interdum. Ut et ligula suscipit, fringilla dui sit amet, eleifend est. Ut in nulla est.',
         NULL, 0, 1, 1);
 
@@ -312,6 +359,13 @@ ALTER TABLE `support`
     ADD KEY `support_users_id_fk` (`user`);
 
 --
+-- Индексы таблицы `types`
+--
+ALTER TABLE `types`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `types_name_uindex` (`name`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -328,7 +382,8 @@ ALTER TABLE `works`
     ADD KEY `works_files_id_fk` (`file`),
     ADD KEY `works_users_id_fk` (`user`),
     ADD KEY `works_users_id_fk_2` (`executor`),
-    ADD KEY `works_status_id_fk` (`status`);
+    ADD KEY `works_status_id_fk` (`status`),
+    ADD KEY `works_types_id_fk` (`type`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -349,13 +404,14 @@ ALTER TABLE `bugreport`
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT для таблицы `roles`
 --
 ALTER TABLE `roles`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 2;
+    AUTO_INCREMENT = 4;
 --
 -- AUTO_INCREMENT для таблицы `status`
 --
@@ -368,6 +424,12 @@ ALTER TABLE `status`
 ALTER TABLE `support`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `types`
+--
+ALTER TABLE `types`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 18;
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
@@ -378,7 +440,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `works`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 3;
+    AUTO_INCREMENT = 2;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
@@ -412,6 +474,7 @@ ALTER TABLE `users`
 ALTER TABLE `works`
     ADD CONSTRAINT `works_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
     ADD CONSTRAINT `works_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
+    ADD CONSTRAINT `works_types_id_fk` FOREIGN KEY (`type`) REFERENCES `types` (`id`),
     ADD CONSTRAINT `works_users_id_fk` FOREIGN KEY (`user`) REFERENCES `diplom`.`users` (`id`),
     ADD CONSTRAINT `works_users_id_fk_2` FOREIGN KEY (`executor`) REFERENCES `diplom`.`users` (`id`);
 

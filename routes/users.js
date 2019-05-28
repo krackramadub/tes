@@ -103,11 +103,9 @@ router.get('/user_info', function (req, res) {
                 query(sql, [row.id, row.id], (_, row_src) => {
                     var rows = [];
                     for (var v in row_src) {
-                        console.log(row_src[v]);
                         rows.push(normalizeObj(row_src[v]));
                     }
                     data = Object.assign(data, { my_tasks: rows });
-                    console.log(data);
                     res.render('user_info', data);
                 });
             });
