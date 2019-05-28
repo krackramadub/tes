@@ -86,13 +86,11 @@ function check_login(login, passwd) {
 }
 
 function get_token(user, secret) {
-    var token = jwt.sign(user, secret, { expiresIn: 432000 });
-    return token;
+    return jwt.sign(user, secret, { expiresIn: 432000 });
 }
 
 function get_user(token, secret) {
-    var user = jwt.verify(token, secret);
-    return user;
+    return jwt.verify(token, secret);
 }
 
 router.all('*', function (req, res, next) {

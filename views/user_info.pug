@@ -90,9 +90,9 @@ block content
                                 input(type="text" id="inputPrefilledEx" class="form-control" value="Введите стоимость задачи")
                                 //- input(class="title-post form-control" name="postTitle" placeholder="Тема")
                                 p
-                                    p Тип задачи: 
-                                    select(class="custom-select custom-select-sm" v-for="(type, index) in types" style="margin:0 0 5px 0")
-                                        option(:value="type") {{type}}
+                                    p Тип задачи:
+                                    select(class="custom-select custom-select-sm" style="margin:0 0 5px 0")
+                                        option(v-for="(type, index) in types" :value="type.id") {{type.name}}
                                 br
                                 textarea(style="padding:5px;min-height:215px;" required name="postText" class="form-control" id="exampleFormControlTextarea3" rows="7" placeholder="Опишите задачу...")
                                 input(type="file" value="Выберите файл...")
@@ -175,8 +175,11 @@ block content
                     function getTasksType() {
                         $.ajax('/api/getTasksType', {
                             success: function (data) {
-                                json = JSON.parse(data);
-                                for (type in json) app.types.push(type)
+                                var json = JSON.parse(data);
+                                console.log(json)
+                                for (var type in json) {
+                                    app.types.push(json[type])
+                                }
                             }
                         })
                     }

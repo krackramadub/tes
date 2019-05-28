@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 var user_data = require('./routes/user_data');
 var avatar = require('./routes/avatar');
+var api = require('./routes/api');
 var supportRouter = require('./routes/support'); //подключение модуля поддержки
 
 // view engine setup
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/', supportRouter);
 app.use('/avatar', avatar);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
