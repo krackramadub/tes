@@ -1,58 +1,10 @@
-'use strict';
-
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-var mysql = require('mysql');
-var users = require('./users');
-var user_db = [];
+var query = require('../db');
 
-//function getUsers(){
-// USER DATABASE
-var user_db1 = [
-    {
-        login: 'Jane',
-        password: '123456',
-        roles: 'user',
-        avatar: 'd_avatar.jpg',
-        nickname: 'Джейн Петрович',
-        phone: '8911-333-11-11',
-        data_reg: '28.02.2021',
-        rep: '2.44',
-        email: 'jane@mailer.com',
-    },
-];
-//console.log(user_db)
-var mySqlConfig = require('../config');
-var con = mysql.createConnection(mySqlConfig);
-con.connect(function (err) {
-    if (!err) {
-        console.log('DB Connected.');
-    } else {
-        console.log('DB error.');
-    }
-
-});
-con.query('SELECT * from users',
-  function (err, rows, fields) {
-      con.end();
-      if (!err)
-          console.log('The solution is: ' + rows.length);
-      else
-          console.log('Error while performing Query.');
-      if (rows) {
-          for (var i = 0; i < rows.length; i++) {
-              for (var i in rows) {
-                  user_db.push(rows[i]);
-              }
-          }
-      }
-
-  });
-
-// }
-function check_login(login, passwd) {
-    //getUsers();
+function check_login(login, passwd, callback) {
+    /*
     var found_user = user_db.find(function (x) {
         if (x.login == login && x.password == passwd) {
             return true;
@@ -60,30 +12,32 @@ function check_login(login, passwd) {
             return false;
         }
     });
+    */
 
-    if (found_user) {
-        console.log(found_user);
-        return {
-            is_authenticate: true,
-            user: {
-                id: found_user.id,
-                username: found_user.login,
-                roles: found_user.role,
-                avatar: found_user.avatar,
-                phone: found_user.phone,
-                datareg: found_user.registration_date,
-                rep: found_user.reputation,
-                email: found_user.email,
+    query('SELECT * FROM diplom_new.users WHERE login = ?', [login], function (row) {
+        if (row && row.password === passwd) {
+            callback({
+                is_authenticate: true,
+                user: {
+                    id: row.id,
+                    username: row.login,
+                    roles: row.role,
+                    avatar: row.avatar,
+                    phone: row.phone,
+                    datareg: row.registration_date,
+                    rep: row.reputation,
+                    email: row.email,
 
-            },
-        };
-    } else {
-        return {
-            is_authenticate: false,
-            user: null,
-            info: 'Введен неправильный логин или пароль',
-        };
-    }
+                },
+            });
+        } else {
+            callback({
+                is_authenticate: false,
+                user: null,
+                info: 'Введен неправильный логин или пароль',
+            });
+        }
+    });
 }
 
 function get_token(user, secret) {

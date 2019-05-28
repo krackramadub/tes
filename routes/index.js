@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 
 var query = require('../db');
 var methods = require('../socket/methods');
+var getUsers = require('./user_data').getUsers;
 var getAllDialogs = methods.getAllDialogs;
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -207,19 +208,31 @@ router.post('/changebug', function (req, res) {
 });
 
 router.post('/register', function (req, res) {
-    var login = req.body.login;
-    var passwd = req.body.passwd;
-    var phone = req.body.phone;
-    var email = req.body.email;
-    var nickname = req.body.nickname;
+    try {
+        var login = req.body.login;
+        var passwd = req.body.passwd;
+        var phone = req.body.phone;
+        var email = req.body.email;
+        var nickname = req.body.nickname;
 
-    console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
-    var sql = 'INSERT INTO users (login, password,phone,email,nickname) VALUES (?, ?, ?, ?, ?)';
-    query(sql, [login, passwd, phone, email, nickname], function (err) {
-        if (err) throw err;
-        console.log('1 record inserted');
-    });
-    res.redirect('/users/login');
+        console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
+        var sql = 'INSERT INTO diplom_new.users (login, password, role, phone, email) VALUES (?, ?, 3, ?, ?);';
+        try {
+            query(sql, [login, passwd, phone, email], function (_, _, err) {
+                if (err) throw err;
+                getUsers();
+                console.log('1 record inserted');
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        res.redirect('/users/login');
+    }
+    catch (e) {
+        console.error(e);
+    }
 });
 router.get('/uploadfile', function (req, res) {
     var data = req.data;

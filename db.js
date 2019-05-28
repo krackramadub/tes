@@ -9,16 +9,21 @@ function normalizeObj(obj) {
 }
 
 module.exports = function (query, values, callback) {
-    values = values || [];
+    try {
+        values = values || [];
 
-    pool.query(query, values, function (err, rows_src) {
-        var rows = normalizeObj(rows_src[0]);
-        if (!err) {
-            callback(rows, rows_src);
-        } else {
-            console.log('Error while performing Query.');
-            console.error(err);
-            callback(err);
-        }
-    });
+        pool.query(query, values, function (err, rows_src) {
+            if (!err) {
+                var rows = normalizeObj(rows_src[0]);
+                callback(rows, rows_src);
+            } else {
+                console.log('Error while performing Query.');
+                console.error(err);
+                callback(null, null, err);
+            }
+        });
+    }
+    catch (e) {
+        console.error(e);
+    }
 };

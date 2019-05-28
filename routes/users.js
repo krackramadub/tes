@@ -22,30 +22,31 @@ router.post('/login', function (req, res) {
             var login = fields.login[0];
             var password = fields.password[0];
             if (login && password && login != '') {
-                var user_result = user_data.check_login(login, password);
-                if (user_result.is_authenticate == true) {
-                    var secret = req.app.get('secret');
-                    var token = user_data.get_token(user_result.user, secret);
-                    res.cookie('auth_token', token);
-                    //Для админа:
-                    if (user_result.user.roles == 'admin') {
-                        res.redirect('/users/user_info');
-                        console.log('Admin login!'); //отладка
-                    }
-                    //Для технической поддержки:
-                    if (user_result.user.roles == 'support') {
-                        res.redirect('/support');
-                        console.log('Support login!');
+                user_data.check_login(login, password, function (user_result) {
+                    if (user_result.is_authenticate == true) {
+                        var secret = req.app.get('secret');
+                        var token = user_data.get_token(user_result.user, secret);
+                        res.cookie('auth_token', token);
+                        //Для админа:
+                        if (user_result.user.roles == 'admin') {
+                            res.redirect('/users/user_info');
+                            console.log('Admin login!'); //отладка
+                        }
+                        //Для технической поддержки:
+                        if (user_result.user.roles == 'support') {
+                            res.redirect('/support');
+                            console.log('Support login!');
+                        } else {
+                            res.redirect('/users/user_info');
+                            console.log('User login!');
+                        }
                     } else {
-                        res.redirect('/users/user_info');
-                        console.log('User login!');
+                        var data = [];
+                        data.title = 'tSolving';
+                        data.info = 'Неверный логин или пароль';
+                        res.render('login', data);
                     }
-                } else {
-                    var data = [];
-                    data.title = 'tSolving';
-                    data.info = 'Неверный логин или пароль';
-                    res.render('login', data);
-                }
+                });
             } else {
                 var data = [];
                 data.title = 'tSolving';
