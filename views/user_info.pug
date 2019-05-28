@@ -16,7 +16,7 @@ block content
                         div(class="list-group")
                             a(class="list-group-item list-group-item-action active" href="#myAccount" aria-controls="myAccount" role="tab" data-toggle="tab") Моя страница
                             a(class="list-group-item list-group-item-action" href="#myTask" aria-controls="myTask" role="tab" data-toggle="tab") Мои задачи
-                            a(class="list-group-item list-group-item-action" href="#createTask" aria-controls="createTask" role="tab" data-toggle="tab") Создать задачу
+                            a(class="list-group-item list-group-item-action" href="#createTask" aria-controls="createTask" role="tab" data-toggle="tab" onclick="getTasksType()") Создать задачу
                             a(class="list-group-item list-group-item-action gettask" href="#gettask" aria-controls="gettask" role="tab" onclick="getTasks()" data-toggle="tab") Найти задачу
                             a(href="#" class="list-group-item list-group-item-action") Чат
                             a(href="#" class="list-group-item list-group-item-action") Новости
@@ -89,9 +89,10 @@ block content
                                 input(value="" type="text" required name="postTitle" id="inputPrefilledEx" class="form-control" placeholder="Тема")
                                 input(type="text" id="inputPrefilledEx" class="form-control" value="Введите стоимость задачи")
                                 //- input(class="title-post form-control" name="postTitle" placeholder="Тема")
-                                select(class="custom-select custom-select-sm" style="margin:0 0 5px 0")
-                                    option(selected) Выберите тип задачи
-                                    option(value="1") One
+                                p
+                                    p Тип задачи: 
+                                    select(class="custom-select custom-select-sm" v-for="(type, index) in types" style="margin:0 0 5px 0")
+                                        option(:value="type") {{type}}
                                 br
                                 textarea(style="padding:5px;min-height:215px;" required name="postText" class="form-control" id="exampleFormControlTextarea3" rows="7" placeholder="Опишите задачу...")
                                 input(type="file" value="Выберите файл...")
@@ -163,6 +164,22 @@ block content
                         },
                     })
                     */
+
+                    var app = new Vue({
+                        el: '#createTask',
+                        data: {
+                            types: []
+                        }
+                    })
+
+                    function getTasksType() {
+                        $.ajax('/api/getTasksType', {
+                            success: function (data) {
+                                json = JSON.parse(data);
+                                for (type in json) app.types.push(type)
+                            }
+                        })
+                    }
 
                     // END
                     var ctxL = document.getElementById("lineChart").getContext('2d');
