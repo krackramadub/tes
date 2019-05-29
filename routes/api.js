@@ -29,7 +29,6 @@ router.get('/getTasksType', function (req, res) {
 
 router.post('/createTask', upload.single('file'), function (req, res) {
     console.log(req.body);
-    console.log(req.file.filename);
     if (req.file) {
         var sql = 'INSERT INTO diplom_new.files (uri, filename) VALUES (?, ?)';
         query(sql, [req.file.filename, req.file.originalname], function (row, result) {
@@ -44,7 +43,7 @@ router.post('/createTask', upload.single('file'), function (req, res) {
         });
     } else {
         var sql = 'INSERT INTO diplom_new.works (type, user, topic, text) VALUES (?, ?, ?, ?)';
-        var user = user_data.get_user(getCookie(req.cookies, 'auth_token'));
+        var user = user_data.get_user(req.cookies.auth_token, 'qweasdetwfhsdfhasdbqweuabsd');
         console.log(user);
         query(sql, [req.body.type, user.id, req.body.title, req.body.text], function () {
             res.redirect('/users/user_info');
@@ -52,6 +51,20 @@ router.post('/createTask', upload.single('file'), function (req, res) {
     }
     var sql = 'INSERT INTO diplom_new.works (type, user, topic, text, file, executor) VALUES (?, ?, ?, ?, ?, ?)';
 
+});
+
+router.get('/getTasks', function (req, res) {
+    var user = user_data.get_user(req.cookies.auth_token, 'qweasdetwfhsdfhasdbqweuabsd');
+    var sql = 'SELECT * FROM diplom_new.works WHERE executor IS NULL';
+    console.log(user.id);
+    query(sql, [user.id], function (_, row_src) {
+        var tasks = [];
+        for (var item in row_src) {
+            tasks.push(normalizeObj(row_src[item]));
+        }
+        tasks.sort((a, b) => a.id - b.id);
+        res.send(JSON.stringify(tasks));
+    });
 });
 
 module.exports = router;

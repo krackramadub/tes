@@ -17,7 +17,7 @@ block content
                             a(class="list-group-item list-group-item-action active" href="#myAccount" aria-controls="myAccount" role="tab" data-toggle="tab") Моя страница
                             a(class="list-group-item list-group-item-action" href="#myTask" aria-controls="myTask" role="tab" data-toggle="tab") Мои задачи
                             a(class="list-group-item list-group-item-action" href="#createTask" aria-controls="createTask" role="tab" data-toggle="tab" onclick="getTasksType()") Создать задачу
-                            a(class="list-group-item list-group-item-action gettask" href="#gettask" aria-controls="gettask" role="tab" onclick="getTasks()" data-toggle="tab") Найти задачу
+                            a(class="list-group-item list-group-item-action gettask" href="#gettask" aria-controls="gettask" role="tab" data-toggle="tab") Найти задачу
                             a(href="#" class="list-group-item list-group-item-action") Чат
                             a(href="#" class="list-group-item list-group-item-action") Новости
                             a(href="/bugreport" class="list-group-item list-group-item-action") Сообщить об ошибке
@@ -57,7 +57,7 @@ block content
                                         label(for="disableLogin" class="disabled") #{user.phone}
                         div(role="tabpanel" class="tab-pane" id="myTask")
                             div(class="nav")
-                                button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
+                                //button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
                             div(class="" style="margin-top:10px;" )
                                 div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
                                 table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
@@ -102,7 +102,7 @@ block content
                                 span(class="glyphicon glyphicon-plus-sign ")
                         div(role="tabpanel" class="tab-pane" id="gettask")
                             div(class="nav")
-                                button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
+                                // button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
                             div(class="" style="margin-top:10px;" )
                                 div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
                                 table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
@@ -115,18 +115,22 @@ block content
                                             th(class="th-sm") Описание
                                             th(class="th-sm") Файл
                                             th(class="th-sm") Цена
-                                    if tasks
-                                        tbody(v-for="(value,key) in tasks")
-                                            tr
-                                                a
-                                                    td {{value.id}}
-                                                    td #{value.autor_order}
-                                                    td #{value.date}
-                                                    td #{value.subject}
-                                                    td #{value.text_order}
-                                                    td
-                                                        a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{value.file}
-                                                    td #{value.price}руб.
+                                            th(class="th-sm") Чат
+                                        if all_tasks
+                                            tbody
+                                                for task in all_tasks
+                                                    tr
+                                                        a
+                                                            td #{task.id}
+                                                            td #{task.user}
+                                                            td #{task.date}
+                                                            td #{task.topic}
+                                                            td #{task.text.substr(0, 100) + '...'}
+                                                            td
+                                                                a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{task.file}
+                                                            td #{task.price}руб.
+                                                            td
+                                                                button Чат
                                 //-li {{value}}
                         div(role="tabpanel" class="tab-pane" id="settings") ...
 
@@ -142,6 +146,7 @@ block content
                     //-     "pagingType": "first_last_numbers"
                     //- });
                     // END TABLE
+                    /*
                     function getTasks() {
                         //app.tasks = []
                         $(".loader").css('display', 'block')
@@ -154,6 +159,7 @@ block content
                             //$('#gettas').append("<a>text</a>")
                         })
                     };
+                    */
                     // VUE.JS
 
                     /*
@@ -172,6 +178,17 @@ block content
                         }
                     })
 
+                    /*
+
+                    var tasks = new Vue({
+                        el: '#gettask',
+                        data: {
+                            tasks: []
+                        }
+                    })
+
+                    */
+
                     function getTasksType() {
                         $.ajax('/api/getTasksType', {
                             success: function (data) {
@@ -183,6 +200,21 @@ block content
                             }
                         })
                     }
+
+                    /*
+                    function getTasks() {
+                        $.ajax('/api/getTasks', {
+                            success: function (data) {
+                                var json = JSON.parse(data);
+                                console.log(json)
+                                for (var task in json) {
+                                    console.log(json[task])
+                                    app.types.push(json[task])
+                                }
+                            }
+                        })
+                    }
+                    */
 
                     // END
                     var ctxL = document.getElementById("lineChart").getContext('2d');

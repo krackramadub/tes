@@ -107,7 +107,17 @@ router.get('/user_info', function (req, res) {
                         rows.push(normalizeObj(row_src[v]));
                     }
                     data = Object.assign(data, { my_tasks: rows });
-                    res.render('user_info', data);
+                    var sql = 'SELECT * FROM diplom_new.works w WHERE w.executor IS NULL AND w.user != ?;';
+                    query(sql, [data.user.id], function (_, row_src) {
+                        var rows = [];
+                        for (var v in row_src) {
+                            rows.push(normalizeObj(row_src[v]));
+                        }
+                        data = Object.assign(data, { all_tasks: rows });
+                        console.log(data);
+                        res.render('user_info', data);
+                    });
+
                 });
             });
         }
