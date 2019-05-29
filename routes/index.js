@@ -8,7 +8,6 @@ app.use(bodyParser.json());
 
 var query = require('../db');
 var methods = require('../socket/methods');
-var getUsers = require('./user_data').getUsers;
 var getAllDialogs = methods.getAllDialogs;
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -220,7 +219,6 @@ router.post('/register', function (req, res) {
         try {
             query(sql, [login, passwd, phone, email], function (_, _, err) {
                 if (err) throw err;
-                getUsers();
                 console.log('1 record inserted');
             });
         }
