@@ -100,14 +100,14 @@ router.get('/user_info', function (req, res) {
         try {
             var sql = 'SELECT id FROM users WHERE login = ?';
             query(sql, [data.user.username], (row) => {
-                var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, w.file, w.price FROM diplom_new.works w JOIN diplom_new.users u on w.executor = u.id WHERE w.executor = ? OR w.user = ?';
+                var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, w.file, w.price FROM diplom_new.works w JOIN diplom_new.users u on w.user = u.id LEFT JOIN diplom_new.users ex on w.executor = ex.id WHERE w.executor = ? OR w.user = ?';
                 query(sql, [row.id, row.id], (_, row_src) => {
                     var rows = [];
                     for (var v in row_src) {
                         rows.push(normalizeObj(row_src[v]));
                     }
                     data = Object.assign(data, { my_tasks: rows });
-                    var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, f.filename as file, f.uri as f_uri, w.price FROM diplom_new.works w LEFT JOIN diplom_new.users u on w.user = u.id LEFT JOIN diplom_new.files f on w.file = f.id WHERE w.executor IS NULL OR w.user != ?;';
+                    var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, f.filename as file, f.uri as f_uri, w.price FROM diplom_new.works w JOIN diplom_new.users u on w.user = u.id LEFT JOIN diplom_new.files f on w.file = f.id WHERE w.executor IS NULL OR w.user != ?;';
                     query(sql, [data.user.id], function (_, row_src) {
                         var rows = [];
                         for (var v in row_src) {
