@@ -76,6 +76,11 @@ CREATE TABLE `bugreport`
 --       `users` -> `id`
 --
 
+INSERT INTO `bugreport` (`id`, `user`, `title`, `text`, `file`, `status`)
+VALUES (1, 0, 'test123', 'Пример сообщения об ошибке', NULL, 1),
+       (2, 0, 'проверка', 'Проверка изменений в системе', NULL, 1),
+       (3, 0, 'test', '1234567', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -95,6 +100,22 @@ CREATE TABLE `files`
 --
 -- СВЯЗИ ТАБЛИЦЫ `files`:
 --
+
+CREATE TABLE `moder_status`
+(
+    `id`           int(11) NOT NULL,
+    `moder_status` text    NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+--
+-- Дамп данных таблицы `moder_status`
+--
+
+INSERT INTO `moder_status` (`id`, `moder_status`)
+VALUES (1, 'Ожидает модерацию'),
+       (2, 'Прошел модерацию'),
+       (3, 'Отклонен');
 
 -- --------------------------------------------------------
 
@@ -121,7 +142,9 @@ CREATE TABLE `roles`
 
 INSERT INTO `roles` (`id`, `name`)
 VALUES (1, 'admin'),
-       (2, 'support'),
+       (4, 'alert'),
+       (5, 'ban'),
+       (2, 'moder'),
        (3, 'user');
 
 -- --------------------------------------------------------
@@ -243,26 +266,26 @@ CREATE TABLE `users`
     `registration_date` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `reputation`        int(11)              DEFAULT '0',
     `education`         int(11)              DEFAULT NULL,
-    `balance`           int(11)              DEFAULT '0'
+    `balance`           int(11)              DEFAULT '0',
+    `moder_text`        text
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
---
--- СВЯЗИ ТАБЛИЦЫ `users`:
---   `avatar`
---       `avatars` -> `id`
---   `role`
---       `roles` -> `id`
---
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `role`, `phone`, `email`, `avatar`,
-                     `registration_date`, `reputation`, `education`, `balance`)
-VALUES (1, 'support', '123456', 2, '+79999999999', 'email@ma.il', 1, '2019-05-18 22:34:55', 0, NULL,
-        0);
+                     `registration_date`, `reputation`, `education`, `balance`, `moder_text`)
+VALUES (1, 'admin', '123456', 1, '+79999999999', 'email@ma.il', 1, '2019-05-18 22:34:55', 0, NULL,
+        0, ''),
+       (2, 'moderator', '123456', 2, '+79000000000', 'moder@ezreshenie.test', 100,
+        '2019-05-29 00:40:14', 0, NULL, 0, ''),
+       (3, 'user', '123456', 3, NULL, NULL, 100, '2019-05-29 00:40:37', 0, NULL, 0, NULL),
+       (4, 'ban_test', '123456', 5, NULL, NULL, 100, '2019-05-29 00:41:48', 0, NULL, 0,
+        'Тестовая блокировка пользователя'),
+       (5, 'test123', '123456', 3, '0000000', 'test@localhost', 100, '2019-05-29 13:47:52', 0, NULL,
+        0, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,42 +297,40 @@ VALUES (1, 'support', '123456', 2, '+79999999999', 'email@ma.il', 1, '2019-05-18
 
 CREATE TABLE `works`
 (
-    `id`       int(11) NOT NULL,
-    `type`     int(11)  DEFAULT NULL,
-    `user`     int(11)  DEFAULT NULL,
-    `date`     datetime DEFAULT CURRENT_TIMESTAMP,
-    `topic`    text    NOT NULL,
-    `text`     text    NOT NULL,
-    `file`     int(11)  DEFAULT NULL,
-    `price`    int(11)  DEFAULT '0',
-    `executor` int(11)  DEFAULT NULL,
-    `status`   int(11)  DEFAULT '1'
+    `id`           int(11) NOT NULL,
+    `type`         int(11)          DEFAULT NULL,
+    `user`         int(11)          DEFAULT NULL,
+    `date`         datetime         DEFAULT CURRENT_TIMESTAMP,
+    `topic`        text    NOT NULL,
+    `text`         text    NOT NULL,
+    `file`         int(11)          DEFAULT NULL,
+    `price`        int(11)          DEFAULT '0',
+    `executor`     int(11)          DEFAULT NULL,
+    `status`       int(11)          DEFAULT '1',
+    `moder_status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
---
--- СВЯЗИ ТАБЛИЦЫ `works`:
---   `file`
---       `files` -> `id`
---   `status`
---       `status` -> `id`
---   `type`
---       `types` -> `id`
---   `user`
---       `users` -> `id`
---   `executor`
---       `users` -> `id`
---
 
 --
 -- Дамп данных таблицы `works`
 --
 
 INSERT INTO `works` (`id`, `type`, `user`, `date`, `topic`, `text`, `file`, `price`, `executor`,
-                     `status`)
-VALUES (1, 1, 1, '2019-05-21 21:10:11', 'Task',
+                     `status`, `moder_status`)
+VALUES (2, 1, 1, '2019-05-21 21:10:11', 'Task',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat felis a risus ullamcorper hendrerit. Praesent vel turpis vitae metus consequat posuere. Ut congue condimentum diam, vel tempus dolor ornare vel. Nunc in gravida nunc. Nunc ullamcorper ultricies pharetra. Donec at sodales lacus. Fusce lorem ante, cursus ullamcorper gravida eu, fringilla id orci. Pellentesque tincidunt auctor lacus facilisis ullamcorper. Cras ullamcorper in purus et consequat. Proin mauris quam, convallis vitae nunc ac, molestie consequat lectus. Etiam et efficitur odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae vestibulum odio, et consequat nulla. Mauris et sapien eu velit facilisis tincidunt eget a eros. Nunc lacinia rutrum sapien eu mollis.\nSuspendisse egestas ultricies dolor eu rhoncus. Duis imperdiet magna sit amet orci tincidunt pulvinar. Ut ipsum elit, mattis id semper efficitur, ultricies a tortor. Aenean semper nulla velit, non sollicitudin sem feugiat sit amet. Donec mattis pellentesque commodo. Phasellus varius nisl sit amet libero tincidunt auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida arcu neque, et vestibulum turpis aliquet vitae. Vivamus imperdiet aliquet consectetur.\nVivamus id bibendum ligula. In erat ipsum, consequat id magna sit amet, accumsan placerat tellus. Duis porta, ipsum vitae egestas egestas, lorem turpis placerat leo, ac porttitor ex orci sed velit. Donec ut tellus id magna molestie pretium. Mauris tincidunt euismod sem id tristique. Aenean tristique nisl id volutpat dapibus. In ullamcorper, urna vitae gravida sollicitudin, mauris lorem finibus nunc, lobortis viverra nisi massa in magna. In ac pellentesque odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis nunc massa. Nunc quis finibus nisi.\nDuis ac imperdiet mauris. Maecenas est mauris, varius vestibulum massa et, pellentesque pharetra odio. Nullam egestas ultrices dolor vitae laoreet. Maecenas venenatis maximus vestibulum. Mauris tempus lorem a ipsum consectetur rutrum. Vestibulum mollis sollicitudin lectus, sit amet fermentum ipsum accumsan vitae. Sed lobortis erat vitae malesuada vestibulum. Pellentesque at volutpat elit. Integer facilisis quis ante at lobortis. Nam id enim in justo blandit aliquet et vitae ex. Donec pharetra porta enim, sollicitudin lacinia ex. Quisque eget mi scelerisque, suscipit sem vulputate, semper urna. Fusce sit amet arcu nisl.\nSuspendisse non enim nec sapien dapibus placerat. Quisque eu varius magna. Suspendisse lacinia, libero ut sodales posuere, urna velit fringilla leo, id efficitur erat metus ut magna. Nunc feugiat diam et nunc finibus, quis porttitor lectus tristique. Aenean feugiat laoreet nibh, in eleifend diam accumsan at. Etiam et neque vel nulla molestie iaculis. Vivamus ut enim in massa eleifend fringilla a quis nunc. Sed ac maximus felis, condimentum accumsan purus. Fusce nec convallis augue, a efficitur orci. Praesent feugiat nulla vitae bibendum interdum. Ut et ligula suscipit, fringilla dui sit amet, eleifend est. Ut in nulla est.',
-        NULL, 0, 1, 1);
+        NULL, 0, 4, 1, 3),
+       (3, 17, 2, '2019-05-29 03:16:37', 'Проверка создания заказа',
+        'Проверка создания заказа.\r\nМодератор также имеет доступ к пользовательским функциям, что позволяет производить их тестирование.',
+        1, 0, NULL, 1, 2),
+       (4, 4, 2, '2019-05-29 13:44:15', 'тестовый заказ', 'пример создания заказа', 2, 0, NULL, 1,
+        3),
+       (5, 17, 2, '2019-05-29 14:39:19', 'Пример отредактированного заказа',
+        'Данный заказ был отредактирован модератором, после чего одобрен', 3, 100, NULL, 1, 2),
+       (6, 1, 2, '2019-05-29 17:37:45', 'Казино онлайн', 'Реклама казино', 4, 0, NULL, 1, 3),
+       (7, 2, 2, '2019-05-29 17:38:45', 'Решение задач по математике',
+        'Задачи 34 и 36, условия в прилагаемом файле', 5, 100, NULL, 1, 2),
+       (8, 1, 2, '2019-05-29 17:39:43', 'тестирование стоимости', 'тест', 6, 0, NULL, 1, 3);
 
 --
 -- Индексы сохранённых таблиц
@@ -334,6 +355,12 @@ ALTER TABLE `bugreport`
 -- Индексы таблицы `files`
 --
 ALTER TABLE `files`
+    ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `moder_status`
+--
+ALTER TABLE `moder_status`
     ADD PRIMARY KEY (`id`);
 
 --
@@ -395,22 +422,35 @@ ALTER TABLE `works`
 ALTER TABLE `avatars`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 101;
+
 --
 -- AUTO_INCREMENT для таблицы `bugreport`
 --
 ALTER TABLE `bugreport`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 4;
+
 --
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 7;
+
+--
+-- AUTO_INCREMENT для таблицы `moder_status`
+--
+ALTER TABLE `moder_status`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 4;
+
 --
 -- AUTO_INCREMENT для таблицы `roles`
 --
 ALTER TABLE `roles`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 4;
+    AUTO_INCREMENT = 6;
+
 --
 -- AUTO_INCREMENT для таблицы `status`
 --
@@ -428,54 +468,21 @@ ALTER TABLE `support`
 ALTER TABLE `types`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 18;
+
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 2;
+    AUTO_INCREMENT = 6;
+
 --
 -- AUTO_INCREMENT для таблицы `works`
 --
 ALTER TABLE `works`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 2;
---
--- Ограничения внешнего ключа сохраненных таблиц
---
-
---
--- Ограничения внешнего ключа таблицы `bugreport`
---
-ALTER TABLE `bugreport`
-    ADD CONSTRAINT `bugreport_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
-    ADD CONSTRAINT `bugreport_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
-    ADD CONSTRAINT `bugreport_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
-
---
--- Ограничения внешнего ключа таблицы `support`
---
-ALTER TABLE `support`
-    ADD CONSTRAINT `support_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
-    ADD CONSTRAINT `support_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
-    ADD CONSTRAINT `support_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
-
---
--- Ограничения внешнего ключа таблицы `users`
---
-ALTER TABLE `users`
-    ADD CONSTRAINT `users_avatars_id_fk` FOREIGN KEY (`avatar`) REFERENCES `avatars` (`id`),
-    ADD CONSTRAINT `users_roles_id_fk` FOREIGN KEY (`role`) REFERENCES `roles` (`id`);
-
---
--- Ограничения внешнего ключа таблицы `works`
---
-ALTER TABLE `works`
-    ADD CONSTRAINT `works_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
-    ADD CONSTRAINT `works_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
-    ADD CONSTRAINT `works_types_id_fk` FOREIGN KEY (`type`) REFERENCES `types` (`id`),
-    ADD CONSTRAINT `works_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
-    ADD CONSTRAINT `works_users_id_fk_2` FOREIGN KEY (`executor`) REFERENCES `users` (`id`);
+    AUTO_INCREMENT = 9;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
