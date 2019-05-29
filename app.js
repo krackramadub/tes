@@ -11,7 +11,7 @@ var app = express();
 var user_data = require('./routes/user_data');
 var avatar = require('./routes/avatar');
 var api = require('./routes/api');
-var supportRouter = require('./routes/support'); //подключение модуля поддержки
+var moderationRouter = require('./routes/moderation'); //подключение модуля поддержки
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', user_data.router);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', supportRouter);
+app.use('/', moderationRouter);
+app.use('/avatar', avatar);
+app.use('/api', api);
 app.use('/avatar', avatar);
 app.use('/api', api);
 

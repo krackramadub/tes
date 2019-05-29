@@ -11,16 +11,24 @@ block content
                                 h6(class="card-title") Система модерации и технической поддержки "ezResheine"
                                 h6(class="card-title") Пользователь: #{user.username}
                     div(class="list-group")
-                        a(class="list-group-item list-group-item-action" href="/moderation" aria-controls="") Главная страница
+                        a(class="list-group-item list-group-item-action active" href="/moderation" aria-controls="") Главная страница
                         a(class="list-group-item list-group-item-action" href="/moderation/work" aria-controls="" ) Модерация заказов
-                        a(class="list-group-item list-group-item-action active" href="/moderation/support" aria-controls="" ) Чат поддержки
+                        a(class="list-group-item list-group-item-action" href="/moderation/support" aria-controls="" ) Чат поддержки
                         a(class="list-group-item list-group-item-action" href="/moderation/users" aria-controls="") Пользователи
                         a(class="list-group-item list-group-item-action" href="/moderation/orderinfo" aria-controls="") Информация о заказе
                         a(class="list-group-item list-group-item-action" href="/moderation/bugreport" aria-controls="") Сообщение об ошибке
                 div(class="col-md-9 card" style="padding:15px;")
                     div(class="tab-content verticale")
                         div(role="tabpanel" class="tab-pane active" id="index")
-                            p(class="alert alert-danger") Чат технической поддержки находится в разработке
+                            h3(style="text-align:center") Система модерации - главная страница 
+                            hr(class="half-rule")
+                            p Добро пожаловать в систему модерации Web-ресурса "ezReshenie", #{user.username}!
+                            p(class="alert alert-danger") Внимание! Тестовая версия системы!
+                            hr(class="half-rule")
+                            p Ссылки:
+                            a(href="/") Главная страница сайта
+                            br
+                            a(href="/users/user_info") Переход в личный кабинет пользователя
         else
             //- Если человек не вошел в аккаунт то ему выводить это
             p Пожалуйста войдите в аккаунт

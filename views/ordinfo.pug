@@ -1,0 +1,35 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        if user
+            div(class="row")
+                //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
+                div(class="col-md-3")
+                    div(class="card testimonial-card")
+                            div(class="card-body")
+                                h6(class="card-title") Система модерации и технической поддержки "ezResheine"
+                                h6(class="card-title") Пользователь: #{user.username}
+                    div(class="list-group")
+                        a(class="list-group-item list-group-item-action" href="/moderation" aria-controls="") Главная страница
+                        a(class="list-group-item list-group-item-action" href="/moderation/work" aria-controls="" ) Модерация заказов
+                        a(class="list-group-item list-group-item-action" href="/moderation/support" aria-controls="" ) Чат поддержки
+                        a(class="list-group-item list-group-item-action" href="/moderation/users" aria-controls="") Пользователи
+                        a(class="list-group-item list-group-item-action active" href="/moderation/orderinfo" aria-controls="") Информация о заказе
+                        a(class="list-group-item list-group-item-action" href="/moderation/bugreport" aria-controls="") Сообщение об ошибке
+                div(class="col-md-9 card" style="padding:15px;")
+                        div(role="tabpanel" class="tab-pane" id="orderinfo")
+                                h3(style="text-align:center") Запрос информации о заказе
+                                hr(class="half-rule") 
+                                p Запрос информации о заказе производится по его номеру (ID). Для получения информации о заказе введите его номер в форму ниже.
+                                p Информация будет выведена на отдельной странице в виде таблицы.
+                                hr(class="half-rule") 
+                                form(method="POST" action="/moderation/orderinfo")
+                                    div(class="form-group col-mb-6")
+                                        label(for="id") Введите номер заказа: 
+                                        input(class="form-control" name="id" placeholder="Номер заказа" required)
+                                        button(class="btn btn-success btn-sm") Получить информацию
+        else
+            //- Если человек не вошел в аккаунт то ему выводить это
+            p Пожалуйста войдите в аккаунт
+            a(href="/users/login") Вход
