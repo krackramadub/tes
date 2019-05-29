@@ -1,0 +1,69 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        h3 Редактирование заказа
+        form(method="POST" action="/ordsave")
+            script(type='text/javascript'). 
+                var ordinfo = [!{ordinfo}];
+            div(class="post-create-form md-form" style="padding:15px;")
+                    input(type="text" name="id" id="id" style="display: none;")
+                    p Тема
+                    input(value="" type="text" required name="topic" id="inputPrefilledEx1" class="form-control" placeholder="Тема")
+                    p Стоимость заказа, руб.
+                    input(type="text" id="inputPrefilledEx" name="price" class="form-control" placeholder="Введите стоимость задачи")
+                    p Тип заказа: 
+                    input(class="form-control" type="text" id="type" name="type" style="margin:0 0 5px 0")
+                    button(type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#help") Справка по типам задачи
+                    br
+                    br
+                    p Текст заказа
+                    textarea(style="padding:5px;min-height:215px;" required name="text" class="form-control" id="exampleFormControlTextarea3" rows="7" placeholder="Опишите задачу...")
+                    br
+                    button(type="submit" class="btn btn-primary add-comment pull-right" style="margin:5px 15px 0 0") Сохранить и одобрить
+                    button(type="button" class="btn btn-default" onclick="history.back();" style="margin:5px 0 0 0") Назад к системе модерации
+                    script(type='text/javascript'). 
+                        document.getElementById("id").value = ordinfo[0].id;
+                        document.getElementById("inputPrefilledEx1").value = ordinfo[0].topic;
+                        document.getElementById("inputPrefilledEx").value = ordinfo[0].price;
+                        document.getElementById("type").value = ordinfo[0].type;
+                        document.getElementById("exampleFormControlTextarea3").value = ordinfo[0].text;
+        div(class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+            div(class="modal-dialog" role="document")
+                div(class="modal-content")
+                    div(class="modal-body")
+                        p Типы заказов, используемые системой
+                        small 1 - курсовая работа
+                        br
+                        small 2 - решение задач
+                        br
+                        small 3 - контрольная работа
+                        br
+                        small 4 - реферат
+                        br
+                        small 5 - отчет по практике
+                        br
+                        small 6 - презентация
+                        br
+                        small 7 - эссе
+                        br
+                        small 8 - чертеж
+                        br
+                        small 9 - сочинение
+                        br
+                        small 10 - перевод
+                        br
+                        small 11 - ответы на вопросы
+                        br
+                        small 12 - лабораторная работа
+                        br
+                        small 13 - доклад
+                        br
+                        small 14 - статья
+                        br
+                        small 15 - творческая работа
+                        br
+                        small 16 - набор текста
+                        br
+                        small 17 - другое
+                        br

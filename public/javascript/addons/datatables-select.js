@@ -55,7 +55,9 @@
 
 
     // Version information for debugger
-    DataTable.select = {};
+    DataTable.select = {
+        asd: 'asd',
+    };
 
     DataTable.select.version = '1.2.7';
 

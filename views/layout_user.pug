@@ -1,12 +1,12 @@
 doctype html
 html
-  head
-    title
-  body(style="margin-top:100px;")
-    p
-      if user
-        a(href="/users/user_info") #{user.username}
-      else
-        a(href="/users/login") Logon
-    p
-      block content
+    head
+        title
+    body(style="margin-top:100px;")
+        p
+            if user
+                a(href="/users/user_info") #{user.username}
+            else
+                a(href="/users/login") Logon
+        p
+            block content

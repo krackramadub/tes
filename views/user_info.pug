@@ -1,185 +1,273 @@
 extends layout
 
 block content
-  div(class="container forVue" style="margin:100px auto;")
-    if user
-      div(class="row")
-        //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
-        div(class="col-md-3")
-          div(class="card testimonial-card")
-            //- div(class="bloc-header" style="text-align:center;border-top: 1px solid #ddd;border-left: 1px solid #ddd;border-right: 1px solid #ddd; height:100%;padding:15px;border-radius:4px 4px 0px 0px;")
-            -//
-            div(class="card-up card-up aqua-gradient" style="height:120px")
-            div(class="avatar mx-auto white")
-              img(class="avatarPushed rounded-circle" alt="avatar")
-            div(class="card-body")
-              h4(class="card-title") #{user.nickname}
-            div(class="list-group")
-              a(class="list-group-item list-group-item-action active" href="#l" aria-controls="l" role="tab" data-toggle="tab") Моя страница
-              a(class="list-group-item list-group-item-action" href="#tas" aria-controls="tas" role="tab" data-toggle="tab") Выполненые задачи
-              a(class="list-group-item list-group-item-action gettas" href="#gettas" aria-controls="gettas" role="tab" onclick="getTasks()" data-toggle="tab") Найти заказ
-              a(href="#" class="list-group-item list-group-item-action") Чат
-              a(href="#" class="list-group-item list-group-item-action") Новости
-              a(href="#" class="list-group-item list-group-item-action") Настройки
-              a(href="#" class="list-group-item list-group-item-action") Сообщение об ошибке
-        div(class="col-md-9 card" style="padding:15px;")
-          div(class="tab-content verticale")
-            div(role="tabpanel" class="tab-pane active" id="l")
-              <!-- Card -->
-              div(class="card chart-card col-md-5" style="display:inline-flex;")
-                <!-- Card content -->
-                div(class="card-body pb-0")
-                  <!-- Title -->
-                  h4(class="card-title font-weight-bold") #{user.nickname}
-                  <!-- Text -->
-                  p(class="card-text mb-4") Репутация
-                  div(class="d-flex justify-content-between")
-                    p(class="display-4 align-self-end") #{user.rep}
-                  canvas(id="lineChart" height="250px")
-              <!-- Card -->
-              div(class="card chart-card col-md-5" style="display:inline-flex;")
-                <!-- Card content -->
-                div(class="card-body pb-0")
-                  <!-- Title -->
-                  h4(class="card-title font-weight-bold") Данные аккаунта
-                  <!-- Text -->
-                  p(class="card-text mb-4") Дата регистрации #{user.datareg}
-                  p(class="card-text" style="margin-bottom:0px;") Логин:
-                  div(class="md-form" style="margin-top:0px;")
-                    input(type="text" id="disableLogin" class="form-control" disabled)
-                    label(for="disableLogin" class="disabled") #{user.username}
-                  p(class="card-text" style="margin-bottom:0px;") Email:
-                  div(class="md-form" style="margin-top:0px;")
-                    input(type="text" id="disableLogin" class="form-control" disabled)
-                    label(for="disableLogin" class="disabled") #{user.email}
-                  p(class="card-text" style="margin-bottom:0px;") Телефон:
-                  div(class="md-form" style="margin-top:0px;")
-                    input(type="text" id="disableLogin" class="form-control" disabled)
-                    label(for="disableLogin" class="disabled") #{user.phone}
-            div(role="tabpanel" class="tab-pane" id="tas") {{tasks}}
-            div(role="tabpanel" class="tab-pane" id="gettas")
-              div(class="nav")
-                button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
-              div(class="" style="margin-top:10px;" )
-                div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
-                table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
-                  thead
-                    tr
-                      th(class="th-sm") ID
-                      th(class="th-sm") Автор
-                      th(class="th-sm") Дата
-                      th(class="th-sm") Тема
-                      th(class="th-sm") Описание
-                      th(class="th-sm") Файл
-                      th(class="th-sm") Цена
-                  tbody(v-for="(value,key) in tasks[0]")
-                    tr
-                      a
-                        td {{value.id}}
-                        td {{value.autor_order}}
-                        td {{value.date}}
-                        td {{value.subject}}
-                        td {{value.text_order}}
-                        td
-                          <a :href="/uploadfiles/+ value.file" style="color:blue;" target="_blank"> {{value.file}} </a>
-                        td {{value.price}} руб.
-                //-li {{value}}
-            div(role="tabpanel" class="tab-pane" id="settings") ...
+    div(class="container forVue" style="margin:100px auto;")
+        if user
+            div(class="row")
+                //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
+                div(class="col-md-3")
+                    div(class="card testimonial-card")
+                        //- div(class="bloc-header" style="text-align:center;border-top: 1px solid #ddd;border-left: 1px solid #ddd;border-right: 1px solid #ddd; height:100%;padding:15px;border-radius:4px 4px 0px 0px;")
+                        div(class="card-up card-up aqua-gradient" style="height:120px")
+                        div(class="avatar mx-auto white")
+                            img(class="avatarPushed rounded-circle" alt="avatar")
+                        div(class="card-body")
+                            h4(class="card-title") #{user.nickname}
+                        div(class="list-group")
+                            a(class="list-group-item list-group-item-action active" href="#myAccount" aria-controls="myAccount" role="tab" data-toggle="tab") Моя страница
+                            a(class="list-group-item list-group-item-action" href="#myTask" aria-controls="myTask" role="tab" data-toggle="tab") Мои задачи
+                            a(class="list-group-item list-group-item-action" href="#createTask" aria-controls="createTask" role="tab" data-toggle="tab" onclick="getTasksType()") Создать задачу
+                            a(class="list-group-item list-group-item-action gettask" href="#gettask" aria-controls="gettask" role="tab" data-toggle="tab") Найти задачу
+                            a(href="#" class="list-group-item list-group-item-action") Чат
+                            a(href="#" class="list-group-item list-group-item-action") Новости
+                            a(href="/bugreport" class="list-group-item list-group-item-action") Сообщить об ошибке
+                div(class="col-md-9 card" style="padding:15px;")
+                    div(class="tab-content verticale")
+                        div(role="tabpanel" class="tab-pane active" id="myAccount")
+                            <!-- Card -->
+                            div(class="card chart-card col-md-5" style="display:inline-flex;")
+                                <!-- Card content -->
+                                div(class="card-body pb-0")
+                                    <!-- Title -->
+                                    h4(class="card-title font-weight-bold") #{user.nickname}
+                                    <!-- Text -->
+                                    p(class="card-text mb-4") Репутация
+                                    div(class="d-flex justify-content-between")
+                                        p(class="display-4 align-self-end") #{user.rep}
+                                    canvas(id="lineChart" height="250px")
+                            <!-- Card -->
+                            div(class="card chart-card col-md-5" style="display:inline-flex; margin:0 0 0 70px;")
+                                <!-- Card content -->
+                                div(class="card-body pb-0")
+                                    <!-- Title -->
+                                    h4(class="card-title font-weight-bold") Данные аккаунта
+                                    <!-- Text -->
+                                    p(class="card-text mb-4") Дата регистрации #{user.datareg}
+                                    p(class="card-text" style="margin-bottom:0px;") Логин:
+                                    div(class="md-form" style="margin-top:0px;")
+                                        input(type="text" id="disableLogin" class="form-control" disabled)
+                                        label(for="disableLogin" class="disabled") #{user.username}
+                                    p(class="card-text" style="margin-bottom:0px;") Email:
+                                    div(class="md-form" style="margin-top:0px;")
+                                        input(type="text" id="disableLogin" class="form-control" disabled)
+                                        label(for="disableLogin" class="disabled") #{user.email}
+                                    p(class="card-text" style="margin-bottom:0px;") Телефон:
+                                    div(class="md-form" style="margin-top:0px;")
+                                        input(type="text" id="disableLogin" class="form-control" disabled)
+                                        label(for="disableLogin" class="disabled") #{user.phone}
+                        div(role="tabpanel" class="tab-pane" id="myTask")
+                            div(class="nav")
+                                //button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
+                            div(class="" style="margin-top:10px;" )
+                                div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
+                                table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
+                                    thead
+                                        tr
+                                            th(class="th-sm") ID
+                                            th(class="th-sm") Автор
+                                            th(class="th-sm") Дата
+                                            th(class="th-sm") Тема
+                                            th(class="th-sm") Описание
+                                            th(class="th-sm") Файл
+                                            th(class="th-sm") Цена
+                                    if my_tasks
+                                        tbody
+                                            for task in my_tasks
+                                                tr
+                                                    a
+                                                        td #{task.id}
+                                                        td #{task.user}
+                                                        td #{task.date}
+                                                        td #{task.topic}
+                                                        td #{task.text.substr(0, 100) + '...'}
+                                                        td
+                                                            a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{task.file}
+                                                        td #{task.price}руб.
+                                //-li {{value}}
+                        form(role="tabpanel" class="tab-pane" id="createTask" method="post" action="/api/createTask" enctype="multipart/form-data")
+                            div(class="post-create-form md-form" style="padding:15px;")
+                                input(value="" type="text" required name="title" id="inputPrefilledEx" class="form-control" placeholder="Тема")
+                                input(type="text" id="inputPrefilledEx" name="price" class="form-control" placeholder="Введите стоимость задачи")
+                                //- input(class="title-post form-control" name="postTitle" placeholder="Тема")
+                                p
+                                    p Тип задачи:
+                                    select(class="custom-select custom-select-sm" name="type" style="margin:0 0 5px 0")
+                                        option(v-for="(type, index) in types" :value="type.id") {{type.name}}
+                                br
+                                textarea(style="padding:5px;min-height:215px;" required name="text" class="form-control" id="exampleFormControlTextarea3" rows="7" placeholder="Опишите задачу...")
+                                input(type="file" name="file" value="Выберите файл...")
+                                br
+                                br
+                                button(type="submit" class="btn btn-primary add-comment pull-right" style="margin:5px 0 0 0") Создать
+                                span(class="glyphicon glyphicon-plus-sign ")
+                        div(role="tabpanel" class="tab-pane" id="gettask")
+                            div(class="nav")
+                                // button(type="button" class="btn blue-gradient btn-sm" onclick="getTasks()" style="color:#fff;") Обновить
+                            div(class="" style="margin-top:10px;" )
+                                div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
+                                table(id="dt-material-checkbox" class="table  table-bordered" cellspacing="0" width="100%")
+                                    thead
+                                        tr
+                                            th(class="th-sm") ID
+                                            th(class="th-sm") Автор
+                                            th(class="th-sm") Дата
+                                            th(class="th-sm") Тема
+                                            th(class="th-sm") Описание
+                                            th(class="th-sm") Файл
+                                            th(class="th-sm") Цена
+                                            th(class="th-sm") Чат
+                                        if all_tasks
+                                            tbody
+                                                for task in all_tasks
+                                                    tr
+                                                        a
+                                                            td #{task.id}
+                                                            td #{task.user}
+                                                            td #{task.date}
+                                                            td #{task.topic}
+                                                            td #{task.text.substr(0, 100) + '...'}
+                                                            td
+                                                                a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{task.file}
+                                                            td #{task.price}руб.
+                                                            td
+                                                                button Чат
+                                //-li {{value}}
+                        div(role="tabpanel" class="tab-pane" id="settings") ...
 
-        script.
-            var avatar = "#{user.avatar}";
-            $(".avatarPushed").attr("src", "/avatar/" + avatar)
-            // TABLE
-            $('#dt-material-checkbox').dataTable({
-                "searching": false,
-                "ordering": true,
-                "scrollY": "100vh",
-                "scrollCollapse": true,
-                "pagingType": "first_last_numbers"
-            });
-            // END TABLE
-            function getTasks() {
-                //app.tasks = []
-                $(".loader").css('display', 'block')
-                //setTimeOut(10)
-                $.post("/users/getTasks", function (data) {
-                    if (data)
-                        console.log(data)
-                    $(".loader").css('display', 'none')
-                    app.tasks.push(data.tasks)
-                    //$('#gettas').append("<a>text</a>")
-                })
-            };
-            // VUE.JS
+                script.
+                    var avatar = "#{user.avatar}";
+                    $(".avatarPushed").attr("src", "/avatar/" + avatar)
+                    // TABLE
+                    //- $('#dt-material-checkbox').dataTable({
+                    //-     "searching": false,
+                    //-     "ordering": true,
+                    //-     "scrollY": "100vh",
+                    //-     "scrollCollapse": true,
+                    //-     "pagingType": "first_last_numbers"
+                    //- });
+                    // END TABLE
+                    /*
+                    function getTasks() {
+                        //app.tasks = []
+                        $(".loader").css('display', 'block')
+                        //setTimeOut(10)
+                        $.post("/users/getTasks", function (data) {
+                            if (data)
+                                console.log(data)
+                            $(".loader").css('display', 'none')
+                            app.tasks.push(data.tasks)
+                            //$('#gettas').append("<a>text</a>")
+                        })
+                    };
+                    */
+                    // VUE.JS
 
-            var app = new Vue({
-                el: '.forVue',
-                data: {
-                    tasks: [{
-                        id: "1",
-                        autor_order: "Jane",
-                        date: "21.03.2021",
-                        subject: "Тест по математике",
-                        text_order: "Решение тестов по математике",
-                        file: "INFO.txt",
-                        price: "350"
-                    }],
-                },
-            })
+                    /*
+                    var app = new Vue({
+                        el: '.forVue',
+                        data: {
+                            tasks: [],
+                        },
+                    })
+                    */
 
-            // END
-            var ctxL = document.getElementById("lineChart").getContext('2d');
-            console.log(#{user.rep})
-            var myLineChart = new Chart(ctxL, {
-                type: 'line',
-                data: {
-                    labels: ["1", "5", "10", "16", "20", "25", "30"],//["8 AM", "10 AM", "12 PM", "2 PM", "4 PM", "6 PM", "8 PM"],
-                    datasets: [
-                        {
-                            fill: false,
-                            borderColor: "#673ab7",
-                            pointBackgroundColor: "#673ab7",
-                            data: ["0", "#{user.rep}"]
-                            //data: [0,1,1.1,2.1,4,5.0]
+                    var app = new Vue({
+                        el: '#createTask',
+                        data: {
+                            types: []
                         }
-                    ]
-                },
-                options: {
-                    responsive: false,
-                    legend: {
-                        display: false
-                    },
-                    elements: {
-                        line: {
-                            tension: 0.0
+                    })
+
+                    /*
+
+                    var tasks = new Vue({
+                        el: '#gettask',
+                        data: {
+                            tasks: []
                         }
-                    },
-                    scales: {
-                        xAxes: [{
-                            gridLines: {
-                                display: false,
-                            },
-                            ticks: {
-                                padding: 15,
-                                height: 30
+                    })
+
+                    */
+
+                    function getTasksType() {
+                        $.ajax('/api/getTasksType', {
+                            success: function (data) {
+                                var json = JSON.parse(data);
+                                console.log(json)
+                                for (var type in json) {
+                                    app.types.push(json[type])
+                                }
                             }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                drawBorder: false
-                            },
-                            ticks: {
-                                maxTicksLimit: 5,
-                                padding: 15,
-                                min: 0.00,
-                                max: 5.00
-                            }
-                        }]
+                        })
                     }
-                }
-            });
-    else
-      //- Если человек не вошел в аккаунт то ему выводить это
-      p Пожалуйста войдите в аккаунт
-      a(href="/users/login") Вход
+
+                    /*
+                    function getTasks() {
+                        $.ajax('/api/getTasks', {
+                            success: function (data) {
+                                var json = JSON.parse(data);
+                                console.log(json)
+                                for (var task in json) {
+                                    console.log(json[task])
+                                    app.types.push(json[task])
+                                }
+                            }
+                        })
+                    }
+                    */
+
+                    // END
+                    var ctxL = document.getElementById("lineChart").getContext('2d');
+                    var myLineChart = new Chart(ctxL, {
+                        type: 'line',
+                        data: {
+                            labels: ["1", "5", "10", "16", "20", "25", "30"],//["8 AM", "10 AM", "12 PM", "2 PM", "4 PM", "6 PM", "8 PM"],
+                            datasets: [
+                                {
+                                    fill: false,
+                                    borderColor: "#673ab7",
+                                    pointBackgroundColor: "#673ab7",
+                                    data: ["0", "#{user.rep}"]
+                                    //data: [0,1,1.1,2.1,4,5.0]
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: false,
+                            legend: {
+                                display: false
+                            },
+                            elements: {
+                                line: {
+                                    tension: 0.0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    gridLines: {
+                                        display: false,
+                                    },
+                                    ticks: {
+                                        padding: 15,
+                                        height: 30
+                                    }
+                                }],
+                                yAxes: [{
+                                    gridLines: {
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 5,
+                                        padding: 15,
+                                        min: 0.00,
+                                        max: 5.00
+                                    }
+                                }]
+                            }
+                        }
+                    });
+        else
+            //- Если человек не вошел в аккаунт то ему выводить это
+            p Пожалуйста войдите в аккаунт
+            a(href="/users/login") Вход
 

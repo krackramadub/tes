@@ -69,8 +69,7 @@
         // Browser
         factory(jQuery, window, document);
     }
-};
-(function ($, window, document, undefined) {
+}(function ($, window, document, undefined) {
     'use strict';
 
     /**

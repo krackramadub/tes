@@ -86,7 +86,7 @@ router.get('/bugs', function (req, res) {
     data.bugs = [];
     data.solved = [];
     //data.resultArray = [];
-    query('SELECT * from diplom.bugreport WHERE status=0', false, function (err, rows) {
+    query('SELECT * from bugreport WHERE status=0', false, function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
         if (rows) {
@@ -98,7 +98,7 @@ router.get('/bugs', function (req, res) {
         } else {
             console.log('Bugreports with STATUS = 0 not found!');
         }
-        query('SELECT * from diplom.bugreport WHERE status=1', false, function (err, rows) {
+        query('SELECT * from bugreport WHERE status=1', false, function (err, rows) {
             if (!err)
                 console.log('The solution is: ' + rows.length);
             if (rows) {
@@ -146,7 +146,7 @@ router.post('/getMyAccount', function (req, res) {
     var data = req.data;
     var login = req.body.login;
     data.userInfo = [];
-    var sql = 'SELECT * from diplom.users WHERE login = ?';
+    var sql = 'SELECT * from users WHERE login = ?';
     query(sql, [login], function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
@@ -167,7 +167,7 @@ router.post('/getFinishedWorks', function (req, res) {
     var data = req.data;
     var id = req.body.id;
     data.fWorks = [];
-    var sql = 'SELECT * from diplom.finishedwork WHERE id = ?';
+    var sql = 'SELECT * from finishedwork WHERE id = ?';
     query(sql, [id], function (err, rows) {
         if (!err)
             console.log('The solution is: ' + rows.length);
@@ -207,19 +207,30 @@ router.post('/changebug', function (req, res) {
 });
 
 router.post('/register', function (req, res) {
-    var login = req.body.login;
-    var passwd = req.body.passwd;
-    var phone = req.body.phone;
-    var email = req.body.email;
-    var nickname = req.body.nickname;
+    try {
+        var login = req.body.login;
+        var passwd = req.body.passwd;
+        var phone = req.body.phone;
+        var email = req.body.email;
+        var nickname = req.body.nickname;
 
-    console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
-    var sql = 'INSERT INTO users (login, password,phone,email,nickname) VALUES (?, ?, ?, ?, ?)';
-    query(sql, [login, passwd, phone, email, nickname], function (err) {
-        if (err) throw err;
-        console.log('1 record inserted');
-    });
-    res.redirect('/users/login');
+        console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
+        var sql = 'INSERT INTO diplom_new.users (login, password, role, phone, email) VALUES (?, ?, 3, ?, ?);';
+        try {
+            query(sql, [login, passwd, phone, email], function (_, _, err) {
+                if (err) throw err;
+                console.log('1 record inserted');
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+        res.redirect('/users/login');
+    }
+    catch (e) {
+        console.error(e);
+    }
 });
 router.get('/uploadfile', function (req, res) {
     var data = req.data;

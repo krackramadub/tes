@@ -1,31 +1,31 @@
 extend layout
 
 block content
-  div(class="col-lg-6 container" style="margin-top:100px;")
-    div(class="card card-cascade wider reverse")
-      div(class="view view-cascade overlay")
-        img(class="card-img-top" src="/images/back.jpg" alt="Card image cap")
-      div(class="card-body card-body-cascade text-center")
-        div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
-        form(method="POST",  class="formAction" action="/users/login",enctype="multipart/form-data")
-          //- div(class="alert alert-danger" role="alert") #{info}
+    div(class="col-lg-6 container" style="margin-top:100px;")
+        div(class="card card-cascade wider reverse")
+            div(class="view view-cascade overlay")
+                img(class="card-img-top" src="/images/back.jpg" alt="Card image cap")
+            div(class="card-body card-body-cascade text-center")
+                div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
+                form(method="POST",  class="formAction" action="/users/login", enctype="multipart/form-data")
+                    //- div(class="alert alert-danger" role="alert") #{info}
 
-          p #{info}
-          div(class="md-form mt-0")
-            input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
-          div(class="md-form mt-0")
-            input(name="password" id="input-char-counter" type="password" class="form-control" placeholder="Пароль")
-            //- p Enter your login:
-            //-     input(name="login" class="form-control" type="text")
-            //- p and password
-            //-     input(name="password" class="form-control" type="password")
-          input(type="" class="submit btn btn-primary" value="Войти")
-          script.
-              $('.submit').on('click', function () {
-                  $(".loader").css('display', 'block')
-                  $("form").css('display', 'none')
-                  setTimeout(submitForm(), 2000);
-              })
-              function submitForm() {
-                  $("form").submit()
-              }
+                    p #{info}
+                    div(class="md-form mt-0")
+                        input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
+                    div(class="md-form mt-0")
+                        input(name="password" id="input-char-counter" type="password" class="form-control" placeholder="Пароль")
+                        //- p Enter your login:
+                        //-     input(name="login" class="form-control" type="text")
+                        //- p and password
+                        //-     input(name="password" class="form-control" type="password")
+                    input(type="" class="submit btn btn-primary" value="Войти")
+                    script.
+                        $('.submit').on('click', function () {
+                            $(".loader").css('display', 'block')
+                            $("form").css('display', 'none')
+                            setTimeout(submitForm(), 2000);
+                        })
+                        function submitForm() {
+                            $("form").submit()
+                        }

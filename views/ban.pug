@@ -1,0 +1,25 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        form(method="POST" action="/userban") 
+            h3(style="text-align:center") Блокировка пользователя
+            hr(class="half-rule")
+            div(class="container post-create-form")
+                div(class="banform")
+                    p Введите причину блокировки пользователя:
+                script(type="text/javascript"). 
+                    var id=[!{id}];
+                    $(".banform").append('<p>ID блокируемого пользователя: '+id[0]+'</p>');
+                input(name="id" id="id" style="display: none;")
+                textarea(type="text" name="reason" required id="inputPrefilledEx" class="form-control" rows="3" style="margin-bottom: 10px;")
+                div(class="alert alert-danger")
+                    p Внимание! Перед блокировкой пользователя необходимо убедиться в правильности выбора учетной записи, а также в правильности записи причины блокировки!
+                    p В том случае, если был выбран не тот пользователь, которого необходимо заблокировать, нажмите на кнопку "Отменить"
+                    script(type="text/javascript"). 
+                        document.getElementById("id").value=id[0];
+                div(style="display: flex; justify-content: center;")
+                    button(type="submit" class="btn btn-danger add-comment pull-right")
+                            p(style="display: inline;") Заблокировать учетную запись
+                    button(type="button" onclick="history.back();" class="btn btn-default add-comment pull-right")
+                            p(style="display: inline;") Отменить
