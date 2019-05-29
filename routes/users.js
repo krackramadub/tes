@@ -28,13 +28,13 @@ router.post('/login', function (req, res) {
                         var token = user_data.get_token(user_result.user, secret);
                         res.cookie('auth_token', token);
                         //Для админа:
-                        if (user_result.user.roles == 'admin') {
-                            res.redirect('/users/user_info');
+                        if (user_result.user.roles == 5) {
+                            res.redirect('/banned');
                             console.log('Admin login!'); //отладка
                         }
                         //Для технической поддержки:
-                        if (user_result.user.roles == 'support') {
-                            res.redirect('/support');
+                        if (user_result.user.roles == 2) {
+                            res.redirect('/moderation');
                             console.log('Support login!');
                         } else {
                             res.redirect('/users/user_info');
@@ -114,7 +114,7 @@ router.get('/user_info', function (req, res) {
                             rows.push(normalizeObj(row_src[v]));
                         }
                         data = Object.assign(data, { all_tasks: rows });
-                        console.log(data);
+                        // console.log(data);
                         res.render('user_info', data);
                     });
 

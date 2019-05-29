@@ -188,7 +188,7 @@ router.post('/insertbugs', function (req, res) {
     var title = req.body.postTitle;
     var content = req.body.postText;
     var username = req.body.user; //получаем имя пользователя (работает!)
-    console.log(title + ' ' + username + ' ' + content);
+    // console.log(title + ' ' + username + ' ' + content);
     var sql = 'INSERT INTO bugreport (username, title, text) VALUES (?, ?, ?)';
     query(sql, [username, title, content], function (err) {
         if (err) throw err;
@@ -214,7 +214,7 @@ router.post('/register', function (req, res) {
         var email = req.body.email;
         var nickname = req.body.nickname;
 
-        console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
+        // console.log(login + ' | ' + passwd + '|' + phone + '|' + email + '|' + nickname);
         var sql = 'INSERT INTO diplom_new.users (login, password, role, phone, email) VALUES (?, ?, 3, ?, ?);';
         try {
             query(sql, [login, passwd, phone, email], function (_, _, err) {

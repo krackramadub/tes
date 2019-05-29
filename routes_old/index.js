@@ -199,7 +199,7 @@ router.post('/insertbugs', function (req, res, next) {
     var title = req.body.postTitle;
     var content = req.body.postText;
     var username = req.body.user; //получаем имя пользователя (работает!)
-    console.log(title + " " + username + " " + content);
+    // console.log(title + " " + username + " " + content);
     var sql = "INSERT INTO bugreport (username, title, text) VALUES (?, ?, ?)";
     query(sql, [username, title, content], function (err, result) {
         if (err) throw err;
@@ -218,15 +218,15 @@ router.post('/changebug', function (req, res, next) {
 });
 
 router.post('/register', function (req, res, next) {
-    var data = req.data
-    data.thx
+    var data = req.data;
+    data.thx;
     var login = req.body.login;
     var passwd = req.body.passwd;
     var phone = req.body.phone;
     var email = req.body.email;
     var nickname = req.body.nickname;
 
-    console.log(login + " | " + passwd + "|" + phone + "|" + email + "|" + nickname);
+    // console.log(login + " | " + passwd + "|" + phone + "|" + email + "|" + nickname);
     var sql = "INSERT INTO users (login, password,phone,email,nickname) VALUES (?, ?, ?, ?, ?)";
     query(sql, [login, passwd, phone, email, nickname], function (err, result) {
         if (err) throw err;
