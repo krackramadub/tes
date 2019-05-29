@@ -107,7 +107,7 @@ router.get('/user_info', function (req, res) {
                         rows.push(normalizeObj(row_src[v]));
                     }
                     data = Object.assign(data, { my_tasks: rows });
-                    var sql = 'SELECT * FROM diplom_new.works w WHERE w.executor IS NULL AND w.user != ?;';
+                    var sql = 'SELECT w.id, w.type, w.date, u.login as user, w.topic, w.text, f.filename as file, f.uri as f_uri, w.price FROM diplom_new.works w LEFT JOIN diplom_new.users u on w.user = u.id LEFT JOIN diplom_new.files f on w.file = f.id WHERE w.executor IS NULL OR w.user != ?;';
                     query(sql, [data.user.id], function (_, row_src) {
                         var rows = [];
                         for (var v in row_src) {
