@@ -24,6 +24,19 @@ block content
                 div(class="col-md-9 card" style="padding:15px;")
                     div(class="tab-content verticale")
                         div(role="tabpanel" class="tab-pane active" id="myAccount")
+                            div(class="formoderation")
+                            <!-- Скрипты для модератора и для вывода предупреждений -->
+                            script. 
+                                var userrole = "#{user.roles}";
+                                if(userrole == 2){
+                                    $(".formoderation").append('<div class="alert alert-primary"><a href="/moderation">Вернуться в систему модерации</a></div>');
+                                }
+                                if(userrole == 4){
+                                    var text = "#{user.moder_text}";
+                                    var id = "#{user.id}";
+                                    $(".formoderation").append('<div class="alert alert-warning" style="display: flex; justify-content: space-between; align-items: center;"><p>Вами получено предупреждение! '+text+'</p><form method="POST" action="/readalert"><input name="id" id="alertid" style="display: none;"><button type="sumbit" class="btn btn-default btn-sm">Прочитано</button></form></div>');
+                                    document.getElementById("alertid").value = id;
+                                }
                             <!-- Card -->
                             div(class="card chart-card col-md-5" style="display:inline-flex;")
                                 <!-- Card content -->

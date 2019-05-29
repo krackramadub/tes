@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 router.get('/login', function (req, res) {
-    res.render('login', { title: 'tSolving' });
+    res.render('login', { title: 'ezReshenie' });
 });
 
 router.post('/login', function (req, res) {
@@ -48,13 +48,13 @@ router.post('/login', function (req, res) {
                     }
                 } else {
                     var data = [];
-                    data.title = 'tSolving';
+                    data.title = 'ezReshenie';
                     data.info = 'Неверный логин или пароль';
                     res.render('login', data);
                 }
             } else {
                 var data = [];
-                data.title = 'tSolving';
+                data.title = 'ezReshenie';
                 data.info = 'Неверный логин или пароль';
                 res.render('login', data);
             }
@@ -99,7 +99,7 @@ router.get('/user_info', function (req, res) {
     }
 
     var data = req.data;
-    data.title = 'tSolving';
+    data.title = 'ezReshenie';
 
     if (data.user) {
         try {
