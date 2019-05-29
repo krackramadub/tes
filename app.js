@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', user_data.router);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', moderationRouter);
+app.use(moderationRouter);
 app.use('/avatar', avatar);
 app.use('/api', api);
 app.use('/avatar', avatar);

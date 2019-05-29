@@ -27,19 +27,14 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 //Подключение к базе данных
-var mySqlConfig = {
-  host: 'localhost', //расположение БД
-  user: 'root', //имя пользователя
-  password: '', //пароль
-  database: 'diplom_new', //название БД
-};
+var mySqlConfig = require('../config');
 
 var con = mysql.createConnection(mySqlConfig);
 con.connect(function (err) {
     if (!err) {
-        console.log("DB Connected.")
+        console.log('DB Connected.');
     } else {
-        console.log("DB error.")
+        console.log('DB error.');
     }
 
 });
@@ -47,31 +42,31 @@ con.connect(function (err) {
 module.exports = router;
 
 //Вывод сообщения об успешном подключении модуля в консоль
-console.log("[MODERATION] Module connected successfuly!");
+console.log('[MODERATION] Module connected successfuly!');
 
 //Подключение главной страницы личного кабинета системы модерации
-router.get('/moderation', function(req,res,next){
+router.get('/moderation', function (req, res, next) {
     var data = req.data;
     //Проверяем роль пользователя в целях защиты от несанкционированного доступа
     //В случае входа пользователя с ролью поддержки перенаправляем его на соответствующую страницу
-    if(data.user.roles == "2"){
-        data.title = "Система модерации ''ezReshenie''";        
+    if (data.user.roles == '2') {
+        data.title = 'Система модерации \'\'ezReshenie\'\'';
         res.render('moderation', data);
         //Выводим в консоль сообщение об успешном входе
-        console.log("[MODERATION] User", data.user.username, "login successfully!");
+        console.log('[MODERATION] User', data.user.username, 'login successfully!');
         //При попытке несанкционированного доступа сообщаем об отсутствии прав на доступ к странице
-        } else{
-            res.render('denied');
-            //В консоль сервера выводим сообщение о попытке несанкционированного доступа
-            console.log("[MODERATION] Access for", data.user.username, "denied!");
-        }
+    } else {
+        res.render('denied');
+        //В консоль сервера выводим сообщение о попытке несанкционированного доступа
+        console.log('[MODERATION] Access for', data.user.username, 'denied!');
+    }
 });
 
 //Раздел "Модерация заказов"
-router.get('/moderation/work', function(req,res){
+router.get('/moderation/work', function (req, res) {
     var data = req.data;
     data.title = 'Модерация заказов';
-    data.orders=[];
+    data.orders = [];
     con.query('SELECT * from works WHERE moder_status=1', false, function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Pending orders: ' + rows.length);
@@ -86,10 +81,10 @@ router.get('/moderation/work', function(req,res){
     });
 });
 
-router.get('/moderation/denied', function(req,res){
+router.get('/moderation/denied', function (req, res) {
     var data = req.data;
     data.title = 'Отклоненные заказы';
-    data.orddenied=[];
+    data.orddenied = [];
     con.query('SELECT * from works WHERE moder_status=3', false, function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Denied orders: ' + rows.length);
@@ -104,12 +99,12 @@ router.get('/moderation/denied', function(req,res){
     });
 });
 
-router.post('/moderation/ordedit', function(req, res){
+router.post('/moderation/ordedit', function (req, res) {
     var id = req.body.id;
     var data = req.data;
-    data.title = "Редактирование заказа";
+    data.title = 'Редактирование заказа';
     data.ordinfo = [];
-    var sql = "SELECT * FROM works WHERE id = (?)";
+    var sql = 'SELECT * FROM works WHERE id = (?)';
     con.query(sql, [id], function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Edit order ID: ', id);
@@ -124,7 +119,7 @@ router.post('/moderation/ordedit', function(req, res){
     });
 });
 
-router.post('/ordsave', function(req, res, next){
+router.post('/ordsave', function (req, res, next) {
     var id = req.body.id;
     var topic = req.body.topic;
     var price = req.body.price;
@@ -138,18 +133,18 @@ router.post('/ordsave', function(req, res, next){
     res.redirect('/moderation/work');
 });
 
-router.post('/ordmod', function (req,res,next) {
+router.post('/ordmod', function (req, res, next) {
     var id = req.body.id;
-    var sql = "UPDATE works SET moder_status = 2 WHERE id = (?)";
+    var sql = 'UPDATE works SET moder_status = 2 WHERE id = (?)';
     con.query(sql, [id], function (err, result) {
         if (err) throw err;
     });
     res.redirect('back');
 });
 
-router.post('/orddeny', function (req,res,next) {
+router.post('/orddeny', function (req, res, next) {
     var id = req.body.id;
-    var sql = "UPDATE works SET moder_status = 3 WHERE id = (?)";
+    var sql = 'UPDATE works SET moder_status = 3 WHERE id = (?)';
     con.query(sql, [id], false, function (err, result) {
         if (err) throw err;
     });
@@ -157,17 +152,17 @@ router.post('/orddeny', function (req,res,next) {
 });
 
 //Раздел "Чат поддержки"
-router.get('/moderation/support', function(req,res){
+router.get('/moderation/support', function (req, res) {
     var data = req.data;
-    data.title = "Чат технической поддержки";
+    data.title = 'Чат технической поддержки';
     res.render('support', data);
 });
 
 //Раздел "Пользователи"
-router.get('/moderation/users', function(req,res){
+router.get('/moderation/users', function (req, res) {
     var data = req.data;
     data.title = 'Пользователи Web-ресурса';
-    data.users=[];
+    data.users = [];
     con.query('SELECT * from users WHERE role=3', false, function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Users info loaded. Users: ' + rows.length);
@@ -182,10 +177,10 @@ router.get('/moderation/users', function(req,res){
     });
 });
 
-router.get('/moderation/banned', function(req,res){
+router.get('/moderation/banned', function (req, res) {
     var data = req.data;
     data.title = 'Пользователи Web-ресурса';
-    data.users=[];
+    data.users = [];
     con.query('SELECT * from users WHERE role=5', false, function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Banned users info loaded. Users: ' + rows.length);
@@ -201,18 +196,18 @@ router.get('/moderation/banned', function(req,res){
 });
 
 //Блокировка учетной записи
-router.post('/moderation/ban', function(req, res, next){
+router.post('/moderation/ban', function (req, res, next) {
     var data = req.data;
-    data.title = "Блокировка пользователя";
+    data.title = 'Блокировка пользователя';
     data.id = req.body.id;
     res.render('ban', data);
 });
 
 //Блокировка
-router.post('/userban', function(req, res, next){
+router.post('/userban', function (req, res, next) {
     var id = req.body.id;
     var reason = req.body.reason;
-    var sql = "UPDATE users SET role = 5, moder_text = (?) WHERE id = (?)";
+    var sql = 'UPDATE users SET role = 5, moder_text = (?) WHERE id = (?)';
     con.query(sql, [reason, id], false, function (err, result) {
         if (err) throw err;
         console.log('User is banned!');
@@ -220,9 +215,9 @@ router.post('/userban', function(req, res, next){
     res.redirect('/moderation/users');
 });
 //Разблокировка
-router.post('/unban', function(req, res, next){
+router.post('/unban', function (req, res, next) {
     var id = req.body.id;
-    var sql = "UPDATE users SET role = 3, moder_text = NULL WHERE id = (?)";
+    var sql = 'UPDATE users SET role = 3, moder_text = NULL WHERE id = (?)';
     con.query(sql, [id], false, function (err, result) {
         if (err) throw err;
         console.log('User is unbanned!');
@@ -231,49 +226,49 @@ router.post('/unban', function(req, res, next){
 });
 
 //Раздел "Информация о заказе"
-router.get('/moderation/orderinfo', function(req,res){
+router.get('/moderation/orderinfo', function (req, res) {
     var data = req.data;
-    data.title = "Получение информациии о заказе";
+    data.title = 'Получение информациии о заказе';
     res.render('ordinfo', data);
 });
 
 //Раздел "Сообщить об ошибке"
-router.get('/moderation/bugreport', function(req,res){
+router.get('/moderation/bugreport', function (req, res) {
     var data = req.data;
-    data.title = "Отправка сообщения об ошибке";
-    res.render('modbug', data);    
+    data.title = 'Отправка сообщения об ошибке';
+    res.render('modbug', data);
 });
 
 //Обработчик блокировки (бана)
-router.get('/banned', function(req,res){
-  var data = req.data;
-  data.title = "Ваша учетная запись заблокирована! - ezResheinie";
-  //Сразу разлогиниваем забаненного пользователя
-  res.clearCookie("auth_token");
+router.get('/banned', function (req, res) {
+    var data = req.data;
+    data.title = 'Ваша учетная запись заблокирована! - ezResheinie';
+    //Сразу разлогиниваем забаненного пользователя
+    res.clearCookie('auth_token');
     res.render('banned', data);
     //Выводим в консоль сообщение о попытке входа заблокированного пользователя
-    console.log("[MODERATION] This user is banned!");
+    console.log('[MODERATION] This user is banned!');
 });
 
 //Отправка отчета об ошибках
 router.post('/minsertbugs', function (req, res, next) {
-var title = req.body.postTitle;
-var content = req.body.postText;
-var user = req.body.user;
-var sql = "INSERT INTO bugreport (user, title, text) VALUES (?, ?, ?)";
-con.query(sql, [user, title, content], function (err, result) {
-    if (err) throw err;
-    console.log("[MODERATION] Bug report sended!");
-});
-res.redirect('back');
+    var title = req.body.postTitle;
+    var content = req.body.postText;
+    var user = req.body.user;
+    var sql = 'INSERT INTO bugreport (user, title, text) VALUES (?, ?, ?)';
+    con.query(sql, [user, title, content], function (err, result) {
+        if (err) throw err;
+        console.log('[MODERATION] Bug report sended!');
+    });
+    res.redirect('back');
 });
 
-router.post('/moderation/orderinfo', function (req,res,next) {
+router.post('/moderation/orderinfo', function (req, res, next) {
     var id = req.body.id;
     var data = req.data;
     data.title = 'Информация о заказе';
-    data.ordinfo=[];
-    var sql = "SELECT * FROM works WHERE id = (?)";
+    data.ordinfo = [];
+    var sql = 'SELECT * FROM works WHERE id = (?)';
     con.query(sql, [id], function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Get information about order ID', id);
@@ -285,5 +280,5 @@ router.post('/moderation/orderinfo', function (req,res,next) {
             }
         }
         res.render('orderinfo', data);
-    }); 
+    });
 });
