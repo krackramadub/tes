@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Май 28 2019 г., 21:43
+-- Время создания: Май 29 2019 г., 21:28
 -- Версия сервера: 10.1.38-MariaDB-0ubuntu0.18.04.2
 -- Версия PHP: 7.2.17-0ubuntu0.18.04.1
 
@@ -307,7 +307,7 @@ CREATE TABLE `works`
 
 INSERT INTO `works` (`id`, `type`, `user`, `date`, `topic`, `text`, `file`, `price`, `executor`,
                      `status`)
-VALUES (2, 1, 1, '2019-05-21 21:10:11', 'Task',
+VALUES (1, 1, 1, '2019-05-21 21:10:11', 'Task',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam placerat felis a risus ullamcorper hendrerit. Praesent vel turpis vitae metus consequat posuere. Ut congue condimentum diam, vel tempus dolor ornare vel. Nunc in gravida nunc. Nunc ullamcorper ultricies pharetra. Donec at sodales lacus. Fusce lorem ante, cursus ullamcorper gravida eu, fringilla id orci. Pellentesque tincidunt auctor lacus facilisis ullamcorper. Cras ullamcorper in purus et consequat. Proin mauris quam, convallis vitae nunc ac, molestie consequat lectus. Etiam et efficitur odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae vestibulum odio, et consequat nulla. Mauris et sapien eu velit facilisis tincidunt eget a eros. Nunc lacinia rutrum sapien eu mollis.\nSuspendisse egestas ultricies dolor eu rhoncus. Duis imperdiet magna sit amet orci tincidunt pulvinar. Ut ipsum elit, mattis id semper efficitur, ultricies a tortor. Aenean semper nulla velit, non sollicitudin sem feugiat sit amet. Donec mattis pellentesque commodo. Phasellus varius nisl sit amet libero tincidunt auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida arcu neque, et vestibulum turpis aliquet vitae. Vivamus imperdiet aliquet consectetur.\nVivamus id bibendum ligula. In erat ipsum, consequat id magna sit amet, accumsan placerat tellus. Duis porta, ipsum vitae egestas egestas, lorem turpis placerat leo, ac porttitor ex orci sed velit. Donec ut tellus id magna molestie pretium. Mauris tincidunt euismod sem id tristique. Aenean tristique nisl id volutpat dapibus. In ullamcorper, urna vitae gravida sollicitudin, mauris lorem finibus nunc, lobortis viverra nisi massa in magna. In ac pellentesque odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis nunc massa. Nunc quis finibus nisi.\nDuis ac imperdiet mauris. Maecenas est mauris, varius vestibulum massa et, pellentesque pharetra odio. Nullam egestas ultrices dolor vitae laoreet. Maecenas venenatis maximus vestibulum. Mauris tempus lorem a ipsum consectetur rutrum. Vestibulum mollis sollicitudin lectus, sit amet fermentum ipsum accumsan vitae. Sed lobortis erat vitae malesuada vestibulum. Pellentesque at volutpat elit. Integer facilisis quis ante at lobortis. Nam id enim in justo blandit aliquet et vitae ex. Donec pharetra porta enim, sollicitudin lacinia ex. Quisque eget mi scelerisque, suscipit sem vulputate, semper urna. Fusce sit amet arcu nisl.\nSuspendisse non enim nec sapien dapibus placerat. Quisque eu varius magna. Suspendisse lacinia, libero ut sodales posuere, urna velit fringilla leo, id efficitur erat metus ut magna. Nunc feugiat diam et nunc finibus, quis porttitor lectus tristique. Aenean feugiat laoreet nibh, in eleifend diam accumsan at. Etiam et neque vel nulla molestie iaculis. Vivamus ut enim in massa eleifend fringilla a quis nunc. Sed ac maximus felis, condimentum accumsan purus. Fusce nec convallis augue, a efficitur orci. Praesent feugiat nulla vitae bibendum interdum. Ut et ligula suscipit, fringilla dui sit amet, eleifend est. Ut in nulla est.',
         NULL, 0, 1, 1);
 
@@ -404,8 +404,7 @@ ALTER TABLE `bugreport`
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 1;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `roles`
 --
@@ -451,7 +450,7 @@ ALTER TABLE `works`
 ALTER TABLE `bugreport`
     ADD CONSTRAINT `bugreport_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
     ADD CONSTRAINT `bugreport_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
-    ADD CONSTRAINT `bugreport_users_id_fk` FOREIGN KEY (`user`) REFERENCES `diplom`.`users` (`id`);
+    ADD CONSTRAINT `bugreport_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `support`
@@ -459,7 +458,7 @@ ALTER TABLE `bugreport`
 ALTER TABLE `support`
     ADD CONSTRAINT `support_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
     ADD CONSTRAINT `support_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
-    ADD CONSTRAINT `support_users_id_fk` FOREIGN KEY (`user`) REFERENCES `diplom`.`users` (`id`);
+    ADD CONSTRAINT `support_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `users`
@@ -475,8 +474,8 @@ ALTER TABLE `works`
     ADD CONSTRAINT `works_files_id_fk` FOREIGN KEY (`file`) REFERENCES `files` (`id`),
     ADD CONSTRAINT `works_status_id_fk` FOREIGN KEY (`status`) REFERENCES `status` (`id`),
     ADD CONSTRAINT `works_types_id_fk` FOREIGN KEY (`type`) REFERENCES `types` (`id`),
-    ADD CONSTRAINT `works_users_id_fk` FOREIGN KEY (`user`) REFERENCES `diplom`.`users` (`id`),
-    ADD CONSTRAINT `works_users_id_fk_2` FOREIGN KEY (`executor`) REFERENCES `diplom`.`users` (`id`);
+    ADD CONSTRAINT `works_users_id_fk` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
+    ADD CONSTRAINT `works_users_id_fk_2` FOREIGN KEY (`executor`) REFERENCES `users` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS = @OLD_CHARACTER_SET_RESULTS */;
