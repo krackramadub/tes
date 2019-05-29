@@ -34,9 +34,63 @@ block content
                                         var pending = [!{orders}];
                                         if(pending.length == 0){
                                             $(".pending").append('<p class="alert alert-warning" style="margin-top: 10px;">Заказов, ожидающих модерации, на данный момент нет</p>');
+                                            $(".pending").append('<button class="btn btn-default" onclick="window.location.reload();">Обновить список заказов</button>');
                                         }
                                         for(var i=0;i<pending.length;i++){
-                                            $(".pending").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h4 style="margin-top: 15px;">Заказ ID '+pending[i].id+'</h3><p>Тип: '+pending[i].type+'</p><p>Тема:'+pending[i].topic+'</p><p>Описание:'+pending[i].text+'</p><p>Заказчик (ID): '+pending[i].user+'</p><p>Прикрепленный файл: '+pending[i].file+'</p><p>Цена: '+pending[i].price+' руб.</p><br><form method="POST" action="/ordmod"><input type="text" name="id" style="display: none;"><button type="st_fixed" class="btn btn-success btn-sm">Одобрить</button><button formaction="/moderation/ordedit" type="st_fixed" class="btn btn-warning btn-sm">Редактировать и одобрить</button><button formaction="/orddeny" type="st_fixed" class="btn btn-danger btn-sm">Отклонить</button></form><hr class="half-rule"></div>');
+                                            switch(pending[i].type){
+                                                case 1:
+                                                    pending[i].type = "Курсовая работа";
+                                                    break;
+                                                case 2:
+                                                    pending[i].type = "Решение задач";
+                                                    break;
+                                                case 3:
+                                                    pending[i].type = "Контрольная работа";
+                                                    break;
+                                                case 4:
+                                                    pending[i].type = "Реферат";
+                                                    break;
+                                                case 5:
+                                                    pending[i].type = "Отчет по практике";
+                                                    break;
+                                                case 6:
+                                                    pending[i].type = "Презентация";
+                                                    break;
+                                                case 7:
+                                                    pending[i].type = "Эссе";
+                                                    break;
+                                                case 8:
+                                                    pending[i].type = "Чертеж";
+                                                    break;
+                                                case 9:
+                                                    pending[i].type = "Сочинение";
+                                                    break;
+                                                case 10:
+                                                    pending[i].type = "Перевод";
+                                                    break;
+                                                case 11:
+                                                    pending[i].type = "Ответы на вопросы";
+                                                    break;
+                                                case 12:
+                                                    pending[i].type = "Лабораторная работа";
+                                                    break;
+                                                case 13:
+                                                    pending[i].type = "Доклад";
+                                                    break;
+                                                case 14:
+                                                    pending[i].type = "Статья";
+                                                    break;
+                                                case 15:
+                                                    pending[i].type = "Творческая работа";
+                                                    break;
+                                                case 16:
+                                                    pending[i].type = "Набор текста";
+                                                    break;
+                                                case 17:
+                                                    pending[i].type = "Другое";
+                                                    break;
+                                            }
+                                            $(".pending").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h4 style="margin-top: 15px;">Заказ ID '+pending[i].id+'</h3><p>Тип: '+pending[i].type+'</p><p>Тема: '+pending[i].topic+'</p><p>Описание: '+pending[i].text+'</p><p>Заказчик (ID): '+pending[i].user+'</p><!--<p>Прикрепленный файл: '+pending[i].file+'</p>--><p>Цена: '+pending[i].price+' руб.</p><br><form method="POST" action="/ordmod"><input type="text" name="id" style="display: none;"><button type="st_fixed" class="btn btn-success btn-sm">Одобрить</button><button formaction="/moderation/ordedit" type="st_fixed" class="btn btn-warning btn-sm">Редактировать и одобрить</button><button formaction="/orddeny" type="st_fixed" class="btn btn-danger btn-sm">Отклонить</button></form><hr class="half-rule"></div>');
                                             document.getElementsByName("id")[i].value=pending[i].id;
                                         }
         else

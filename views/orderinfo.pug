@@ -11,9 +11,83 @@ block content
             tbody(class="info")
                 script(type='text/javascript'). 
                     var orderinfo = [!{ordinfo}];
-                    console.log(orderinfo);
                         if(orderinfo.length != 0){
-                            $(".info").append('<tr><td>Номер (ID):</td><td>'+orderinfo[0].id+'</td></tr><tr><td>Тип:</td><td>'+orderinfo[0].type+'</td></tr><tr><td>ID заказчика:</td><td>'+orderinfo[0].user+'</td></tr><tr><td>Дата создания заказа:</td><td>'+orderinfo[0].date+'</td></tr><tr><td>Тема:</td><td>'+orderinfo[0].topic+'</td></tr><tr><td>Текст:</td><td>'+orderinfo[0].text+'</td></tr><tr><td>Прикрепленный файл, ID:</td><td>'+orderinfo[0].file+'</td></tr><tr><td>Цена:</td><td>'+orderinfo[0].price+'</td></tr><tr><td>ID исполнителя (если заказ взят в работу):</td><td>'+orderinfo[0].executor+'</td></tr><tr><td>Статус: <small>1 - добавлен, 2 - обработан, 3 - занят</small></td><td>'+orderinfo[0].status+'</td></tr><tr><td>Модерация: <small>1 - ожидание, 2 - проверен, 3 - отклонен</small></td><td>'+orderinfo[0].moder_status+'</td></tr>');
+                            switch(orderinfo[0].type){
+                                case 1:
+                                    orderinfo[0].type = "Курсовая работа";
+                                    break;
+                                case 2:
+                                    orderinfo[0].type = "Решение задач";
+                                    break;
+                                case 3:
+                                    orderinfo[0].type = "Контрольная работа";
+                                    break;
+                                case 4:
+                                    orderinfo[0].type = "Реферат";
+                                    break;
+                                case 5:
+                                    orderinfo[0].type = "Отчет по практике";
+                                    break;
+                                case 6:
+                                    orderinfo[0].type = "Презентация";
+                                    break;
+                                case 7:
+                                    orderinfo[0].type = "Эссе";
+                                    break;
+                                case 8:
+                                    orderinfo[0].type = "Чертеж";
+                                    break;
+                                case 9:
+                                    orderinfo[0].type = "Сочинение";
+                                    break;
+                                case 10:
+                                    orderinfo[0].type = "Перевод";
+                                    break;
+                                case 11:
+                                    orderinfo[0].type = "Ответы на вопросы";
+                                    break;
+                                case 12:
+                                    orderinfo[0].type = "Лабораторная работа";
+                                    break;
+                                case 13:
+                                    orderinfo[0].type = "Доклад";
+                                    break;
+                                case 14:
+                                    orderinfo[0].type = "Статья";
+                                    break;
+                                case 15:
+                                    orderinfo[0].type = "Творческая работа";
+                                    break;
+                                case 16:
+                                    orderinfo[0].type = "Набор текста";
+                                    break;
+                                case 17:
+                                    orderinfo[0].type = "Другое";
+                                    break;
+                            }
+                            switch(orderinfo[0].status){
+                                case 1:
+                                    orderinfo[0].status = "Добавлен";
+                                    break;
+                                case 2:
+                                    orderinfo[0].status = "Обработан";
+                                    break;
+                                case 3:
+                                    orderinfo[0].status = "Занят";
+                                    break;
+                            }
+                            switch(orderinfo[0].moder_status){
+                                case 1:
+                                    orderinfo[0].moder_status = "Ожидание модерации";
+                                    break;
+                                case 2:
+                                    orderinfo[0].moder_status = "Прошел модерацию";
+                                    break;
+                                case 3:
+                                    orderinfo[0].moder_status = "Отклонен";
+                                    break;
+                            }
+                            $(".info").append('<tr><td>Номер (ID):</td><td>'+orderinfo[0].id+'</td></tr><tr><td>Тип:</td><td>'+orderinfo[0].type+'</td></tr><tr><td>ID заказчика:</td><td>'+orderinfo[0].user+'</td></tr><tr><td>Дата создания заказа:</td><td>'+orderinfo[0].date+'</td></tr><tr><td>Тема:</td><td>'+orderinfo[0].topic+'</td></tr><tr><td>Текст:</td><td>'+orderinfo[0].text+'</td></tr><tr><td>Прикрепленный файл, ID:</td><td>'+orderinfo[0].file+'</td></tr><tr><td>Цена:</td><td>'+orderinfo[0].price+'</td></tr><tr><td>ID исполнителя (если заказ взят в работу):</td><td>'+orderinfo[0].executor+'</td></tr><tr><td>Статус: </td><td>'+orderinfo[0].status+'</td></tr><tr><td>Модерация: </td><td>'+orderinfo[0].moder_status+'</td></tr>');
                         } else{
                             $(".info").append('<tr><td>Заказа с таким номером не существует!</td></tr>');
                         }

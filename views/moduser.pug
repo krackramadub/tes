@@ -43,7 +43,14 @@ block content
                                         var users = [!{users}];
                                         console.log(users);
                                         for(var i=0;i<users.length;i++){
-                                            $(".info").append('<tr><td scope="row">'+users[i].id+'</td><td scope="row">'+users[i].login+'</td><td scope="row">'+users[i].email+'</td><td>'+users[i].phone+'</td><td scope="row"><div style="display: flex; justify-content: space-around;"><button class="btn btn-default btn-sm" onclick="chatalert();">Чат</button></div></td></tr>');
+                                            if(users[i].email == null){
+                                                users[i].email = "Не указан";
+                                            }
+                                            if(users[i].phone == null){
+                                                users[i].phone = "Не указан";
+                                            }
+                                            $(".info").append('<tr><td scope="row">'+users[i].id+'</td><td scope="row">'+users[i].login+'</td><td scope="row">'+users[i].email+'</td><td>'+users[i].phone+'</td><td scope="row"><div style="display: flex; justify-content: space-around;"><button class="btn btn-default btn-sm" onclick="chatalert();">Чат</button><form method="POST" style="margin-left: -85px;"><input name="id" id="id" style="display: none;"><button class="btn btn-warning btn-sm">Предупреждение</button><button class="btn btn-danger btn-sm" formaction="/moderation/ban">Блокировка</button></div></form></td></tr>');
+                                            document.getElementsByName("id")[i].value = users[i].id;
                                         }
                                     script.
                                         function chatalert(){

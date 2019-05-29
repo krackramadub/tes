@@ -2,6 +2,20 @@
 //Разработал Пыжов Павел, группа 431ПО
 //еще один комментарий на всякий случай
 
+/*Зависимые файлы шаблонов:
+moderation_layout.pug
+moderation.pug
+modwork.pug
+moddenied.pug
+support.pug
+moduser.pug
+modbanned.pug
+ordedit.pug
+ordinfo.pug
+orderinfo.pug
+modbug.pug
+*/
+
 //Подключение зависимых модулей
 var express = require('express');
 var router = express.Router();
@@ -90,6 +104,58 @@ router.get('/moderation/denied', function(req,res){
     });
 });
 
+router.post('/moderation/ordedit', function(req, res){
+    var id = req.body.id;
+    var data = req.data;
+    data.title = "Редактирование заказа";
+    data.ordinfo = [];
+    var sql = "SELECT * FROM works WHERE id = (?)";
+    con.query(sql, [id], function (err, rows, fields) {
+        if (!err)
+            console.log('[MODERATION] Edit order ID: ', id);
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                for (var i in rows) {
+                    data.ordinfo.push(JSON.stringify(rows[i]));
+                }
+            }
+        }
+        res.render('ordedit', data);
+    });
+});
+
+router.post('/ordsave', function(req, res, next){
+    var id = req.body.id;
+    var topic = req.body.topic;
+    var price = req.body.price;
+    var type = req.body.type;
+    var text = req.body.text;
+    var sql = 'UPDATE works SET moder_status = 2, topic = (?), price = (?), type = (?), text = (?) WHERE id = (?)';
+    con.query(sql, [topic, price, type, text, id], function (err, result) {
+        if (err) throw err;
+        console.log('Order edited!');
+    });
+    res.redirect('/moderation/work');
+});
+
+router.post('/ordmod', function (req,res,next) {
+    var id = req.body.id;
+    var sql = "UPDATE works SET moder_status = 2 WHERE id = (?)";
+    con.query(sql, [id], function (err, result) {
+        if (err) throw err;
+    });
+    res.redirect('back');
+});
+
+router.post('/orddeny', function (req,res,next) {
+    var id = req.body.id;
+    var sql = "UPDATE works SET moder_status = 3 WHERE id = (?)";
+    con.query(sql, [id], false, function (err, result) {
+        if (err) throw err;
+    });
+    res.redirect('back');
+});
+
 //Раздел "Чат поддержки"
 router.get('/moderation/support', function(req,res){
     var data = req.data;
@@ -134,6 +200,36 @@ router.get('/moderation/banned', function(req,res){
     });
 });
 
+//Блокировка учетной записи
+router.post('/moderation/ban', function(req, res, next){
+    var data = req.data;
+    data.title = "Блокировка пользователя";
+    data.id = req.body.id;
+    res.render('ban', data);
+});
+
+//Блокировка
+router.post('/userban', function(req, res, next){
+    var id = req.body.id;
+    var reason = req.body.reason;
+    var sql = "UPDATE users SET role = 5, moder_text = (?) WHERE id = (?)";
+    con.query(sql, [reason, id], false, function (err, result) {
+        if (err) throw err;
+        console.log('User is banned!');
+    });
+    res.redirect('/moderation/users');
+});
+//Разблокировка
+router.post('/unban', function(req, res, next){
+    var id = req.body.id;
+    var sql = "UPDATE users SET role = 3, moder_text = NULL WHERE id = (?)";
+    con.query(sql, [id], false, function (err, result) {
+        if (err) throw err;
+        console.log('User is unbanned!');
+    });
+    res.redirect('/moderation/users');
+});
+
 //Раздел "Информация о заказе"
 router.get('/moderation/orderinfo', function(req,res){
     var data = req.data;
@@ -172,16 +268,6 @@ con.query(sql, [user, title, content], function (err, result) {
 res.redirect('back');
 });
 
-//Обработчик публикации заказов
-router.post('/ordmod', function (req,res,next) {
-    var id = req.body.id;
-    var sql = "UPDATE works SET moder_status = 2 WHERE id = (?)";
-    con.query(sql, [id], function (err, result) {
-        if (err) throw err;
-    });
-    res.redirect('back');
-});
-
 router.post('/moderation/orderinfo', function (req,res,next) {
     var id = req.body.id;
     var data = req.data;
@@ -200,24 +286,4 @@ router.post('/moderation/orderinfo', function (req,res,next) {
         }
         res.render('orderinfo', data);
     }); 
-});
-
-//Обработчик перехода к редактированию заказа
-router.post('/moderation/ordedit', function(req, res, next){
-    res.render('ordedit');
-});
-
-//Обработчик отклонения заказов
-router.post('/orddeny', function (req,res,next) {
-    var id = req.body.id;
-    var sql = "UPDATE works SET moder_status = 3 WHERE id = (?)";
-    con.query(sql, [id], false, function (err, result) {
-        if (err) throw err;
-    });
-    res.redirect('back');
-});
-
-//Блокировка учетной записи
-router.get('/moderation/ban', function(req, res, next){
-    res.render('ban');
 });
