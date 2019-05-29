@@ -25,7 +25,7 @@ block content
             var dop = obj.isYour ? '>>>' : ''
             var time = obj.TIMESTAMP
             var text = dop + obj.message + ' [' + time + ']'
-            $('<li>', {text: text}).appendTo(ul);
+            $('<li>', { text: text }).appendTo(ul);
         }
 
         form.submit(function () {
@@ -40,7 +40,9 @@ block content
             }, function (data) {
                 console.log(data);
                 input.val('');
-                $('<li>', {text: '>>>' + text + ' [' + (new Date()).toISOString() + ']'}).appendTo(ul);
+                $('<li>', { text: '>>>' + text + ' [' + (new Date()).toISOString() + ']' })
+                  .appendTo(
+                    ul);
             });
             return false;
         })
@@ -58,7 +60,7 @@ block content
             $('<li>').append($('<i>').text(status).css('color', color)).appendTo(ul);
         }
         socket.on('message', function (text) {
-            $('<li>', {text: text}).appendTo(ul);
+            $('<li>', { text: text }).appendTo(ul);
         });
         socket.on('private_message', function (text) {
             console.log(text)

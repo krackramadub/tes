@@ -1,0 +1,45 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        if user
+            div(class="row")
+                //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
+                div(class="col-md-3")
+                    div(class="card testimonial-card")
+                            div(class="card-body")
+                                h6(class="card-title") Система модерации и технической поддержки "ezResheine"
+                                h6(class="card-title") Пользователь: #{user.username}
+                    div(class="list-group")
+                        a(class="list-group-item list-group-item-action" href="/moderation" aria-controls="") Главная страница
+                        a(class="list-group-item list-group-item-action active" href="/moderation/work" aria-controls="") Модерация заказов
+                        a(class="list-group-item list-group-item-action" href="/moderation/support" aria-controls="") Чат поддержки
+                        a(class="list-group-item list-group-item-action" href="/moderation/users" aria-controls="") Пользователи
+                        a(class="list-group-item list-group-item-action" href="/moderation/orderinfo" aria-controls="") Информация о заказе
+                        a(class="list-group-item list-group-item-action" href="/moderation/bugreport" aria-controls="") Сообщение об ошибке
+                div(class="col-md-9 card" style="padding:15px;")
+                                h3(style="text-align:center") Модерация заказов
+                                hr(class="half-rule")
+                                div(class="select-buttons")
+                                    ul(class="nav nav-tabs")
+                                        li(role="presentation" class="nav-item active")
+                                             a(class="nav-link active" href="/moderation/work" aria-controls="pending") Ожидают модерации
+                                        li(role="presentation")
+                                            a(class="nav-link" href="/moderation/denied" aria-controls="denied") Отклонены
+                                div(class="tab-content" class="nav-item")
+                                    div(role="tabpanel" class="tab-pane active pending" id="pending")
+                                    div(role="tabpanel" class="tab-pane denied" id="denied")
+                                div(class="media posts")
+                                    script(type='text/javascript'). 
+                                        var pending = [!{orders}];
+                                        if(pending.length == 0){
+                                            $(".pending").append('<p class="alert alert-warning" style="margin-top: 10px;">Заказов, ожидающих модерации, на данный момент нет</p>');
+                                        }
+                                        for(var i=0;i<pending.length;i++){
+                                            $(".pending").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h4 style="margin-top: 15px;">Заказ ID '+pending[i].id+'</h3><p>Тип: '+pending[i].type+'</p><p>Тема:'+pending[i].topic+'</p><p>Описание:'+pending[i].text+'</p><p>Заказчик (ID): '+pending[i].user+'</p><p>Прикрепленный файл: '+pending[i].file+'</p><p>Цена: '+pending[i].price+' руб.</p><br><form method="POST" action="/ordmod"><input type="text" name="id" style="display: none;"><button type="st_fixed" class="btn btn-success btn-sm">Одобрить</button><button formaction="/moderation/ordedit" type="st_fixed" class="btn btn-warning btn-sm">Редактировать и одобрить</button><button formaction="/orddeny" type="st_fixed" class="btn btn-danger btn-sm">Отклонить</button></form><hr class="half-rule"></div>');
+                                            document.getElementsByName("id")[i].value=pending[i].id;
+                                        }
+        else
+            //- Если человек не вошел в аккаунт то ему выводить это
+            p Пожалуйста войдите в аккаунт
+            a(href="/users/login") Вход

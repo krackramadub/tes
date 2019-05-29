@@ -7,12 +7,12 @@ block content
                 img(class="card-img-top" src="/images/back.jpg" alt="Card image cap")
             div(class="card-body card-body-cascade text-center")
                 div(class="spinner-border text-primary loader" role="status" style="display:none;margin: 0 0 0 50%;")
-                form(method="POST",  class="formAction" action="/users/login",enctype="multipart/form-data")
+                form(method="POST",  class="formAction" action="/users/login", enctype="multipart/form-data")
                     //- div(class="alert alert-danger" role="alert") #{info}
 
                     p #{info}
                     div(class="md-form mt-0")
-                       input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
+                        input(name="login" id="input-char-counter" type="text" class="form-control" placeholder="Логин")
                     div(class="md-form mt-0")
                         input(name="password" id="input-char-counter" type="password" class="form-control" placeholder="Пароль")
                         //- p Enter your login:
@@ -21,12 +21,11 @@ block content
                         //-     input(name="password" class="form-control" type="password")
                     input(type="" class="submit btn btn-primary" value="Войти")
                     script.
-                        $('.submit').on('click',function(){
-                            $(".loader").css('display','block')
-                            $("form").css('display','none')
+                        $('.submit').on('click', function () {
+                            $(".loader").css('display', 'block')
+                            $("form").css('display', 'none')
                             setTimeout(submitForm(), 2000);
                         })
-                        function submitForm(){
+                        function submitForm() {
                             $("form").submit()
                         }
-                            

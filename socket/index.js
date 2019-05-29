@@ -5,7 +5,7 @@ var users = {};
 
 var getUser = methods.getUser;
 
-function normalizeObj (obj) {
+function normalizeObj(obj) {
     var newObj = {};
     return Object.assign(newObj, obj);
 }
@@ -28,15 +28,17 @@ module.exports = function (server) {
                             //console.log(chat_room.id, to.id, from.id);
                             if (chat_room.id && to && from.id) {
                                 var sql = 'INSERT INTO messages (from_user, to_user, chat_id, message) VALUES (?, ?, ?, ?);';
-                                query(sql, [from.id, to, chat_room.id, data.text], function (err, id) {
-                                    io.to('dialog' + chat_room.id).emit("private_message", {
-                                        from_user: from.id,
-                                        to_user: to,
-                                        message: data.text,
-                                        TIMESTAMP: (new Date()).toISOString()
-                                    });
-                                    callback(false)
-                                });
+                                query(sql,
+                                  [from.id, to, chat_room.id, data.text],
+                                  function (err, id) {
+                                      io.to('dialog' + chat_room.id).emit('private_message', {
+                                          from_user: from.id,
+                                          to_user: to,
+                                          message: data.text,
+                                          TIMESTAMP: (new Date()).toISOString(),
+                                      });
+                                      callback(false);
+                                  });
 
                             }
 
@@ -45,7 +47,7 @@ module.exports = function (server) {
                     }
                 });
             }
-            callback()
+            callback();
         });
         socket.on('change_dialog', function (data, callback) {
             var dialog = data.dialog;
@@ -58,14 +60,14 @@ module.exports = function (server) {
                             var messages = rows.map(function (row) {
                                 var message = normalizeObj(row);
                                 message.isYour = message.from_user === user.id;
-                                return message
+                                return message;
                             });
                             //console.log(messages);
                             socket.join('dialog' + chat.id);
                             socket.emit('all_messages', {
                                 user: user.id,
                                 chat: dialog,
-                                messages: messages
+                                messages: messages,
                             });
                         });
                     }
@@ -86,26 +88,26 @@ module.exports = function (server) {
                             var sql = 'INSERT INTO chat_rooms (user1, user2) VALUES (?, ?)';
                             query(sql, [user1.id, user2.id], function () {
                                 var sql = 'SELECT * FROM chat_rooms WHERE user1 = ? AND user2 = ?';
-                                    query(sql, [user1.id, user2.id], function (err, dialog) {
+                                query(sql, [user1.id, user2.id], function (err, dialog) {
                                     socket.emit('dialog_created', {
                                         id: dialog.id,
                                         user1: dialog.user1,
-                                        user2: dialog.user2
+                                        user2: dialog.user2,
                                     });
                                 });
-                            })
+                            });
                         } else {
                             socket.emit('dialog_created', {
                                 id: dialog.id,
                                 user1: dialog.user1,
-                                user2: dialog.user2
+                                user2: dialog.user2,
                             });
                         }
                     });
                 });
             });
         });
-    })
+    });
 }; //End module export
 
 /*

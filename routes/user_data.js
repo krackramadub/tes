@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var express = require('express');
 var router = express.Router();
@@ -8,53 +8,49 @@ var users = require('./users');
 var user_db = [];
 
 //function getUsers(){
-            // USER DATABASE
-            var user_db1 = [
-				{
-					login:"Jane",
-					password:"123456",
-					roles:"user",
-					avatar:"d_avatar.jpg",
-					nickname:"Джейн Петрович",
-					phone:"8911-333-11-11",
-					data_reg:"28.02.2021",
-					rep:"2.44",
-					email:"jane@mailer.com"
-				}
-              ];
-              //console.log(user_db)
-                var mySqlConfig = {
-                    host: 'localhost',
-                    user: 'root',
-                    password: '',
-                    database: 'diplom',
-                };
-                var con = mysql.createConnection(mySqlConfig);
-                con.connect(function (err) {
-                    if (!err) {
-                        console.log("DB Connected.")
-                    } else {
-                        console.log("DB error.")
-                    }
-                
-                });
-                con.query('SELECT * from users',
-                    function (err, rows, fields) {
-                        con.end();
-                        if (!err)
-                            console.log('The solution is: ' + rows.length);
-                        else
-                            console.log('Error while performing Query.');
-                        if(rows){
-                            for (var i = 0; i < rows.length; i++) {
-                                for (var i in rows) {
-                                    user_db.push(rows[i])
-                                }
-                            }
-                        }
-                
-                    });
-               // }
+// USER DATABASE
+/*var user_db1 = [
+    {
+        login: 'Jane',
+        password: '123456',
+        roles: 'user',
+        avatar: 'd_avatar.jpg',
+        nickname: 'Джейн Петрович',
+        phone: '8911-333-11-11',
+        data_reg: '28.02.2021',
+        rep: '2.44',
+        email: 'jane@mailer.com',
+    },
+];*/
+//console.log(user_db)
+var mySqlConfig = require('../config');
+var con = mysql.createConnection(mySqlConfig);
+con.connect(function (err) {
+    if (!err) {
+        console.log('DB Connected.');
+    } else {
+        console.log('DB error.');
+    }
+
+});
+con.query('SELECT * from users',
+  function (err, rows, fields) {
+      con.end();
+      if (!err)
+          console.log('The solution is: ' + rows.length);
+      else
+          console.log('Error while performing Query.');
+      if (rows) {
+          for (var i = 0; i < rows.length; i++) {
+              for (var i in rows) {
+                  user_db.push(rows[i]);
+              }
+          }
+      }
+
+  });
+
+// }
 function check_login(login, passwd) {
     //getUsers();
     var found_user = user_db.find(function (x) {
@@ -66,47 +62,46 @@ function check_login(login, passwd) {
     });
 
     if (found_user) {
+        console.log(found_user);
         return {
             is_authenticate: true,
             user: {
+                id: found_user.id,
                 username: found_user.login,
-                roles: found_user.roles,
+                roles: found_user.role,
                 avatar: found_user.avatar,
-                nickname: found_user.nickname,
                 phone: found_user.phone,
-                datareg: found_user.data_reg,
-                rep: found_user.rep,
+                datareg: found_user.registration_date,
+                rep: found_user.reputation,
                 email: found_user.email,
-                banned: found_user.banned,
-                moder_text: found_user.moder_text
-            }
-        }
+                moder_text: found_user.moder_text,
+            },
+        };
     } else {
         return {
             is_authenticate: false,
             user: null,
-            info: "Введен неправильный логин или пароль"
-        }
+            info: 'Введен неправильный логин или пароль',
+        };
     }
 }
 
-function get_token(user,secret){
-    var token = jwt.sign(user,secret, {expiresIn: 2000});
-    return token;
+function get_token(user, secret) {
+    return jwt.sign(user, secret, { expiresIn: 432000 });
 }
 
-function get_user(token,secret){
-    var user = jwt.verify(token,secret);
-    return user;
+function get_user(token, secret) {
+    return jwt.verify(token, secret);
 }
-router.all("*",function (req,res,next) {
-    var data = {}
-    var token = req.cookies["auth_token"];
-    if(token){
-        data.user = get_user(token,req.app.get('secret'));
+
+router.all('*', function (req, res, next) {
+    var data = {};
+    var token = req.cookies['auth_token'];
+    if (token) {
+        data.user = get_user(token, req.app.get('secret'));
     }
-    req.data = { user: data.user}
-    req.roles = { user: data.roles}
+    req.data = { user: data.user };
+    req.roles = { user: data.roles };
     //req.data= data.user
 
     next();
@@ -116,5 +111,5 @@ module.exports = {
     router: router,
     check_login: check_login,
     get_token: get_token,
-    get_user: get_user
-}
+    get_user: get_user,
+};

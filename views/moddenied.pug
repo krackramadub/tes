@@ -1,0 +1,44 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        if user
+            div(class="row")
+                //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
+                div(class="col-md-3")
+                    div(class="card testimonial-card")
+                            div(class="card-body")
+                                h6(class="card-title") Система модерации и технической поддержки "ezResheine"
+                                h6(class="card-title") Пользователь: #{user.username}
+                    div(class="list-group")
+                        a(class="list-group-item list-group-item-action" href="/moderation" aria-controls="") Главная страница
+                        a(class="list-group-item list-group-item-action active" href="/moderation/work" aria-controls="") Модерация заказов
+                        a(class="list-group-item list-group-item-action" href="/moderation/support" aria-controls="") Чат поддержки
+                        a(class="list-group-item list-group-item-action" href="/moderation/users" aria-controls="") Пользователи
+                        a(class="list-group-item list-group-item-action" href="/moderation/orderinfo" aria-controls="") Информация о заказе
+                        a(class="list-group-item list-group-item-action" href="/moderation/bugreport" aria-controls="") Сообщение об ошибке
+                div(class="col-md-9 card" style="padding:15px;")
+                                h3(style="text-align:center") Модерация заказов
+                                hr(class="half-rule")
+                                div(class="select-buttons")
+                                    ul(class="nav nav-tabs")
+                                        li(role="presentation" class="nav-item active")
+                                             a(class="nav-link" href="/moderation/work" aria-controls="pending") Ожидают модерации
+                                        li(role="presentation")
+                                            a(class="nav-link active" href="/moderation/denied" aria-controls="denied") Отклонены
+                                div(class="tab-content" class="nav-item")
+                                    div(role="tabpanel" class="tab-pane pending" id="pending")
+                                    div(role="tabpanel" class="tab-pane active denied" id="denied")
+                                div(class="media posts")
+                                    script(type='text/javascript'). 
+                                        var denied = [!{orddenied}];
+                                        if(denied.length == 0){
+                                            $(".denied").append('<p class="alert alert-warning" style="margin-top: 10px;">Отклоненных заказов нет</p>');
+                                        }
+                                        for(var i=0;i<denied.length;i++){
+                                            $(".denied").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h4 style="margin-top: 15px;">Заказ ID '+denied[i].id+'</h3><p>Тип: '+denied[i].type+'</p><p>Тема:'+denied[i].topic+'</p><p>Описание:'+denied[i].text+'</p><p>Заказчик (ID): '+denied[i].user+'</p><p>Прикрепленный файл: '+denied[i].file+'</p><p>Цена: '+denied[i].price+' руб.</p><br><hr class="half-rule"></div>');
+                                        }
+        else
+            //- Если человек не вошел в аккаунт то ему выводить это
+            p Пожалуйста войдите в аккаунт
+            a(href="/users/login") Вход

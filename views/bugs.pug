@@ -14,8 +14,8 @@ block content
             div(class="tab-content")
                 div(role="tabpanel" class="tab-pane active errors" id="main")
                 div(role="tabpanel" class="tab-pane solvederr" id="solved")
-            div(class="media posts")               
-                script(type='text/javascript'). 
+            div(class="media posts")
+                script(type='text/javascript').
                     //{JSON.stringify(item)};
                     $('#myTabs a').click(function (e) {
                         e.preventDefault()
@@ -24,14 +24,17 @@ block content
                     var result = [!{bugs}];
                     var solved = [!{solved}]
                     console.log(result)
-                    for(var i=0;i<result.length;i++){
-                        $(".errors").append('<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h2>'+result[i].title+'</h2><p>'+result[i].text+'</p><small>'+result[i].username+'</small><br><form method="POST" action="/changebug"><button type="st_fixed" class="btn btn-default">Ошибка исправлена</button></form></div>')
+                    for (var i = 0; i < result.length; i++) {
+                        $(".errors").append(
+                          '<div class="bs-callout bs-callout-danger" id="callout-progress-animation-css3"><h2>' + result[i].title + '</h2><p>' + result[i].text + '</p><small>' + result[i].username + '</small><br><form method="POST" action="/changebug"><button type="st_fixed" class="btn btn-default">Ошибка исправлена</button></form></div>')
                     }
-                    for(var a=0;a<solved.length;a++){
-                       $(".solvederr").append('<div class="bs-callout bs-callout-success" id="callout-progress-animation-css3"><h2>'+solved[a].title+'</h2><p>'+solved[a].text+'</p><small>'+solved[a].username+'</small></div>')
+                    for (var a = 0; a < solved.length; a++) {
+                        $(".solvederr").append(
+                          '<div class="bs-callout bs-callout-success" id="callout-progress-animation-css3"><h2>' + solved[a].title + '</h2><p>' + solved[a].text + '</p><small>' + solved[a].username + '</small></div>')
                     }
                     //- console.log(a)
-                    //- var posts = #{resultArray}
+                    //- var posts =
+                    #{resultArray}
                     //- for(var i=0;i<posts.length;i++){
                     //-     console.log(posts[i].title)
     else

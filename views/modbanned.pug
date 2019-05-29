@@ -1,0 +1,47 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        if user
+            div(class="row")
+                //- Если вошел в аккаунт то выводить вот это col-xs-6 col-md-3
+                div(class="col-md-3")
+                    div(class="card testimonial-card")
+                            div(class="card-body")
+                                h6(class="card-title") Система модерации и технической поддержки "ezResheine"
+                                h6(class="card-title") Пользователь: #{user.username}
+                    div(class="list-group")
+                        a(class="list-group-item list-group-item-action" href="/moderation" aria-controls="") Главная страница
+                        a(class="list-group-item list-group-item-action" href="/moderation/work" aria-controls="" ) Модерация заказов
+                        a(class="list-group-item list-group-item-action" href="/moderation/support" aria-controls="" ) Чат поддержки
+                        a(class="list-group-item list-group-item-action active" href="/moderation/users" aria-controls="") Пользователи
+                        a(class="list-group-item list-group-item-action" href="/moderation/orderinfo" aria-controls="") Информация о заказе
+                        a(class="list-group-item list-group-item-action" href="/moderation/bugreport" aria-controls="") Сообщение об ошибке
+                div(class="col-md-9 card" style="padding:15px;")
+                    h3(style="text-align:center") Список пользователей
+                    hr(class="half-rule")
+                    div(class="select-buttons")
+                        ul(class="nav nav-tabs")
+                            li(role="presentation" class="nav-item active")
+                                a(class="nav-link" href="/moderation/users" aria-controls="pending") Пользователи
+                            li(role="presentation")
+                                a(class="nav-link active" href="/moderation/banned" aria-controls="denied") Заблокированные
+                        div(class="tab-content" class="nav-item")
+                            div(role="tabpanel" class="tab-pane")
+                            div(role="tabpanel" class="tab-pane active")
+                        div(class="media posts")
+                            table(class="table-striped table-responsive" style="display: table !important;")
+                                thead
+                                    tr
+                                        th(scope="col") ID
+                                        th(scope="col") Имя
+                                        th(scope="col") E-Mail
+                                        th(scope="col") Телефон
+                                        th(scope="col") Действия
+                                tbody(class="info")
+                                    script(type='text/javascript'). 
+                                        var users = [!{users}];
+                                        console.log(users);
+                                        for(var i=0;i<users.length;i++){
+                                            $(".info").append('<tr><td scope="row">'+users[i].id+'</td><td scope="row">'+users[i].login+'</td><td scope="row">'+users[i].email+'</td><td scope="row">'+users[i].phone+'</td><td scope="row"><div style="display: flex; justify-content: space-around;"><button class="btn btn-default btn-sm" onclick="">Разблокировка</button></div></td></tr>');
+                                        }
