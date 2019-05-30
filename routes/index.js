@@ -4,7 +4,7 @@ var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
 
-var nodemailer = require('nodemailer')
+var nodemailer = require('nodemailer');
 app.use(bodyParser.json());
 
 var query = require('../db');
@@ -19,15 +19,15 @@ router.get('/', function (req, res) {
           pass: 'ezreshenie1488'
         }
       });
-      
-      var mailOptions = {
+
+    var mailOptions = {
         from: 'ezreshenie@yandex.ru',
         to: 'radkevich.viktor83@gmail.com',
         subject: 'Активация пользователя',
         text: 'Для активации аккаунта перейдите по следующей ссылке:',
       };
-      
-      transporter.sendMail(mailOptions, function(error, info){
+
+    transporter.sendMail(mailOptions, function(error, info){
         if (error) {
           console.log(error);
         } else {
@@ -247,7 +247,7 @@ router.post('/register', function (req, res) {
         catch (e) {
             console.log(e);
         }
-        
+
         res.redirect('/users/login');
     }
     catch (e) {
