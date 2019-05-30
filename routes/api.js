@@ -34,22 +34,25 @@ router.post('/createTask', upload.single('file'), function (req, res) {
         query(sql, [req.file.filename, req.file.originalname], function (row, result) {
             var file = normalizeObj(result).insertId;
             console.log(file);
-            var sql = 'INSERT INTO diplom_new.works (type, user, topic, text, file) VALUES (?, ?, ?, ?, ?)';
+            var sql = 'INSERT INTO diplom_new.works (type, user, topic, text, file, price) VALUES (?, ?, ?, ?, ?, ?)';
             var user = user_data.get_user(req.cookies.auth_token, 'qweasdetwfhsdfhasdbqweuabsd');
             console.log(user);
-            query(sql, [req.body.type, user.id, req.body.title, req.body.text, file], function () {
+            query(sql,
+              [req.body.type, user.id, req.body.title, req.body.text, file, req.body.price],
+              function () {
                 res.redirect('/users/user_info');
             });
         });
     } else {
-        var sql = 'INSERT INTO diplom_new.works (type, user, topic, text) VALUES (?, ?, ?, ?)';
+        var sql = 'INSERT INTO diplom_new.works (type, user, topic, text, file, price) VALUES (?, ?, ?, ?, ?, ?)';
         var user = user_data.get_user(req.cookies.auth_token, 'qweasdetwfhsdfhasdbqweuabsd');
         console.log(user);
-        query(sql, [req.body.type, user.id, req.body.title, req.body.text], function () {
+        query(sql,
+          [req.body.type, user.id, req.body.title, req.body.text, req.body.price],
+          function () {
             res.redirect('/users/user_info');
         });
     }
-    var sql = 'INSERT INTO diplom_new.works (type, user, topic, text, file, executor) VALUES (?, ?, ?, ?, ?, ?)';
 
 });
 
