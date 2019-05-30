@@ -26,7 +26,7 @@ block content
                         div(role="tabpanel" class="tab-pane active" id="myAccount")
                             div(class="formoderation")
                             <!-- Скрипты для модератора и для вывода предупреждений -->
-                            script. 
+                            script.
                                 var userrole = "#{user.roles}";
                                 if(userrole == 2){
                                     $(".formoderation").append('<div class="alert alert-primary"><a href="/moderation">Вернуться в систему модерации</a></div>');
@@ -128,7 +128,7 @@ block content
                                             th(class="th-sm") Описание
                                             th(class="th-sm") Файл
                                             th(class="th-sm") Цена
-                                            th(class="th-sm") Чат
+                                            th(class="th-sm")
                                         if all_tasks
                                             tbody
                                                 for task in all_tasks
@@ -138,12 +138,13 @@ block content
                                                             td #{task.user}
                                                             td #{task.date}
                                                             td #{task.topic}
-                                                            td #{task.text.substr(0, 100) + '...'}
+                                                            td #{task.text.substr(0, 50) + '...'}
                                                             td
                                                                 a(:href="/uploadfiles/+ value.file" style="color:blue;" target="_blank") #{task.file}
                                                             td #{task.price}руб.
                                                             td
                                                                 button Чат
+                                                                button Принять заказ
                                 //-li {{value}}
                         div(role="tabpanel" class="tab-pane" id="settings") ...
 
