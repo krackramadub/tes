@@ -4,6 +4,7 @@ var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
 
+var nodemailer = require('nodemailer')
 app.use(bodyParser.json());
 
 var query = require('../db');
@@ -11,7 +12,28 @@ var methods = require('../socket/methods');
 var getAllDialogs = methods.getAllDialogs;
 /* GET home page. */
 router.get('/', function (req, res) {
-
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.sibnet.ru',
+        auth: {
+          user: 'ezreshenie@sibnet.ru',
+          pass: 'ezreshenie1488'
+        }
+      });
+      
+      var mailOptions = {
+        from: 'ezreshenie@yandex.ru',
+        to: 'radkevich.viktor83@gmail.com',
+        subject: 'Активация пользователя',
+        text: 'Для активации аккаунта перейдите по следующей ссылке:',
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
     var users = [];
     //  var mySqlConfig = {
     //    host: 'localhost',
@@ -194,7 +216,7 @@ router.post('/insertbugs', function (req, res) {
         if (err) throw err;
         console.log('1 record inserted');
     });
-    res.redirect('/');
+    res.redirect('/users/user');
 });
 
 router.post('/changebug', function (req, res) {
@@ -225,7 +247,7 @@ router.post('/register', function (req, res) {
         catch (e) {
             console.log(e);
         }
-
+        
         res.redirect('/users/login');
     }
     catch (e) {

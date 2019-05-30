@@ -1,3 +1,8 @@
+body{
+  background-image: url('../images/background.jpg') !important; 
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .card.card-cascade .view.view-cascade.gradient-card-header,
 .clockpicker-display .clockpicker-display-column #click-am.text-primary,
 .clockpicker-display .clockpicker-display-column #click-pm.text-primary,
