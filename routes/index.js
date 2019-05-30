@@ -67,7 +67,7 @@ router.get('/', function (req, res) {
     //      });
     //     function homepage(){
     var data = req.data;
-    data.title = 'tSolving';
+    data.title = 'ezReshenie';
     res.render('index', data);
     //     }
 });
@@ -84,7 +84,7 @@ router.get('/messages', function (req, res) {
 });
 router.get('/message_test', function (req, res) {
     var data = req.data;
-    data.title = 'tSolving';
+    data.title = 'ezReshenie';
     data.users = [];
     // console.log(data.user.login);
     getAllDialogs(data.user.username, req.query.user).then((dialogs) => {
@@ -94,12 +94,12 @@ router.get('/message_test', function (req, res) {
 });
 
 router.get('/registration', function (req, res) {
-    res.render('registration', { title: 'tSolving', bread: 'idol', extend: 'layout_for_reg' });
+    res.render('registration', { title: 'ezReshenie', bread: 'idol', extend: 'layout_for_reg' });
 
 });
 router.get('/bugreport', function (req, res) {
     var data = req.data;
-    data.title = 'tSolving';
+    data.title = 'ezReshenie';
     res.render('bugreport', data);
 });
 router.get('/bugs', function (req, res) {
@@ -145,7 +145,7 @@ router.get('/bugs', function (req, res) {
                 var info = 'Извините, у вас нет доступа к этому разделу.';
                 var user = data.user;
                 var notAdm = 'not_admin';
-                var title = 'tSolving';
+                var title = 'ezReshenie';
                 // noinspection JSAnnotator
                 res.render('bugs', { data: user, notAdm, title, info });
             }

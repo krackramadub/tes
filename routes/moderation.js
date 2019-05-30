@@ -162,8 +162,8 @@ router.get('/moderation/support', function (req, res) {
 router.get('/moderation/users', function (req, res) {
     var data = req.data;
     data.title = 'Пользователи Web-ресурса';
-    data.users = [];
-    con.query('SELECT * from users WHERE role=3', false, function (err, rows, fields) {
+    data.users=[];
+    con.query('SELECT * from users WHERE role=3 OR role=4', false, function (err, rows, fields) {
         if (!err)
             console.log('[MODERATION] Users info loaded. Users: ' + rows.length);
         if (rows) {
@@ -223,6 +223,33 @@ router.post('/unban', function (req, res, next) {
         console.log('User is unbanned!');
     });
     res.redirect('/moderation/users');
+});
+
+//Предупреждение и его прочтение
+router.post('/moderation/alert', function(req, res, next){
+    var data = req.data;
+    data.title = "Предупреждение пользователя";
+    data.id = req.body.id;
+    res.render('alert', data);
+});
+
+router.post('/useralert', function(req, res, next){
+    var id = req.body.id;
+    var reason = req.body.reason;
+    var sql = "UPDATE users SET role = 4, moder_text = (?) WHERE id = (?)";
+    con.query(sql, [reason, id], false, function (err, result) {
+        if (err) throw err;
+        console.log('User is alerted!');
+    });
+    res.redirect('/moderation/users');
+});
+router.post('/readalert', function(req, res, next){
+    var id = req.body.id;
+    var sql = "UPDATE users SET role = 3, moder_text = NULL WHERE id = (?)";
+    con.query(sql, [id], false, function (err, result) {
+        if (err) throw err;
+    });
+    res.redirect('/users/user_info');
 });
 
 //Раздел "Информация о заказе"

@@ -7,6 +7,8 @@ html
             if user
                 a(href="/users/user_info") #{user.username}
             else
+                if user.role = 2
+                a(href="/users/user_info") #{user.username}
                 a(href="/users/login") Logon
         p
             block content

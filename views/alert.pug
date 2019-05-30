@@ -1,0 +1,26 @@
+extends moderation_layout
+
+block content
+    div(class="container forVue" style="margin:100px auto;")
+        form(method="POST" action="/useralert") 
+            h3(style="text-align:center") Предупреждение пользователя
+            hr(class="half-rule")
+            div(class="container post-create-form")
+                div(class="banform")
+                    p Введите предупреждающий текст:
+                script(type="text/javascript"). 
+                    var id=[!{id}];
+                    $(".banform").append('<p>ID предупреждаемого пользователя: '+id[0]+'</p>');
+                input(name="id" id="id" style="display: none;")
+                textarea(type="text" name="reason" required id="inputPrefilledEx" class="form-control" rows="3" style="margin-bottom: 10px;")
+                div(class="alert alert-warning")
+                    p Перед предупреждением пользователя необходимо убедиться в правильности выбора учетной записи, а также в правильности предупреждающего текста!
+                    p Ошибочно отправленные предупреждения из системы не удаляются!
+                    p В том случае, если был выбран не тот пользователь, которого необходимо предупредить, нажмите на кнопку "Отменить"
+                    script(type="text/javascript"). 
+                        document.getElementById("id").value=id[0];
+                div(style="display: flex; justify-content: center;")
+                    button(type="submit" class="btn btn-warning add-comment pull-right")
+                            p(style="display: inline;") Отправить предупреждение
+                    button(type="button" onclick="history.back();" class="btn btn-default add-comment pull-right")
+                            p(style="display: inline;") Отменить
